@@ -1,8 +1,7 @@
 *.nds
 *.sav
 rom/*
-overlays/*
-archives/original/*
+original/*
 asm/arm9.bin
 asm/newcode.bin
 asm/newcode.elf
@@ -10,3 +9,5 @@ asm/newcode.sym
 asm/build
 asm/build/*
 build/*
+.vs
+.vs/*
