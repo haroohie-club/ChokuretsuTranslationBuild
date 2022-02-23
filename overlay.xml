@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<OverlayPatchDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <overlays>
+        <overlay name="main_0001">
+            <start>020C7660</start>
+            <patches>
+                <replace location="020C76D4" value="0410A0E3" /> <!-- increase number of splash screens to 5 -->
+                <replace location="020C76B4" value="F10080E2" /> <!-- move splash screen lookup back 1 -->
+                <replace location="020C78E4" value="F10080E2" /> <!-- move splash screen lookup back 1 -->
+                <replace location="020C77B0" value="B90000EB" /> <!-- branch at splash screen timeout to first appended function -->
+                <replace location="020C790C" value="6D0000EB" /> <!-- branch at even/odd screen check to second appended function -->
+                <replace location="020C7980" value="207B0C02" /> <!-- fix up end of overlay memory reference -->
+                <replace location="020C7A94" value="207B0C02" /> <!-- fix up end of overlay memory reference -->
+            </patches>
+            <append>04002DE5000090E5040090E5030050E3010000AA1E2DA0E3000000EA1E2CA0E304009DE41EFF2FE1030050E3010000BA010000E20000E0E1010000E21EFF2FE1</append>
+        </overlay>
+    </overlays>
+</OverlayPatchDocument>

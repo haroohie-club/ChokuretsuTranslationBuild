@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+<NDSProjectFile>
+  <RomInfo>
+    <Header>
+      <GameName>HARUHIDS</GameName>
+      <GameCode>C44J</GameCode>
+      <MakerCode>8P</MakerCode>
+      <ProductId>0</ProductId>
+      <DeviceType>0</DeviceType>
+      <DeviceSize>10</DeviceSize>
+      <ReservedA>AAAAAAAAAAAA</ReservedA>
+      <GameVersion>0</GameVersion>
+      <Property>0</Property>
+      <MainEntryAddress>33556480</MainEntryAddress>
+      <MainRamAddress>33554432</MainRamAddress>
+      <SubEntryAddress>37224448</SubEntryAddress>
+      <SubRamAddress>37224448</SubRamAddress>
+      <RomParamA>V2ZBAPgIGAg=</RomParamA>
+      <SecureCRC>36266</SecureCRC>
+      <RomParamB>fg0=</RomParamB>
+      <MainAutoloadDone>33557164</MainAutoloadDone>
+      <SubAutoloadDone>37224840</SubAutoloadDone>
+      <RomParamC>AAAAAAAAAAA=</RomParamC>
+      <ReservedB>oEsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</ReservedB>
+      <LogoData>JP+uUWmaoiE9hIIKhOQJrREki5jAgX8ho1K+GZMJziAQRkpK+Ccx7FjH6DOC486/hfTflM5LCcGUVorAE3Kn/J+ETXOjypphWJejJ/wDmHYjHcdhAwSuVr84hABApw79/1L+A2+VMPGX+8CFYNaAJaljvgMBTjji+aI0/7s+A0R4AJDLiBE6lGXAfGOH8Dyv1iXkizgKrHIh1PgH</LogoData>
+    </Header>
+    <NitroFooter>
+      <NitroCode>3737126433</NitroCode>
+      <_start_ModuleParamsOffset>2976</_start_ModuleParamsOffset>
+      <Unknown>0</Unknown>
+    </NitroFooter>
+    <ARM9Ovt>
+      <RomOVT Id="0" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>320</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34371456</SinitInit>
+        <SinitInitEnd>34371460</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="1" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>1088</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34372252</SinitInit>
+        <SinitInitEnd>34372256</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="2" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>4736</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34375672</SinitInit>
+        <SinitInitEnd>34375676</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="3" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>288</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34371392</SinitInit>
+        <SinitInitEnd>34371396</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="4" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>3680</RamSize>
+        <BssSize>96</BssSize>
+        <SinitInit>34374432</SinitInit>
+        <SinitInitEnd>34374436</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="5" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>1984</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34372968</SinitInit>
+        <SinitInitEnd>34372972</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="6" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>12640</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34383512</SinitInit>
+        <SinitInitEnd>34383516</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="7" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>12320</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34383472</SinitInit>
+        <SinitInitEnd>34383476</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="8" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>10592</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34381600</SinitInit>
+        <SinitInitEnd>34381604</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="9" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>32</RamSize>
+        <BssSize>0</BssSize>
+        <SinitInit>34371172</SinitInit>
+        <SinitInitEnd>34371176</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="10" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>288</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34371400</SinitInit>
+        <SinitInitEnd>34371404</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="11" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>4032</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34375140</SinitInit>
+        <SinitInitEnd>34375144</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="12" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>21472</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34392396</SinitInit>
+        <SinitInitEnd>34392400</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="13" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>10112</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34381212</SinitInit>
+        <SinitInitEnd>34381216</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="14" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>9984</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34381108</SinitInit>
+        <SinitInitEnd>34381112</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="15" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>3232</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34374344</SinitInit>
+        <SinitInitEnd>34374348</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="16" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>11840</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34382804</SinitInit>
+        <SinitInitEnd>34382808</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="17" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>9344</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34380304</SinitInit>
+        <SinitInitEnd>34380308</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="18" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>109120</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34478812</SinitInit>
+        <SinitInitEnd>34478816</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="19" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>34848</RamSize>
+        <BssSize>160</BssSize>
+        <SinitInit>34405240</SinitInit>
+        <SinitInitEnd>34405244</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="20" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>288</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34371448</SinitInit>
+        <SinitInitEnd>34371452</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="21" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>1408</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34372220</SinitInit>
+        <SinitInitEnd>34372224</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="22" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>992</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34372128</SinitInit>
+        <SinitInitEnd>34372136</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="23" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>1376</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34372516</SinitInit>
+        <SinitInitEnd>34372520</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="24" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>64</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34371204</SinitInit>
+        <SinitInitEnd>34371208</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+      <RomOVT Id="25" Flag="">
+        <RamAddress>34371168</RamAddress>
+        <RamSize>1216</RamSize>
+        <BssSize>32</BssSize>
+        <SinitInit>34372380</SinitInit>
+        <SinitInitEnd>34372384</SinitInitEnd>
+        <Compressed>0</Compressed>
+      </RomOVT>
+    </ARM9Ovt>
+    <ARM7Ovt />
+    <Banner>
+      <Header>
+        <Version>1</Version>
+        <ReservedA>0</ReservedA>
+        <ReservedB>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</ReservedB>
+      </Header>
+      <Banner>
+        <Image>ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYmZmZmImZmVqJmZmZmZmZWEWZWIhFWIiUiIqVmKqIqohIqoioRoioiEWZmZmYRZGZmETFkZhIxM2QRMT0zEWNmPTEzc9cREXF5ZmZmZmZmZmZmZmZmZmZmZmZmZmZjZmZmM2ZmZj1kZmZmZialZmYlKmZmUipmVqKiZlaiomZWoqJmVqKiZlaioqLiiCIqjq4iKugqEeKoEhGCLhHxgiYRb4ImEW+CLhHxERFxeRIRk5cRMZeXETF9eR8Rc3n2EXN59hFzeR8Rc3k5Y2Zm10NmZpczZmZ5PWRmeT1kZnk9ZGZ5PWRmeT1kZmZWoqJmZlIqZmYlKmZmJmVmZlaiZmZmImZmZiZmZmZm4hIRESoRMREqETMzIhEREaYSERFqKiIRoqYSESIlETERMX15EWyXl2Z2l5fTl3l5cXmXeTGXedfTdpc9bWY9M3k9ZGaXM2Zm10NmZjljZmY9ZGZmM2ZmZmNmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZWIhEzZlYbEWbGEcFmFsERZhYbEWa2ERxmZrwRZmZmZtM9M2QxM2RmsWRmZrFmZmbBZmZma2ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmY=</Image>
+        <Pltt>4AO7JG8XUX92f9Qv/3+AFow0sDP6T185H2e6f3ZyIQQ=</Pltt>
+        <GameName>VABoAGUAIABTAGUAcgBpAGUAcwAgAG8AZgAgAEgAYQByAHUAaABpACAAUwB1AHoAdQBtAGkAeQBhAAoAUwBFAEcAQQA=</GameName>
+        <GameName>VABoAGUAIABTAGUAcgBpAGUAcwAgAG8AZgAgAEgAYQByAHUAaABpACAAUwB1AHoAdQBtAGkAeQBhAAoAUwBFAEcAQQA=</GameName>
+        <GameName>VABoAGUAIABTAGUAcgBpAGUAcwAgAG8AZgAgAEgAYQByAHUAaABpACAAUwB1AHoAdQBtAGkAeQBhAAoAUwBFAEcAQQA=</GameName>
+        <GameName>VABoAGUAIABTAGUAcgBpAGUAcwAgAG8AZgAgAEgAYQByAHUAaABpACAAUwB1AHoAdQBtAGkAeQBhAAoAUwBFAEcAQQA=</GameName>
+        <GameName>VABoAGUAIABTAGUAcgBpAGUAcwAgAG8AZgAgAEgAYQByAHUAaABpACAAUwB1AHoAdQBtAGkAeQBhAAoAUwBFAEcAQQA=</GameName>
+        <GameName>VABoAGUAIABTAGUAcgBpAGUAcwAgAG8AZgAgAEgAYQByAHUAaABpACAAUwB1AHoAdQBtAGkAeQBhAAoAUwBFAEcAQQA=</GameName>
+      </Banner>
+    </Banner>
+    <RSASignature>/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////w==</RSASignature>
+  </RomInfo>
+</NDSProjectFile>
