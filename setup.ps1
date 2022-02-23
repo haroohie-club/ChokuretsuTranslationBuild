@@ -1,5 +1,5 @@
 Param(
-  [string]$nitroPacker = "NitroPacker"
+  [string]$nitroPacker = $env:NITRO_PACKER_PATH
 )
 
 $nitroPackerArgs = @("-u", "original.nds", "rom", "HaruhiChokuretsu")

@@ -1,5 +1,5 @@
 Param(
-  [string]$nitroPacker = "NitroPacker",
+  [string]$nitroPacker = $env:NITRO_PACKER_PATH,
   [string]$haruhiCli = $env:CHOKURETSU_CLI_PATH
 )
 
