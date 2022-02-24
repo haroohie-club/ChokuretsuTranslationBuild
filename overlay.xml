@@ -9,10 +9,11 @@
                 <replace location="020C78E4" value="F10080E2" /> <!-- move splash screen lookup back 1 -->
                 <replace location="020C77B0" value="B90000EB" /> <!-- branch at splash screen timeout to first appended function -->
                 <replace location="020C790C" value="6D0000EB" /> <!-- branch at even/odd screen check to second appended function -->
-                <replace location="020C7980" value="207B0C02" /> <!-- fix up end of overlay memory reference -->
-                <replace location="020C7A94" value="207B0C02" /> <!-- fix up end of overlay memory reference -->
+                <replace location="020C77FC" value="B70000EB" /> <!-- branch at splash screen timer decrement to third appended function -->
+                <replace location="020C7980" value="0C7B0C02" /> <!-- fix up end of overlay memory reference -->
+                <replace location="020C7A94" value="0C7B0C02" /> <!-- fix up end of overlay memory reference -->
             </patches>
-            <append>04002DE5000090E5040090E5030050E3010000AA1E2DA0E3000000EA1E2CA0E304009DE41EFF2FE1030050E3010000BA010000E20000E0E1010000E21EFF2FE1</append>
+            <append>04002DE5000090E5040090E5030050E3010000AA1E2DA0E3000000EA1E2CA0E304009DE41EFF2FE1030050E3010000BA010000E20000E0E1010000E21EFF2FE104602DE51C609FE50060D6E5FF0056E30100001A000042E0000000EA0000A0E304609DE41EFF2FE130010004</append>
         </overlay>
     </overlays>
 </OverlayPatchDocument>
