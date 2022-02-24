@@ -1,4 +1,4 @@
-#define MAX_LENGTH (0x42)
+#define MAX_LENGTH (0x50)
 
 int tickerTape_CalculateLoadLength(unsigned int length)
 {

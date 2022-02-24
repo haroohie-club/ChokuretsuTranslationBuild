@@ -14,14 +14,15 @@ arepl_0205B7F0:
     str r0, [r6, #8]
     bx lr
 
-// Increase max ticker length to 0x42
+// Increase max ticker length to 0x50
 arepl_0205B7FC:
-    mov r2, #0x42
+    mov r2, #0x50
+    ldr r0, =tickerTapeText
     bx lr
 
-// Increase max ticker length to 0x42
+// Increase max ticker length to 0x50
 arepl_0205B814:
-    cmp r4, #0x42
+    cmp r4, #0x50
     bx lr
 
 // Clear array before using it
