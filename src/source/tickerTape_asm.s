@@ -1,5 +1,6 @@
 tickerLength: .word 0
 tickerTapeText: .skip 256
+tickerTapeRenderText: .skip 256
 
 // No-op ticker scrolling
 arepl_02070410:
@@ -16,12 +17,13 @@ arepl_02070338:
 
 // Increase max ticker length to 0x42
 arepl_02070344:
-    mov r2, #0x42
+    mov r2, #0x100
+    ldr r0, =tickerTapeText
     bx lr
 
 // Increase max ticker length to 0x42
 arepl_02070360:
-    cmp r4, #0x42
+    cmp r4, #0x100
     bx lr
 
 // Clear array before using it
@@ -71,9 +73,19 @@ arepl_0206D7C0:
     ldr r0, =tickerTapeText
     bx lr
 
+// Set reference to our own custom render address for dbg_sprintf (setting text)
+arepl_0206D7DC:
+    ldr r0, =tickerTapeRenderText
+    bx lr
+
 // Read information text from our own custom address
 arepl_0206D7E0:
     ldr r2, =tickerTapeText
+    bx lr
+
+// Set reference to our own custom render address for scene_renderDialogue (reading text)
+arepl_0206D810:
+    ldr r0, =tickerTapeRenderText
     bx lr
 
 // Bottom part disabled because apparently it wasn't necessary and it also caused some issues
