@@ -1,0 +1,52 @@
+# trigger:
+# - main
+
+variables:
+  - ChokuretsuSecrets
+
+resources:
+  repositories:
+  - repository: ChokuretsuTranslationStrings
+    type: github
+    endpoint: haroohie-club
+    name: haroohie-club/ChokuretsuTranslationStrings
+  - repository: ChokuretsuTranslationAssets
+    type: github
+    endpoint: haroohie-club
+    name: haroohie-club/ChokuretsuTranslationAssets
+
+jobs:
+- job:
+  displayName: Build & Publish
+  pool:
+    vmImage: windows-latest
+  steps:
+  - checkout: self
+    clean: true
+  - checkout: ChokuretsuTranslationStrings
+  - checkout: ChokuretsuTranslationAssets
+  - powershell: |
+      Get-ChildItem
+      Write-Host "Downloading devkitARM..."
+      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/devkitARM.zip?$($env:SAS) -OutFile devkitARM.zip
+      Write-Host "Downloading NitroPacker..."
+      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/NitroPacker.zip?$($env:SAS) -OutFile NitroPacker.zip
+      Write-Host "Downloading ROM..."
+      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/original.nds?$($env:SAS) -OutFile original.nds
+      
+      Write-Host "Unzipping devkitARM..."
+      Expand-Archive devkitARM.zip
+      Write-Host "Unzipping NitroPacker..."
+      mkdir NitroPacker
+      Expand-Archive NitroPacker.zip -DestinationPath NitroPacker
+      
+      Write-Host "##vso[task.prependpath]$env:BUILD_SOURCESDIRECTORY\devkitARM"
+    env:
+      SAS: $(ChokuretsuSAS)
+    displayName: Download dependencies
+  # - task: PublishBuildArtifacts@1
+  #   inputs:
+  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+  #     ArtifactName: 'drop'
+  #     publishLocation: 'Container'
+  #   displayName: Publish xdelta patch
