@@ -50,12 +50,10 @@ jobs:
       Write-Host "Unzipping xdelta3..."
       Expand-Archive xdelta3.zip
       
-      Get-ChildItem
-      
       Write-Host "Prepending devkitARM to the path..."
       Write-Host "##vso[task.prependpath]$env:BUILD_SOURCESDIRECTORY\devkitARM"
       Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
-      Move-Item -Path original.nds -Destination ChokuretsuTranslationBuild\original.nds
+      Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild\original.nds
 
     env:
       SAS: $(ChokuretsuSAS)
