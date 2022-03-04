@@ -3,6 +3,8 @@ trigger:
 
 variables:
   - group: ChokuretsuSecrets
+  - name: Version
+    value: v0.1-$(Build.BuildNumber)
 
 resources:
   repositories:
@@ -82,7 +84,7 @@ jobs:
       DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
     displayName: Build ROM
-  - powershell: xdelta3\xdelta3-3.1.0-x86_64.exe -e -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $env:BUILD_ARTIFACTSSTAGINGDIRECTORY\HaruhiChokuretsu-v0.1.$env:BUILD_BUILDNUMBER.xdelta
+  - powershell: xdelta3\xdelta3-3.1.0-x86_64.exe -e -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactsStagingDirectory)\HaruhiChokuretsu-$(Version).xdelta
     displayName: Create xdelta patch
   - task: PublishBuildArtifacts@1
     inputs:
