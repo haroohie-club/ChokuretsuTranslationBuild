@@ -2,7 +2,7 @@
 # - main
 
 variables:
-  - ChokuretsuSecrets
+- ChokuretsuSecrets
 
 resources:
   repositories:
