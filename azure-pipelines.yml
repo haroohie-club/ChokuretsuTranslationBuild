@@ -82,7 +82,7 @@ jobs:
       arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net5.0-windows/HaruhiChokuretsuCLI.exe"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     displayName: Build ROM
-  - powershell: & xdelta3\xdelta3-3.1.0-x86_64.exe -e -s original.nds HaruhiChokuretsu.nds $env:BUILD_ARTIFACTSSTAGINGDIRECTORY\HaruhiChokuretsu.xdelta
+  - powershell: xdelta3\xdelta3-3.1.0-x86_64.exe -e -s original.nds HaruhiChokuretsu.nds $env:BUILD_ARTIFACTSSTAGINGDIRECTORY\HaruhiChokuretsu.xdelta
     displayName: Create xdelta patch
   - task: PublishBuildArtifacts@1
     inputs:
