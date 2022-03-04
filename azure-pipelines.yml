@@ -45,8 +45,7 @@ jobs:
       Write-Host "Unzipping devkitARM..."
       Expand-Archive devkitPro.zip
       Write-Host "Unzipping NitroPacker..."
-      mkdir NitroPacker
-      Expand-Archive NitroPacker.zip -DestinationPath NitroPacker
+      Expand-Archive NitroPacker.zip
       Write-Host "Unzipping ROM..."
       Expand-Archive original.zip
       Write-Host "Unzipping xdelta3..."
@@ -84,7 +83,7 @@ jobs:
       DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
     displayName: Build ROM
-  - powershell: xdelta3\xdelta3.exe -e -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\HaruhiChokuretsu-$(PatchVersion).xdelta
+  - powershell: $(Build.SourcesDirectory)\xdelta3\xdelta3.exe -e -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\HaruhiChokuretsu-$(PatchVersion).xdelta
     displayName: Create xdelta patch
   - task: PublishBuildArtifacts@1
     inputs:
