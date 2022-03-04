@@ -1,5 +1,5 @@
-# trigger:
-# - main
+trigger:
+- main
 
 variables:
   - group: ChokuretsuSecrets
@@ -50,12 +50,13 @@ jobs:
       Write-Host "Unzipping xdelta3..."
       Expand-Archive xdelta3.zip
       
+      Get-ChildItem
+      
       Write-Host "Prepending devkitARM to the path..."
       Write-Host "##vso[task.prependpath]$env:BUILD_SOURCESDIRECTORY\devkitARM"
       Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
       Move-Item -Path original.nds -Destination ChokuretsuTranslationBuild\original.nds
 
-      Get-ChildItem
     env:
       SAS: $(ChokuretsuSAS)
     displayName: Download dependencies
@@ -69,7 +70,7 @@ jobs:
       filePath: ChokuretsuTranslationBuild/setup.ps1
       arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
-    displayName: Run setup.ps1
+    displayName: Run setup
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build_arc.ps1
