@@ -36,7 +36,7 @@ jobs:
       Write-Host "Downloading NitroPacker..."
       Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/NitroPacker.zip?$($env:SAS) -OutFile NitroPacker.zip
       Write-Host "Downloading ROM..."
-      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/original.nds?$($env:SAS) -OutFile original.nds
+      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/original.zip?$($env:SAS) -OutFile original.zip
       Write-Host "Downloading xdelta3..."
       Invoke-WebRequest -Uri https://github.com/jmacd/xdelta-gpl/releases/download/v3.1.0/xdelta3-3.1.0-x86_64.exe.zip -OutFile xdelta3.zip
       
@@ -45,11 +45,15 @@ jobs:
       Write-Host "Unzipping NitroPacker..."
       mkdir NitroPacker
       Expand-Archive NitroPacker.zip -DestinationPath NitroPacker
+      Write-Host "Unzipping ROM..."
+      Expand-Archive original.zip
       Write-Host "Unzipping xdelta3..."
       Expand-Archive xdelta3.zip
       
       Write-Host "Prepending devkitARM to the path..."
       Write-Host "##vso[task.prependpath]$env:BUILD_SOURCESDIRECTORY\devkitARM"
+      Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
+      Move-Item -Path original.nds -Destination ChokuretsuTranslationBuild\original.nds
 
       Get-ChildItem
     env:
@@ -63,17 +67,26 @@ jobs:
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/setup.ps1
-      arguments: -nitroPacker "NitroPacker/NitroPacker.exe"
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe"
+      workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     displayName: Run setup.ps1
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build_arc.ps1
-      arguments: -haruhiCli "ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net5.0-windows/HaruhiChokuretsuCLI.exe" -stringsFolder "ChokuretsuTranslationStrings" -archiveFolder "ChokuretsuTranslationAssets" -resxLangCode "en"
+      arguments: -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net5.0-windows/HaruhiChokuretsuCLI.exe" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -archiveFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -resxLangCode "en"
+      workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     displayName: Build archives
-
-  # - task: PublishBuildArtifacts@1
-  #   inputs:
-  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-  #     ArtifactName: 'drop'
-  #     publishLocation: 'Container'
-  #   displayName: Publish xdelta patch
+  - task: PowerShell@2
+    inputs:
+      filePath: ChokuretsuTranslationBuild/build.ps1
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net5.0-windows/HaruhiChokuretsuCLI.exe"
+      workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
+    displayName: Build ROM
+  - powershell: & xdelta3\xdelta3-3.1.0-x86_64.exe -e -s original.nds HaruhiChokuretsu.nds $env:BUILD_ARTIFACTSSTAGINGDIRECTORY\HaruhiChokuretsu.xdelta
+    displayName: Create xdelta patch
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
+    displayName: Publish xdelta patch
