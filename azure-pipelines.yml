@@ -49,6 +49,11 @@ jobs:
       Expand-Archive original.zip
       Write-Host "Unzipping xdelta3..."
       Expand-Archive xdelta3.zip
+
+      Get-ChildItem
+      Get-ChildItem devkitARM
+      Get-CHildItem NitroPacker
+      Get-ChildItem xdelta3
       
       Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
       Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild\original.nds
@@ -79,7 +84,7 @@ jobs:
       arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net5.0-windows/HaruhiChokuretsuCLI.exe"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
-      DEVKITARM: $(Build.SourcesDirectory)/devkitARM
+      DEVKITARM: $(Build.SourcesDirectory)/devkitARM/devkitARM
     displayName: Build ROM
   - powershell: xdelta3\xdelta3-3.1.0-x86_64.exe -e -s original.nds HaruhiChokuretsu.nds $env:BUILD_ARTIFACTSSTAGINGDIRECTORY\HaruhiChokuretsu.xdelta
     displayName: Create xdelta patch

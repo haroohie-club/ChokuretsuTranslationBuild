@@ -4,6 +4,10 @@ Param(
 
 $nitroPackerArgs = @("-u", "original.nds", "rom", "HaruhiChokuretsu")
 & $nitroPacker $nitroPackerArgs
+if ($LASTEXITCODE -ne 0) {
+  Write-Error "NitroPacker failed with exit code $LASTEXITCODE."
+  exit 1
+}
 
 mkdir original
 Push-Location original
