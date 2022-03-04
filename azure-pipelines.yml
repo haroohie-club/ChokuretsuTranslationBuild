@@ -40,7 +40,7 @@ jobs:
       Write-Host "Downloading ROM..."
       Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/original.zip?$($env:SAS) -OutFile original.zip
       Write-Host "Downloading xdelta3..."
-      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/original.zip?$($env:SAS) -OutFile xdelta3.zip
+      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/xdelta3.zip?$($env:SAS) -OutFile xdelta3.zip
       
       Write-Host "Unzipping devkitARM..."
       Expand-Archive devkitPro.zip
