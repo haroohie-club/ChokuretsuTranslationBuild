@@ -14,6 +14,10 @@ resources:
     type: github
     endpoint: haroohie-club
     name: haroohie-club/ChokuretsuTranslationAssets
+  - repository: ChokuretsuTranslationUtility
+    type: github
+    endpoint: haroohie-club
+    name: haroohie-club/ChokuretsuTranslationUtility
 
 jobs:
 - job:
@@ -25,25 +29,48 @@ jobs:
     clean: true
   - checkout: ChokuretsuTranslationStrings
   - checkout: ChokuretsuTranslationAssets
+  - checkout: ChokuretsuTranslationUtility
   - powershell: |
-      Get-ChildItem
       Write-Host "Downloading devkitARM..."
       Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/devkitARM.zip?$($env:SAS) -OutFile devkitARM.zip
       Write-Host "Downloading NitroPacker..."
       Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/NitroPacker.zip?$($env:SAS) -OutFile NitroPacker.zip
       Write-Host "Downloading ROM..."
       Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/original.nds?$($env:SAS) -OutFile original.nds
+      Write-Host "Downloading xdelta3..."
+      Invoke-WebRequest -Uri https://github.com/jmacd/xdelta-gpl/releases/download/v3.1.0/xdelta3-3.1.0-x86_64.exe.zip -OutFile xdelta3.zip
       
       Write-Host "Unzipping devkitARM..."
       Expand-Archive devkitARM.zip
       Write-Host "Unzipping NitroPacker..."
       mkdir NitroPacker
       Expand-Archive NitroPacker.zip -DestinationPath NitroPacker
+      Write-Host "Unzipping xdelta3..."
+      Expand-Archive xdelta3.zip
       
+      Write-Host "Prepending devkitARM to the path..."
       Write-Host "##vso[task.prependpath]$env:BUILD_SOURCESDIRECTORY\devkitARM"
+
+      Get-ChildItem
     env:
       SAS: $(ChokuretsuSAS)
     displayName: Download dependencies
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      projects: ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/HaruhiChokuretsuCLI.csproj
+    displayName: Build HaruhiChokuretsuCLI
+  - task: PowerShell@2
+    inputs:
+      filePath: ChokuretsuTranslationBuild/setup.ps1
+      arguments: -nitroPacker "NitroPacker/NitroPacker.exe"
+    displayName: Run setup.ps1
+  - task: PowerShell@2
+    inputs:
+      filePath: ChokuretsuTranslationBuild/build_arc.ps1
+      arguments: -haruhiCli "ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net5.0-windows/HaruhiChokuretsuCLI.exe" -stringsFolder "ChokuretsuTranslationStrings" -archiveFolder "ChokuretsuTranslationAssets" -resxLangCode "en"
+    displayName: Build archives
+
   # - task: PublishBuildArtifacts@1
   #   inputs:
   #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
