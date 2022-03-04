@@ -50,8 +50,6 @@ jobs:
       Write-Host "Unzipping xdelta3..."
       Expand-Archive xdelta3.zip
       
-      Write-Host "Prepending devkitARM to the path..."
-      Write-Host "##vso[task.prependpath]$env:BUILD_SOURCESDIRECTORY\devkitARM"
       Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
       Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild\original.nds
 
@@ -80,6 +78,8 @@ jobs:
       filePath: ChokuretsuTranslationBuild/build.ps1
       arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net5.0-windows/HaruhiChokuretsuCLI.exe"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
+    env:
+      DEVKITARM: $(Build.SourcesDirectory)/devkitARM
     displayName: Build ROM
   - powershell: xdelta3\xdelta3-3.1.0-x86_64.exe -e -s original.nds HaruhiChokuretsu.nds $env:BUILD_ARTIFACTSSTAGINGDIRECTORY\HaruhiChokuretsu.xdelta
     displayName: Create xdelta patch
