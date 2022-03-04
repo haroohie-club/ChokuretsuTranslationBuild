@@ -16,7 +16,7 @@ $scnArgs = @("replace", "-i", "original\archives\scn.bin", "-o", "rom\data\scn.b
 
 & $haruhiCli $splashScreenArgs
 if ($LASTEXITCODE -ne 0) {
-  Write-Error "HaruhiChokuretsuCLI failed on string replacement in dat.bin with exit code $LASTEXITCODE."
+  Write-Error "HaruhiChokuretsuCLI failed on creating splash screen with exit code $LASTEXITCODE."
   exit 1
 }
 & $haruhiCli $datResxArgs
