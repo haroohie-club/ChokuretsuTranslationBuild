@@ -1,6 +1,3 @@
-trigger:
-- main
-
 schedules:
 - cron: "0 0 * * *"
   displayName: Nightly build
@@ -103,3 +100,4 @@ jobs:
     env:
       WebHookUri: $(DiscordWebHook)
       PatchVersion: $(PatchVersion)
+    displayName: Post patch notification to Discord
