@@ -96,7 +96,7 @@ jobs:
       publishLocation: 'Container'
     displayName: Publish xdelta patch
   - powershell: |
-      Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": `"A new nightly patch is available!\nVersion $env:PatchVersion.\nLink: https://dev.azure.com/jonko0493/haroohie-private/_build/results?buildId=$($env:BUILD_BUILDID)&view=artifacts&pathAsName=false&type=publishedArtifacts`"}"
+      Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": `"A new nightly patch is available!\nVersion $env:PatchVersion\nLink: https://dev.azure.com/jonko0493/haroohie-private/_build/results?buildId=$($env:BUILD_BUILDID)&view=artifacts&pathAsName=false&type=publishedArtifacts`"}"
     env:
       WebHookUri: $(DiscordWebHook)
       PatchVersion: $(PatchVersion)
