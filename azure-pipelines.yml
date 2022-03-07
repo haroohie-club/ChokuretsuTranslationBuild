@@ -96,7 +96,7 @@ jobs:
       publishLocation: 'Container'
     displayName: Publish xdelta patch
   - powershell: |
-      $fileToUpload = $(Build.ArtifactStagingDirectory)\HaruhiChokuretsu-$(PatchVersion).xdelta
+      $fileToUpload = "$(Build.ArtifactStagingDirectory)\HaruhiChokuretsu-$(PatchVersion).xdelta"
       $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/HaruhiChokuretsu-$($env:PatchVersion).xdelta?$env:WriteSAS"
       $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
       Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
