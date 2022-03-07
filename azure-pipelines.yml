@@ -96,8 +96,18 @@ jobs:
       publishLocation: 'Container'
     displayName: Publish xdelta patch
   - powershell: |
-      Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": `"A new nightly patch is available!\nVersion $env:PatchVersion\nLink: https://dev.azure.com/jonko0493/haroohie-private/_build/results?buildId=$($env:BUILD_BUILDID)&view=artifacts&pathAsName=false&type=publishedArtifacts`"}"
+      $fileToUpload = $(Build.ArtifactStagingDirectory)\HaruhiChokuretsu-$(PatchVersion).xdelta
+      $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/HaruhiChokuretsu-$($env:PatchVersion).xdelta?$env:WriteSAS"
+      $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
+      Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
+    env:
+      PatchVersion: $(PatchVersion)
+      WriteSAS: $(PatchesWriteSAS)
+    displayName: Copy patch to Azure Storage
+  - powershell: |
+      Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": `"A new nightly patch is available!\nVersion $env:PatchVersion\nLink: https://dockerbootstrap.blob.core.windows.net/patches/HaruhiChokuretsu-$($env:PatchVersion).xdelta?$env:ReadSAS`"}"
     env:
       WebHookUri: $(DiscordWebHook)
       PatchVersion: $(PatchVersion)
+      ReadSAS: $(PatchesReadSAS)
     displayName: Post patch notification to Discord
