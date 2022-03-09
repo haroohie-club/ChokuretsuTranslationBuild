@@ -86,26 +86,43 @@ jobs:
     env:
       DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
-    displayName: Build ROM
+    displayName: Build ROM (clean OP/ED)
+  - powershell: $(Build.SourcesDirectory)\xdelta3\xdelta3.exe -e -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\HaruhiChokuretsu-CleanOPED-$(PatchVersion).xdelta
+    displayName: Create xdelta patch (clean OP/ED)
+  - task: PowerShell@2
+    inputs:
+      filePath: ChokuretsuTranslationBuild/build.ps1
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe"
+      workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
+    env:
+      DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM
+      DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
+    displayName: Build ROM (with movies)
   - powershell: $(Build.SourcesDirectory)\xdelta3\xdelta3.exe -e -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\HaruhiChokuretsu-$(PatchVersion).xdelta
-    displayName: Create xdelta patch
+    displayName: Create xdelta patch (with movies)
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'Nightly Patch'
+      ArtifactName: 'Nightly Patches'
       publishLocation: 'Container'
-    displayName: Publish xdelta patch
+    displayName: Publish xdelta patches
   - powershell: |
+      Write-Host "Uploading subbed OP/ED patch..."
       $fileToUpload = "$(Build.ArtifactStagingDirectory)\HaruhiChokuretsu-$(PatchVersion).xdelta"
       $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/HaruhiChokuretsu-$($env:PatchVersion).xdelta?$env:WriteSAS"
+      $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
+      Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
+      Write-Host "Uploading clean OP/ED patch..."
+      $fileToUpload = "$(Build.ArtifactStagingDirectory)\HaruhiChokuretsu-CleanOPED-$(PatchVersion).xdelta"
+      $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/HaruhiChokuretsu-CleanOPED-$($env:PatchVersion).xdelta?$env:WriteSAS"
       $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
       Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
     env:
       PatchVersion: $(PatchVersion)
       WriteSAS: $(PatchesWriteSAS)
-    displayName: Copy patch to Azure Storage
+    displayName: Copy patches to Azure Storage
   - powershell: |
-      Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": `"A new nightly patch is available!\nVersion $env:PatchVersion\nLink: https://dockerbootstrap.blob.core.windows.net/patches/HaruhiChokuretsu-$($env:PatchVersion).xdelta?$env:ReadSAS`"}"
+      Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": `"A new nightly patch is available!\nVersion $env:PatchVersion\nLink: https://dockerbootstrap.blob.core.windows.net/patches/HaruhiChokuretsu-$($env:PatchVersion).xdelta?$env:ReadSAS\nClean OP/ED Patch: https://dockerbootstrap.blob.core.windows.net/patches/HaruhiChokuretsu-CleanOPED-$($env:PatchVersion).xdelta?$env:ReadSAS`"}"
     env:
       WebHookUri: $(DiscordWebHook)
       PatchVersion: $(PatchVersion)
