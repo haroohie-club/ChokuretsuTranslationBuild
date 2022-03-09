@@ -91,8 +91,14 @@ jobs:
     displayName: Create xdelta patch (clean OP/ED)
   - task: PowerShell@2
     inputs:
+      filePath: ChokuretsuTranslationBuild/copy-movies.ps1
+      arguments: -archiveFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -langCode "en"
+      workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
+    displayName: Copy movies
+  - task: PowerShell@2
+    inputs:
       filePath: ChokuretsuTranslationBuild/build.ps1
-      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe" -archiveFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -langCode "en"
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
       DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM

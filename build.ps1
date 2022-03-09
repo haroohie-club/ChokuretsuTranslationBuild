@@ -1,9 +1,6 @@
 Param(
   [string]$nitroPacker = $env:NITRO_PACKER_PATH,
-  [string]$haruhiCli = $env:CHOKURETSU_CLI_PATH,
-  [string]$archiveFolder = $env:CHOKURETSU_ASSETS_ROOT,
-  [string]$langCode = "en",
-  [switch]$copyMovies
+  [string]$haruhiCli = $env:CHOKURETSU_CLI_PATH
 )
 
 & "./build.exe" asm
@@ -19,11 +16,6 @@ $haruhiCliArgs = @("patch-overlays", "-i", "original/overlay", "-o", "rom/overla
 if ($LASTEXITCODE -ne 0) {
   Write-Error "HaruhiChokuretsuCLI failed on patching overlays with exit code $LASTEXITCODE."
   exit 1
-}
-
-if ($copyMovies) {
-  Write-Host "Copying movies..."
-  Copy-Item -Recurse -Path "$archiveFolder\movie\$langCode\*.mods" -Destination "rom\data\movie"
 }
 
 Write-Host "Packing ROM..."
