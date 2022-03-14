@@ -38,7 +38,7 @@ ahook_020C790C:
 @ Skip logo if button pressed
 ahook_020C77FC:
     push {r6}
-    ldr r6, [pc, #0x1C] @ reference buttons manually bc I can't overcome my own limitations
+    ldr r6, =0x04000130 @ button presses address
     ldrb r6, [r6]
     cmp r6, #0xFF
     bne skip
@@ -49,4 +49,3 @@ ahook_020C77FC:
     done:
         pop {r6}
         bx lr
-    buttons: .word 0x04000130
