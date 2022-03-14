@@ -1,5 +1,5 @@
 # Fixes bug with Kyon's speech bubbles during group selection not rendering long text
-arepl_020C9F00:
+arepl_020C9FA0:
     ldr r0, =speechBubbleLoc
 
 arepl_020C9FB8:
