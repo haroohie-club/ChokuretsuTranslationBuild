@@ -35,12 +35,20 @@ ahook_020C790C:
         and r0, r0, #1
         bx lr
 
-@ Skip logo if button pressed
+@ Skip logo if button/screen pressed
 ahook_020C77FC:
     push {r6}
     ldr r6, =0x04000130 @ button presses address
     ldrb r6, [r6]
     cmp r6, #0xFF
+    bne skip
+    ldr r6, =0x023FFFA9 @ button presses (X/Y) address
+    ldrb r6, [r6]
+    cmp r6, #0x2C
+    bne skip
+    ldr r6, =0x023FFFAD @ stylus down address
+    ldrb r6, [r6]
+    cmp r6, #0x06
     bne skip
     sub r0, r2, r0
     b done
