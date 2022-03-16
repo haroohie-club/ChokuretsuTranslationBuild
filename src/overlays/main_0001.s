@@ -40,16 +40,16 @@ ahook_020C77FC:
     push {r6}
     ldr r6, =0x04000130 @ button presses address
     ldrb r6, [r6]
-    cmp r6, #0xFF
-    bne skip
-    ldr r6, =0x023FFFA9 @ button presses (X/Y) address
-    ldrb r6, [r6]
-    cmp r6, #0x2C
-    bne skip
+    tst r6, 0x01
+    beq skip
+    tst r6, 0x02
+    beq skip
+    tst r6, 0x08
+    beq skip
     ldr r6, =0x023FFFAD @ stylus down address
     ldrb r6, [r6]
-    cmp r6, #0x06
-    bne skip
+    cmp r6, #0x01
+    beq skip
     sub r0, r2, r0
     b done
     skip:
