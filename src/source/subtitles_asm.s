@@ -5,11 +5,31 @@ voiceMapLoc: .word 0    @ location of custom evt voice map in memory
 
 @ Hook into voice play routine so we can determine when to display subtitles
 arepl_02036394:
-    ldr r1, [r1, r6, lsl#2]     @ load in voice filename (instruction we were replacing)
+    ldr r1, [r1, r6, lsl#2] @ load in voice filename (instruction we were replacing)
     push {r0-r13, lr}
 
+    ldr r0, =voiceMapLoc
+    ldr r0, [r0]
+    cmp r0, #0
+    beq load
+    ldr r0, [r0]
+    ldr r9, =0x10B
+    cmp r0, r9              @ The first int of the voice map
+    beq skipLoad
+load:
+    @ Load the voice map into memory
+    mov r9, r1
+    mov r0, #2              @ evt.bin
+    ldr r1, =589            @ file 589
+    bl 0x02033FC4           @ arc_loadFileAndResolvePointers
+    ldr r1, =voiceMapLoc
+    str r0, [r1]
+    mov r1, r9
+skipLoad:
     ldr r0, =subtitle
-    ldr r2, =xysize
+    ldr r2, =voiceMapLoc
+    ldr r2, [r2]
+    ldr r3, =xysize
     bl subtitles_getSubs
     ldr r1, =subtitleTimer
     str r0, [r1]
@@ -57,16 +77,16 @@ end:
     pop {pc}
 
 @ Hook into game_loadStaticFiles during shdInit2 to load custom evt voice mapping file
-arepl_0203513C:
-    push {r1-r13, lr}
+@ arepl_0203513C:
+@     push {r1-r13, lr}
 
-    mov r0, #2              @ evt.bin
-    ldr r1, =359            @ file 359
-    bl 0x02033FC4           @ arc_loadFileAndResolvePointers
-    cmp r0, #0
-    beq skip
-    ldr r1, =voiceMapLoc    
-    str r0, [r1]
-skip:
-    mov r0, #1
-    pop {r1-r13, pc}
+@     mov r0, #2              @ evt.bin
+@     ldr r1, =359            @ file 589
+@     bl 0x02033FC4           @ arc_loadFileAndResolvePointers
+@     cmp r0, #0
+@     beq skip
+@     ldr r1, =voiceMapLoc    
+@     str r0, [r1]
+@ skip:
+@     mov r0, #1
+@     pop {r1-r13, pc}

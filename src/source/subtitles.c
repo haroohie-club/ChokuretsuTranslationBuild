@@ -1,26 +1,37 @@
 #define STRING_LENGTH (13)
 
 // resultString: pointer to a char array where the subtitle will be written (so it can later be read by scene_renderDialogue)
-int subtitles_getSubs(char* resultString, char* inputString, short* xysize)
+int subtitles_getSubs(char* resultString, char* inputString, char* voiceMapAddress, short* xysize)
 {
-    if (strstr(inputString, "TITL") > 0)
+    int numVoiceFiles = *((int*)voiceMapAddress) - 2;
+    int* voiceMap = *((int*)voiceMapAddress + 3);
+
+    int i = 0;
+    while (i < numVoiceFiles)
     {
-        char logo[STRING_LENGTH] = { '#', 'P', '0', '7', '\x82', '\x6B', '\x82', '\x6E', '\x82', '\x66', '\x82', '\x6E', '\x00' }; // LOGO in Shift-JIS with black color (for drop shadow)
-        int i = 0;
-        while (i < STRING_LENGTH)
+        char* voiceFileName = *(voiceMap + (i * 4));
+
+        if (strstr(inputString, voiceFileName))
         {
-            *resultString = logo[i];
-            resultString++;
-            i++;
+            char* subtitle = *(voiceMap + (i * 4) + 1);
+            while (*subtitle != 0)
+            {
+                *resultString = *subtitle;
+                *resultString++;
+                *subtitle++;
+            }
+            *resultString = 0; // zero terminator
+            *xysize = *((short*)voiceMap + (i * 8) + 4);
+            xysize++;
+            *xysize = *((short*)voiceMap + (i * 8) + 5);
+            xysize++;
+            *xysize = *((short*)voiceMap + (i * 8) + 6);
+            xysize -= 2;
+            return *((short*)voiceMap + (i * 8) + 7);
         }
-        
-        *xysize = (short)94; // x
-        xysize += 1;
-        *xysize = (short)74; // y
-        xysize += 1;
-        *xysize = (short)100; // size
-        return 350;
+
+        i++;
     }
 
-    return 0; // sets the subtitle timer to zero 
+    return 0; // sets the subtitle timer to zero
 }
