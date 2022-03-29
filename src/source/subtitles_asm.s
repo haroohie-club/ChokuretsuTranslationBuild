@@ -1,6 +1,7 @@
 subtitle: .skip 512     @ char array where we store the subtitle to display
 subtitleTimer: .word 0  @ integer timer representing how long to display the subtitles on the screen
 xysize: .skip 8         @ array of three shorts representing x, y, and font size
+voiceMapLoc: .word 0    @ location of custom evt voice map in memory
 
 @ Hook into voice play routine so we can determine when to display subtitles
 arepl_02036394:
@@ -50,8 +51,22 @@ arepl_0202F500:
     ldrsh r1, [r1]
     add r2, r2, #1      @ Increment just y for enhanced drop shadow
     bl 0x0202D41C       @ scene_renderDialogue
-
 end:
     pop {r0-r13}
     mov r0, r4          @ instruction we were replacing
     pop {pc}
+
+@ Hook into game_loadStaticFiles during shdInit2 to load custom evt voice mapping file
+arepl_0203513C:
+    push {r1-r13, lr}
+
+    mov r0, #2              @ evt.bin
+    ldr r1, =359            @ file 359
+    bl 0x02033FC4           @ arc_loadFileAndResolvePointers
+    cmp r0, #0
+    beq skip
+    ldr r1, =voiceMapLoc    
+    str r0, [r1]
+skip:
+    mov r0, #1
+    pop {r1-r13, pc}
