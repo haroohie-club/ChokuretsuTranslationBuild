@@ -1,8 +1,7 @@
 *.nds
 *.sav
 *.mch
-*.ml1
-*.ml2
+*.ml*
 rom/*
 original/*
 src/arm9.bin
