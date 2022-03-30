@@ -77,7 +77,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build_arc.ps1
-      arguments: -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -archiveFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -resxLangCode "en" -version "$(PatchVersion)"
+      arguments: -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -assetsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -resxLangCode "en" -version "$(PatchVersion)"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     displayName: Build archives
   - task: PowerShell@2
@@ -94,7 +94,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/copy-movies.ps1
-      arguments: -archiveFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -langCode "en"
+      arguments: -assetsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -langCode "en"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     displayName: Copy movies
   - task: PowerShell@2
