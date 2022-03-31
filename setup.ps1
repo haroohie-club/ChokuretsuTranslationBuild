@@ -9,9 +9,9 @@ if ($LASTEXITCODE -ne 0) {
   exit 1
 }
 
-mkdir original
+New-Item -Path original -ItemType Directory
 Push-Location original
-mkdir archives
+New-Item -Path archives -ItemType Directory
 Pop-Location
 
 Copy-Item -Path "rom/data/dat.bin" -Destination "original/archives/dat.bin"

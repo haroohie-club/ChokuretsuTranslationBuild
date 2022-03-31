@@ -1,12 +1,23 @@
 Param(
   [string]$nitroPacker = $env:NITRO_PACKER_PATH,
-  [string]$haruhiCli = $env:CHOKURETSU_CLI_PATH
+  [string]$haruhiCli = $env:CHOKURETSU_CLI_PATH,
+  [switch]$noVoiceSubs
 )
+
+if ($noVoiceSubs) {
+  Move-Item -Path src/source/subtitles_asm.s -Destination ../
+  Move-Item -Path src/source/subtitles.c -Destination ../
+}
 
 & "./build.exe" asm
 if ($LASTEXITCODE -ne 0) {
   Write-Error "ASM Build failed."
   exit 1
+}
+
+if ($noVoiceSubs) {
+  Move-Item -Path ../subtitles_asm.s -Destination src/source/
+  Move-Item -Path ../subtitles.c -Destination src/source/
 }
 
 Copy-Item -Path "rominfo.xml" -Destination "rom/HaruhiChokuretsu.xml"
