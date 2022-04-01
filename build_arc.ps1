@@ -3,7 +3,8 @@ Param(
   [string]$stringsFolder = "$env:CHOKURETSU_STRINGS_ROOT",
   [string]$assetsFolder = $env:CHOKURETSU_ASSETS_ROOT,
   [string]$resxLangCode = "en",
-  [string]$version
+  [string]$version,
+  [switch]$noGraphics
 )
 
 $splashScreenArgs = @("version-screen", "-v", "$version", "-s", "$assetsFolder\graphics\$resxLangCode\splash\splash_screen.png", "-f", "$assetsFolder\graphics\$resxLangCode\splash\Nunito-Black.ttf", "-o", "$assetsFolder\graphics\$resxLangCode\8b7_newpal_tidx0_splash_screen.png")
@@ -15,10 +16,12 @@ $grpArgs = @("replace", "-i", "original\archives\grp.bin", "-o", "rom\data\grp.b
 $grpLocArgs = @("replace", "-i", "rom\data\grp.bin", "-o", "rom\data\grp.bin", "-r", "$assetsFolder\graphics\$resxLangCode")
 $scnArgs = @("replace", "-i", "original\archives\scn.bin", "-o", "rom\data\scn.bin", "-r", "$assetsFolder\scn")
 
-& $haruhiCli $splashScreenArgs
-if ($LASTEXITCODE -ne 0) {
-  Write-Error "HaruhiChokuretsuCLI failed on creating splash screen with exit code $LASTEXITCODE."
-  exit 1
+if (-not $noGraphics) {
+  & $haruhiCli $splashScreenArgs
+  if ($LASTEXITCODE -ne 0) {
+    Write-Error "HaruhiChokuretsuCLI failed on creating splash screen with exit code $LASTEXITCODE."
+    exit 1
+  }
 }
 & $haruhiCli $datResxArgs
 if ($LASTEXITCODE -ne 0) {
@@ -40,19 +43,23 @@ if ($LASTEXITCODE -ne 0) {
   Write-Error "HaruhiChokuretsuCLI failed on string replacement in evt.bin with exit code $LASTEXITCODE."
   exit 1
 }
-& $haruhiCli $grpArgs
-if ($LASTEXITCODE -ne 0) {
-  Write-Error "HaruhiChokuretsuCLI failed on global image replacement in grp.bin with exit code $LASTEXITCODE."
-  exit 1
-}
-& $haruhiCli $grpLocArgs
-if ($LASTEXITCODE -ne 0) {
-  Write-Error "HaruhiChokuretsuCLI failed on localized image replacement in grp.bin with exit code $LASTEXITCODE."
-  exit 1
+if (-not $noGraphics) {
+  & $haruhiCli $grpArgs
+  if ($LASTEXITCODE -ne 0) {
+    Write-Error "HaruhiChokuretsuCLI failed on global image replacement in grp.bin with exit code $LASTEXITCODE."
+    exit 1
+  }
+  & $haruhiCli $grpLocArgs
+  if ($LASTEXITCODE -ne 0) {
+    Write-Error "HaruhiChokuretsuCLI failed on localized image replacement in grp.bin with exit code $LASTEXITCODE."
+    exit 1
+  }
 }
 & $haruhiCli $scnArgs
 if ($LASTEXITCODE -ne 0) {
   Write-Error "HaruhiChokuretsuCLI failed on file replacement in scn.bin with exit code $LASTEXITCODE."
   exit 1
 }
-Remove-Item -Path "$assetsFolder\graphics\$resxLangCode\8b7_newpal_tidx0_splash_screen.png"
+if (-not $noGraphics) {
+  Remove-Item -Path "$assetsFolder\graphics\$resxLangCode\8b7_newpal_tidx0_splash_screen.png"
+}
