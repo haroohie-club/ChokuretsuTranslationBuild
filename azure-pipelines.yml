@@ -126,6 +126,8 @@ jobs:
       DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
     displayName: Build ROM (subbed OP/ED, voice subs)
+  - powershell: Get-FileHash -Path $(Build.SourcesDirectory)/ChokuretsuTranslationBuild/HaruhiChokuretsu.nds
+    displayName: Hash the complete ROM
   - powershell: $(Build.SourcesDirectory)\xdelta3\xdelta3.exe -e -S -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\chokuretsu-patch-v$(PatchVersion)-subbedoped-voicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, voice subs)
 
