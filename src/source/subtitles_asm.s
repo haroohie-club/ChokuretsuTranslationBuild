@@ -75,18 +75,3 @@ end:
     pop {r0-r13}
     mov r0, r4          @ instruction we were replacing
     pop {pc}
-
-@ Hook into game_loadStaticFiles during shdInit2 to load custom evt voice mapping file
-@ arepl_0203513C:
-@     push {r1-r13, lr}
-
-@     mov r0, #2              @ evt.bin
-@     ldr r1, =359            @ file 589
-@     bl 0x02033FC4           @ arc_loadFileAndResolvePointers
-@     cmp r0, #0
-@     beq skip
-@     ldr r1, =voiceMapLoc    
-@     str r0, [r1]
-@ skip:
-@     mov r0, #1
-@     pop {r1-r13, pc}
