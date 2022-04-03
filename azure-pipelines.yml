@@ -61,6 +61,9 @@ jobs:
       
       Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
       Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild\original.nds
+
+      Write-Host "Getting MD5 hash of original ROM..."
+      Get-FileHash -Path ChokuretsuTranslationBuild\original.nds -Algorithm MD5
     env:
       SAS: $(ChokuretsuSAS)
     displayName: Download dependencies
@@ -106,7 +109,7 @@ jobs:
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
     displayName: Build ROM (clean OP/ED, no voice subs)
   - powershell: $(Build.SourcesDirectory)\xdelta3\xdelta3.exe -e -S -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\chokuretsu-patch-v$(PatchVersion)-cleanoped-novoicesubs.xdelta
-    displayName: Create xdelta patch (clean OP/ED, voice subs)
+    displayName: Create xdelta patch (clean OP/ED, no voice subs)
 
   - task: PowerShell@2
     inputs:

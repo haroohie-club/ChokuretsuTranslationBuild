@@ -45,3 +45,6 @@ if ($LASTEXITCODE -ne 0) {
   Write-Error "NitroPacker failed with exit code $LASTEXITCODE."
   exit 1
 }
+
+Write-Host "Getting MD5 hash of completed ROM..."
+Get-FileHash -Path "HaruhiChokuretsu.nds" -Algorithm MD5
