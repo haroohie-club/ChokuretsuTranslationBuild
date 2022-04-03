@@ -75,3 +75,18 @@ end:
     pop {r0-r13}
     mov r0, r4          @ instruction we were replacing
     pop {pc}
+
+@ Change z-coord of subtitles so they draw above cut scene frames
+arepl_0202D944:
+    push {r1}
+    ldr r1, =subtitleTimer
+    ldr r1, [r1]
+    cmp r1, #0
+    bgt modifyZ
+    mov r2, #14
+    b return
+modifyZ:
+    mov r2, #0
+return:
+    pop {r1}
+    bx lr
