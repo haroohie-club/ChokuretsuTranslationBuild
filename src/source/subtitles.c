@@ -1,6 +1,7 @@
-#define STRING_LENGTH (13)
-
 // resultString: pointer to a char array where the subtitle will be written (so it can later be read by scene_renderDialogue)
+// inputString: pointer to a char array that contains the name of the voice file about to be played
+// voiceMapAddress: pointer to the voice map file in memory
+// the x, y, and font size will be written to this location
 int subtitles_getSubs(char* resultString, char* inputString, char* voiceMapAddress, short* xysize)
 {
     int numVoiceFiles = *((int*)voiceMapAddress) - 2;
