@@ -12,7 +12,7 @@ schedules:
 variables:
   - group: ChokuretsuSecrets
   - name: PatchVersion
-    value: v0.2
+    value: v0.3.$(Build.BuildNumber)
 
 resources:
   repositories:
@@ -40,13 +40,6 @@ jobs:
   - checkout: ChokuretsuTranslationStrings
   - checkout: ChokuretsuTranslationAssets
   - checkout: ChokuretsuTranslationUtility
-  - powershell: |
-      Write-Host "Removing Episode 2 strings files..."
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/39*.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/40*.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/41*.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/42*.en.resx
-    displayName: Remove Episode 2 strings
   - powershell: |
       Write-Host "Downloading devkitARM..."
       Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/devkitPro.zip?$($env:SAS) -OutFile devkitPro.zip
