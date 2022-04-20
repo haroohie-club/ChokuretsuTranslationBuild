@@ -42,10 +42,10 @@ jobs:
   - checkout: ChokuretsuTranslationUtility
   - powershell: |
       Write-Host "Removing Episode 2 strings files..."
-      Remove-Item -Path ChokuretsuTranslationStrings/39*.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/40*.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/41*.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/42*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/39*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/40*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/41*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/42*.en.resx
     displayName: Remove Episode 2 strings
   - powershell: |
       Write-Host "Downloading devkitARM..."
