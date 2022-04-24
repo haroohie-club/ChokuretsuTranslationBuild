@@ -1,6 +1,6 @@
 subtitle: .skip 512     @ char array where we store the subtitle to display
 subtitleTimer: .word 0  @ integer timer representing how long to display the subtitles on the screen
-xysize: .skip 8         @ array of three shorts representing x, y, and font size
+xysizescreen: .skip 8   @ array of four shorts representing x, y, font size, and target screen
 voiceMapLoc: .word 0    @ location of custom evt voice map in memory
 
 @ Hook into voice play routine so we can determine when to display subtitles
@@ -29,7 +29,7 @@ skipLoad:
     ldr r0, =subtitle
     ldr r2, =voiceMapLoc
     ldr r2, [r2]
-    ldr r3, =xysize
+    ldr r3, =xysizescreen
     bl subtitles_getSubs
     ldr r1, =subtitleTimer
     str r0, [r1]
@@ -50,14 +50,16 @@ arepl_0202F500:
     sub r1, r1, #1
     str r1, [r0]
     ldr r0, =subtitle
-    ldr r1, =xysize
+    ldr r1, =xysizescreen
+    ldrsh r4, [r1, #6]
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
     add r0, r0, #4      @ Get rid of the formatting so we default to white text
     bl 0x0202D41C       @ scene_renderDialogue
     ldr r0, =subtitle
-    ldr r1, =xysize
+    ldr r1, =xysizescreen
+    ldrsh r4, [r1, #6]
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
@@ -65,7 +67,8 @@ arepl_0202F500:
     add r2, r2, #1      @ Increment y for drop shadow
     bl 0x0202D41C       @ scene_renderDialogue
     ldr r0, =subtitle
-    ldr r1, =xysize
+    ldr r1, =xysizescreen
+    ldrsh r4, [r1, #6]
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
@@ -76,7 +79,7 @@ end:
     mov r0, r4          @ instruction we were replacing
     pop {pc}
 
-@ Change z-coord of subtitles so they draw above cut scene frames
+@ Change z-coord of subtitles so they draw above cutscene frames
 arepl_0202D944:
     push {r1}
     ldr r1, =subtitleTimer
