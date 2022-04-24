@@ -1,7 +1,7 @@
-subtitle: .skip 512     @ char array where we store the subtitle to display
-subtitleTimer: .word 0  @ integer timer representing how long to display the subtitles on the screen
-xysizescreen: .skip 8   @ array of four shorts representing x, y, font size, and target screen
-voiceMapLoc: .word 0    @ location of custom evt voice map in memory
+subtitle: .skip 512         @ char array where we store the subtitle to display
+subtitleTimer: .word 0      @ integer timer representing how long to display the subtitles on the screen
+xysizescreen: .skip 8       @ array of four shorts representing x, y, font size, and target screen
+voiceMapLoc: .word 0        @ location of custom evt voice map in memory
 
 @ Hook into voice play routine so we can determine when to display subtitles
 arepl_02036394:
@@ -13,7 +13,7 @@ arepl_02036394:
     cmp r0, #0
     beq load
     ldr r0, [r0]
-    ldr r9, =0x10D
+    ldr r9, =0x119
     cmp r0, r9              @ The first int of the voice map
     beq skipLoad
 load:
@@ -51,32 +51,35 @@ arepl_0202F500:
     str r1, [r0]
     ldr r0, =subtitle
     ldr r1, =xysizescreen
-    ldrsh r4, [r1, #6]
+    ldrsh r3, [r1, #6]
+    ldr r2, =0x020A9AC8     @ Load target screen-containing struct
+    str r3, [r2, #0x50]     @ Store target screen in the struct
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
-    add r0, r0, #4      @ Get rid of the formatting so we default to white text
-    bl 0x0202D41C       @ scene_renderDialogue
+    add r0, r0, #4          @ Get rid of the formatting so we default to white text
+    bl 0x0202D41C           @ scene_renderDialogue
     ldr r0, =subtitle
     ldr r1, =xysizescreen
-    ldrsh r4, [r1, #6]
+    ldrsh r3, [r1, #6]
+    cmp r3, #1
+    beq end                 @ skip rendering backdrop for top screen subs
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
-    add r1, r1, #1      @ Increment x for drop shadow
-    add r2, r2, #1      @ Increment y for drop shadow
-    bl 0x0202D41C       @ scene_renderDialogue
+    add r1, r1, #1          @ Increment x for drop shadow
+    add r2, r2, #1          @ Increment y for drop shadow
+    bl 0x0202D41C           @ scene_renderDialogue
     ldr r0, =subtitle
     ldr r1, =xysizescreen
-    ldrsh r4, [r1, #6]
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
-    add r2, r2, #1      @ Increment just y for enhanced drop shadow
-    bl 0x0202D41C       @ scene_renderDialogue
+    add r2, r2, #1          @ Increment just y for enhanced drop shadow
+    bl 0x0202D41C           @ scene_renderDialogue
 end:
     pop {r0-r13}
-    mov r0, r4          @ instruction we were replacing
+    mov r0, r4              @ instruction we were replacing
     pop {pc}
 
 @ Change z-coord of subtitles so they draw above cutscene frames
