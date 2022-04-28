@@ -13,7 +13,7 @@ arepl_02036394:
     cmp r0, #0
     beq load
     ldr r0, [r0]
-    ldr r9, =0x11D
+    ldr r9, =0x121
     cmp r0, r9              @ The first int of the voice map
     beq skipLoad
 load:
