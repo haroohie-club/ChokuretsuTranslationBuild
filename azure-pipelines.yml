@@ -42,13 +42,13 @@ jobs:
   - checkout: ChokuretsuTranslationUtility
   - powershell: |
       Write-Host "Downloading devkitARM..."
-      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/devkitPro.zip?$($env:SAS) -OutFile devkitPro.zip
+      Start-BitsTransfer -Source "https://dockerbootstrap.blob.core.windows.net/chokuretsu/devkitPro.zip?$($env:SAS)" -Destination devkitPro.zip
       Write-Host "Downloading NitroPacker..."
-      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/NitroPacker.zip?$($env:SAS) -OutFile NitroPacker.zip
+      Start-BitsTransfer -Source "https://dockerbootstrap.blob.core.windows.net/chokuretsu/NitroPacker.zip?$($env:SAS)" -Destination NitroPacker.zip
       Write-Host "Downloading ROM..."
-      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/original.zip?$($env:SAS) -OutFile original.zip
+      Start-BitsTransfer -Source "https://dockerbootstrap.blob.core.windows.net/chokuretsu/original.zip?$($env:SAS)" -Destination original.zip
       Write-Host "Downloading xdelta3..."
-      Invoke-WebRequest -Uri https://dockerbootstrap.blob.core.windows.net/chokuretsu/xdelta3.zip?$($env:SAS) -OutFile xdelta3.zip
+      Start-BitsTransfer -Source "https://dockerbootstrap.blob.core.windows.net/chokuretsu/xdelta3.zip?$($env:SAS)" -Destination xdelta3.zip
       
       Write-Host "Unzipping devkitARM..."
       Expand-Archive devkitPro.zip
