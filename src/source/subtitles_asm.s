@@ -3,6 +3,8 @@ subtitleTimer: .word 0      @ integer timer representing how long to display the
 xysizescreen: .skip 8       @ array of four shorts representing x, y, font size, and target screen
 voiceMapLoc: .word 0        @ location of custom evt voice map in memory
 
+newCZeroLoc: .skip 1024     @ new array where we store the 'C0' data so it doesn't corrupt the next class
+
 @ Hook into voice play routine so we can determine when to display subtitles
 arepl_02036394:
     ldr r1, [r1, r6, lsl#2] @ load in voice filename (instruction we were replacing)
@@ -95,4 +97,9 @@ modifyZ:
     mov r2, #0
 return:
     pop {r1}
+    bx lr
+
+@ Change hardcoded character limit for top screen text
+arepl_0202EDD8:
+    cmp r0, #0x100
     bx lr
