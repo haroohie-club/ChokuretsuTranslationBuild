@@ -2,6 +2,7 @@ subtitle: .skip 512         @ char array where we store the subtitle to display
 subtitleTimer: .word 0      @ integer timer representing how long to display the subtitles on the screen
 xysizescreen: .skip 8       @ array of four shorts representing x, y, font size, and target screen
 voiceMapLoc: .word 0        @ location of custom evt voice map in memory
+topScreenTimer: .word 0     @ timer to prevent duplication of top screen subs in OAM
 
 newCZeroLoc: .skip 1024     @ new array where we store the 'C0' data so it doesn't corrupt the next class
 
@@ -54,6 +55,17 @@ arepl_0202F500:
     ldr r0, =subtitle
     ldr r1, =xysizescreen
     ldrsh r3, [r1, #6]
+    cmp r3, #1
+    bne render              @ skip the top screen timer if it's not a top screen sub
+    ldr r5, =topScreenTimer
+    ldr r4, [r5]
+    cmp r4, #2
+    moveq r4, #0
+    addne r4, r4, #1
+    str r4, [r5]            @ top screen subs render with the OAM and are 
+    cmp r4, #0              @ rendered in triplicate without this hack
+    bne end                 @ skip rendering subs if top screen timer is not 0
+render:
     ldr r2, =0x020A9AC8     @ Load target screen-containing struct
     str r3, [r2, #0x50]     @ Store target screen in the struct
     ldrsh r3, [r1, #4]
@@ -97,9 +109,4 @@ modifyZ:
     mov r2, #0
 return:
     pop {r1}
-    bx lr
-
-@ Change hardcoded character limit for top screen text
-arepl_0202EDD8:
-    cmp r0, #0x100
     bx lr
