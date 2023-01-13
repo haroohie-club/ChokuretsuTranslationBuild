@@ -3,23 +3,18 @@ pr: none
 
 schedules:
 - cron: "0 0 * * *"
-  displayName: Nightly English build
+  displayName: Nightly build
   branches:
     include:
     - main
   always: true
-  variables:
-    - name: Language
-      value: "en"
-- cron: "0 2 * * *"
-  displayName: Nightly pt-BR build
-  branches:
-    include:
-    - main
-  always: true
-  variables:
-    - name: Language
-      value: "pt-BR"
+
+strategy:
+  matrix:
+    en:
+      Language: "en"
+    pt-BR:
+      Language: "pt-BR"
 
 variables:
   - group: ChokuretsuSecrets
