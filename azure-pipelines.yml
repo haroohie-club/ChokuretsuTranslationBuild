@@ -37,7 +37,7 @@ jobs:
         Language: "en"
       pt-BR:
         Language: "pt-BR"
-  displayName: Build & Publish $(Language)
+  displayName: Build & Publish
   pool:
     vmImage: windows-latest
   steps:
