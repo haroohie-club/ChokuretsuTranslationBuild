@@ -1,15 +1,3 @@
-@ Expand to five logos
-arepl_020C76D4:
-    mov r1, #4
-
-@ Move logo reference one back
-arepl_020C76B4:
-    add r0, r0, #0xF1
-
-@ Move logo reference one back
-arepl_020C78E4:
-    add r0, r0, #0xF1
-
 @ Make our splash screen and credits show up for longer
 ahook_020C77B0:
     push {r0}
@@ -40,11 +28,11 @@ ahook_020C77FC:
     push {r6}
     ldr r6, =0x04000130 @ button presses address
     ldrb r6, [r6]
-    tst r6, 0x01
+    tst r6, #0x01
     beq skip
-    tst r6, 0x02
+    tst r6, #0x02
     beq skip
-    tst r6, 0x08
+    tst r6, #0x08
     beq skip
     ldr r6, =0x023FFFAD @ stylus down address
     ldrb r6, [r6]
