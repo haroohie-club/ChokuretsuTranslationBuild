@@ -9,7 +9,8 @@ if ($noVoiceSubs) {
   Move-Item -Path src/source/subtitles.c -Destination ../
 }
 
-& "./build.exe" asm
+$haruhiCliArgs = @("patch-arm9", "-i", "./src", "-o", "./rom", "-a", "02005ECC")
+& "$haruhiCli" $haruhiCliArgs
 if ($LASTEXITCODE -ne 0) {
   Write-Error "ASM Build failed."
   exit 1
@@ -23,14 +24,14 @@ if ($noVoiceSubs) {
 Copy-Item -Path "rominfo.xml" -Destination "rom/HaruhiChokuretsu.xml"
 
 $haruhiCliArgs = @("assemble-overlay-code", "-s", "src/overlays", "-l", "original/overlay", "-o", "overlay.xml")
-& "$haruhiCli"  $haruhiCliArgs
+& "$haruhiCli" $haruhiCliArgs
 if ($LASTEXITCODE -ne 0) {
   Write-Error "HaruhiChokuretsuCLI failed on patching overlays with exit code $LASTEXITCODE."
   exit 1
 }
 
 $haruhiCliArgs = @("patch-overlays", "-i", "original/overlay", "-o", "rom/overlay", "-p", "overlay.xml", "-r", "rom/HaruhiChokuretsu.xml")
-& "$haruhiCli"  $haruhiCliArgs
+& "$haruhiCli" $haruhiCliArgs
 if ($LASTEXITCODE -ne 0) {
   Write-Error "HaruhiChokuretsuCLI failed on patching overlays with exit code $LASTEXITCODE."
   exit 1

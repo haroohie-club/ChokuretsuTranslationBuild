@@ -17,6 +17,7 @@ SECTIONS {
 		*(.rodata)
 		*(.fini)
 		*(COMMON)
+		*(.data)
 		__text_end  = . ;
 		
 		__bss_start__ = . ;
