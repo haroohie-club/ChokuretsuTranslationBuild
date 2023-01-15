@@ -49,7 +49,7 @@ export LD	:=	$(PREFIX)ld
 TARGET		?=	
 BUILD		?=  build	
 SOURCES		?=	
-INCLUDES	+=	include
+INCLUDES	:=	include
 DATA		:=	data  
 GRAPHICS	:=	gfx  
 
@@ -67,7 +67,14 @@ CFLAGS	+=	$(INCLUDE) -DARM9 -nodefaultlibs -I. -fno-builtin -c
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	-T $(SOURCES)/symbols.x -T $(SOURCES)/../../linker.x -g $(ARCH) -Map newcode.map
+ifdef NEWSYM
+SYMBOLST := -T $(shell dirname $(CURDIR))/$(shell dirname $(shell dirname $(SOURCES)))/symbols.x
+NEWSYMT :=  -T $(shell dirname $(CURDIR))/$(NEWSYM)
+else
+SYMBOLST := -T $(shell dirname $(CURDIR))/$(shell dirname $(SOURCES))/symbols.x
+NEWSYMT := 
+endif
+LDFLAGS	=	$(SYMBOLST) -T $(shell dirname $(CURDIR))/linker.x $(NEWSYMT) -g $(ARCH) -Map newcode.map
 
 ifdef CODEADDR
   LDFLAGS += -Ttext $(CODEADDR)
