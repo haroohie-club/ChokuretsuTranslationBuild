@@ -24,7 +24,7 @@ load:
     mov r9, r1
     mov r0, #2              @ evt.bin
     ldr r1, =589            @ file 589
-    bl 0x02033FC4           @ arc_loadFileAndResolvePointers
+    bl arc_loadFileAndResolvePointers
     ldr r1, =voiceMapLoc
     str r0, [r1]
     mov r1, r9
@@ -72,7 +72,7 @@ render:
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
     add r0, r0, #4          @ Get rid of the formatting so we default to white text
-    bl 0x0202D41C           @ scene_renderDialogue
+    bl scene_renderDialogue
     ldr r0, =subtitle
     ldr r1, =xysizescreen
     ldrsh r3, [r1, #6]
@@ -83,14 +83,14 @@ render:
     ldrsh r1, [r1]
     add r1, r1, #1          @ Increment x for drop shadow
     add r2, r2, #1          @ Increment y for drop shadow
-    bl 0x0202D41C           @ scene_renderDialogue
+    bl scene_renderDialogue
     ldr r0, =subtitle
     ldr r1, =xysizescreen
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
     add r2, r2, #1          @ Increment just y for enhanced drop shadow
-    bl 0x0202D41C           @ scene_renderDialogue
+    bl scene_renderDialogue
 end:
     pop {r0-r13}
     mov r0, r4              @ instruction we were replacing
