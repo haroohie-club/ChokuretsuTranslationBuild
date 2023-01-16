@@ -5,5 +5,4 @@ ahook_020C9FD4:
     ldr r0, =speechBubble
     bx lr
 
-aappend_00000000:
-    speechBubble: .skip 256
+speechBubble: .skip 256

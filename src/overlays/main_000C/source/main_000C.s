@@ -26,7 +26,6 @@ ahook_020CBBE8:
     bx lr
     topicAnimClassLoc3: .word topicAnimClass
 
-aappend_00000000:
-    haruhiCompanion: .string "{{ASM_STRING_0000}}"
-    .balign 4
-    topicAnimClass: .skip 4096
+haruhiCompanion: .string "{{ASM_STRING_0000}}"
+.balign 4
+topicAnimClass: .skip 4096
