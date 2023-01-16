@@ -34,7 +34,8 @@ In detail:
 ### `build_arc.ps1`
 `.\build_arc.ps1 -haruhiCli "PATH/TO/HaruhiChokuretsuCLI.exe" -stringsFolder "PATH/TO/ChokuretsuTranslationStrings" -assetsFolder "PATH/TO/ChokuretsuTranslationAssets" -devkitArm "PATH/TO/devkitARM" -resxLangCode "<LANGCODE>" -version "<VERSION>"`
 
-`LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`. `VERSION` is the semantic version of the patch, e.g. `0.2`.
+* `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
+* `VERSION` is the semantic version of the patch, e.g. `0.2`.
 
 Additional options:
 * `-noGraphics` &ndash; skips over producing `grp.bin` and uses one that's already been generated. Useful when trying to iterate quickly and not needing graphics replacement.
@@ -42,10 +43,10 @@ Additional options:
 ### `copy-movies.ps1`
 `.\copy-movies.ps1 -assetsFolder "PATH/TO/ChokuretsuTranslationAssets" -langCode "<LANGCODE>"`
 
-`LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
+* `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
 
 ### `build.ps1`
-`-nitroPacker "PATH/TO/NitroPacker.exe" -haruhiCli "PATH/TO/HaruhiChokuretsuCLI.exe"`
+`.\build.ps1 -nitroPacker "PATH/TO/NitroPacker.exe" -haruhiCli "PATH/TO/HaruhiChokuretsuCLI.exe"`
 
 Additional options:
 * `-noVoiceSubs` &ndash; Removes the voiced line subtitle ASM hack from the build so no voiced line subs appear in the game
