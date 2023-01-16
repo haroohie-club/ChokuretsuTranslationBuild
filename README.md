@@ -46,7 +46,9 @@ Additional options:
 * `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
 
 ### `build.ps1`
-`.\build.ps1 -nitroPacker "PATH/TO/NitroPacker.exe" -haruhiCli "PATH/TO/HaruhiChokuretsuCLI.exe"`
+`.\build.ps1 -nitroPacker "PATH/TO/NitroPacker.exe" -haruhiCli "PATH/TO/HaruhiChokuretsuCLI.exe" -stringsFolder "PATH/TO/ChokuretsuTranslationStrings" -fontReplacementMap "PATH/TO/ChokuretsuTranslationAssets/misc/charset.json" -resxLangCode "<LANGCODE>"`
+
+* `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
 
 Additional options:
 * `-noVoiceSubs` &ndash; Removes the voiced line subtitle ASM hack from the build so no voiced line subs appear in the game

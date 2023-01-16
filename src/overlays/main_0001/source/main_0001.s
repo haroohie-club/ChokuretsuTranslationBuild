@@ -26,7 +26,7 @@ ahook_020C790C:
 @ Skip logo if button/screen pressed
 ahook_020C77FC:
     push {r6}
-    ldr r6, =0x04000130 @ button presses address
+    ldr r6, =buttonPressAddress
     ldrb r6, [r6]
     tst r6, #0x01
     beq skip
@@ -34,7 +34,7 @@ ahook_020C77FC:
     beq skip
     tst r6, #0x08
     beq skip
-    ldr r6, =0x023FFFAD @ stylus down address
+    ldr r6, =stylusDownAddress
     ldrb r6, [r6]
     cmp r6, #0x01
     beq skip
