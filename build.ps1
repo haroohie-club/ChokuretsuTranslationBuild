@@ -13,7 +13,7 @@ if ($noVoiceSubs) {
 }
 
 $haruhiCliArgs = @("localize-sources", "-s", "src/", "-r", "$stringsFolder/asm_strings.$langCode.resx", "-f", "$fontReplacementMap", "-t", "src-backup")
-& "$haruhiCli" $harhiCliArgs
+& "$haruhiCli" $haruhiCliArgs
 
 $haruhiCliArgs = @("patch-arm9", "-i", "./src", "-o", "./rom", "-a", "02005ECC")
 & "$haruhiCli" $haruhiCliArgs
@@ -21,11 +21,6 @@ if ($LASTEXITCODE -ne 0) {
   Write-Error "ASM Build failed."
   exit 1
 }
-
-$localizedFileMap = Get-Content "src-backup/map.json" | ConvertFrom-Json | ForEach-Object {
-  Copy-Item -Path "src-backup/$($_.Name)" -Destination "$($_.OriginalLocation)" 
-}
-Remove-Item -Recurse -Force "src-backup"
 
 if ($noVoiceSubs) {
   Move-Item -Path ../subtitles_asm.s -Destination src/source/
@@ -40,6 +35,11 @@ if ($LASTEXITCODE -ne 0) {
   Write-Error "HaruhiChokuretsuCLI failed on patching overlays with exit code $LASTEXITCODE."
   exit 1
 }
+
+$localizedFileMap = Get-Content "src-backup/map.json" | ConvertFrom-Json | ForEach-Object {
+  Copy-Item -Path "src-backup/$($_.Name)" -Destination "$($_.OriginalLocation)" 
+}
+Remove-Item -Recurse -Force "src-backup"
 
 Write-Host "Packing ROM..."
 $nitroPackerArgs = @("-p", "rom/HaruhiChokuretsu.xml", "HaruhiChokuretsu.nds")
