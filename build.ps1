@@ -36,7 +36,7 @@ if ($LASTEXITCODE -ne 0) {
   exit 1
 }
 
-$localizedFileMap = Get-Content "src-backup/map.json" | ConvertFrom-Json | ForEach-Object {
+Get-Content "src-backup/map.json" | ConvertFrom-Json | ForEach-Object {
   Copy-Item -Path "src-backup/$($_.Name)" -Destination "$($_.OriginalLocation)" 
 }
 Remove-Item -Recurse -Force "src-backup"

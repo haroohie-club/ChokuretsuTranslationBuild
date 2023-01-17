@@ -12,13 +12,17 @@ $splashScreenArgs = @("version-screen", "-v", "$version", "-s", "$assetsFolder\g
 $datResxArgs = @("import-resx", "-i", "original\archives\dat.bin", "-o", "rom\data\dat.bin", "-r", "$stringsFolder\strings_dat", "-l", $resxLangCode, "-f", "$assetsFolder\misc\charset.json")
 $datArgs = @("replace", "-i", "rom\data\dat.bin", "-o", "rom\data\dat.bin", "-r", "$assetsFolder\data")
 $evtReplArgs = @("replace", "-i", "original\archives\evt.bin", "-o", "rom\data\evt.bin", "-r", "$assetsFolder\events")
-if ($devkitArm) {
-  $evtReplArgs += ("-d", "$devkitArm")
-}
+
 $evtResxArgs = @("import-resx", "-i", "rom\data\evt.bin", "-o", "rom\data\evt.bin", "-r", "$stringsFolder\strings", "-l", $resxLangCode, "-f", "$assetsFolder\misc\charset.json")
 $grpArgs = @("replace", "-i", "original\archives\grp.bin", "-o", "rom\data\grp.bin", "-r", "$assetsFolder\graphics\shared")
 $grpLocArgs = @("replace", "-i", "rom\data\grp.bin", "-o", "rom\data\grp.bin", "-r", "$assetsFolder\graphics\$resxLangCode")
 $scnArgs = @("replace", "-i", "original\archives\scn.bin", "-o", "rom\data\scn.bin", "-r", "$assetsFolder\scn")
+
+if ($devkitArm) {
+  $datArgs += ("-d", "$devkitArm")
+  $evtReplArgs += ("-d", "$devkitArm")
+  $scnArgs += ("-d", "$devkitArm")
+}
 
 if (-not $noGraphics) {
   & $haruhiCli $splashScreenArgs
