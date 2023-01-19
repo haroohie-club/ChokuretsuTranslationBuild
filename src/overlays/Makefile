@@ -68,10 +68,10 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH)
 ifdef NEWSYM
-SYMBOLST := -T $(shell dirname $(CURDIR))/$(shell dirname $(shell dirname $(SOURCES)))/symbols.x
+SYMBOLST := -T $(shell dirname $(CURDIR))/$(shell dirname $(shell dirname $(SOURCES)))/symbols.x $(shell dirname $(CURDIR))/$(shell dirname $(shell dirname $(SOURCES)))/arm9_newcode.x
 NEWSYMT :=  -T $(shell dirname $(CURDIR))/$(NEWSYM)
 else
-SYMBOLST := -T $(shell dirname $(CURDIR))/$(shell dirname $(SOURCES))/symbols.x
+SYMBOLST := -T $(shell dirname $(CURDIR))/$(shell dirname $(SOURCES))/symbols.x $(shell dirname $(CURDIR))/$(shell dirname $(SOURCES))/arm9_newcode.x
 NEWSYMT := 
 endif
 LDFLAGS	=	$(SYMBOLST) -T $(shell dirname $(CURDIR))/linker.x $(NEWSYMT) -g $(ARCH) -Map newcode.map
