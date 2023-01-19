@@ -3,11 +3,11 @@ tickerTapeText: .skip 256
 tickerTapeRenderText: .skip 256
 
 // No-op ticker scrolling
-arepl_02070410:
+ahook_02070410:
     bx lr
 
 // Load ticker length into (accessible) memory
-arepl_02070338:
+ahook_02070338:
     push {r7}
     ldr r7, =tickerLength
     str r0, [r7]
@@ -16,18 +16,18 @@ arepl_02070338:
     bx lr
 
 // Increase max ticker length to 0x42
-arepl_02070344:
+ahook_02070344:
     mov r2, #0x100
     ldr r0, =tickerTapeText
     bx lr
 
 // Increase max ticker length to 0x42
-arepl_02070360:
+ahook_02070360:
     cmp r4, #0x100
     bx lr
 
 // Clear array before using it
-arepl_02070318:
+ahook_02070318:
     push {r0-r12, lr}
 
     mov r1, #0
@@ -45,7 +45,7 @@ clearLoop:
     bx lr
 
 // Copy char to own own address
-arepl_0207036C:
+ahook_0207036C:
     ldr r2, =tickerTapeText
     add r2, r2, r4          // Change array pointer position
     add r1, r6, r5
@@ -58,7 +58,7 @@ arepl_0207036C:
     bx lr
 
 // Make ticker load length = ticker string length
-arepl_02070394:
+ahook_02070394:
     push {r1}
     ldr r1, =tickerLength
     ldr r0, [r1]
@@ -69,48 +69,48 @@ arepl_02070394:
     pop {pc}
 
 // Read information text from our own custom address
-arepl_0206D7C0:
+ahook_0206D7C0:
     ldr r0, =tickerTapeText
     bx lr
 
 // Set reference to our own custom render address for dbg_sprintf (setting text)
-arepl_0206D7DC:
+ahook_0206D7DC:
     ldr r0, =tickerTapeRenderText
     bx lr
 
 // Read information text from our own custom address
-arepl_0206D7E0:
+ahook_0206D7E0:
     ldr r2, =tickerTapeText
     bx lr
 
 // Set reference to our own custom render address for scene_renderDialogue (reading text)
-arepl_0206D810:
+ahook_0206D810:
     ldr r0, =tickerTapeRenderText
     bx lr
 
 // Bottom part disabled because apparently it wasn't necessary and it also caused some issues
 // Such as not being able to select the "Erase data" option in the "Config" menu
 @ // Read information text from our own custom address
-@ arepl_020608D8:
+@ ahook_020608D8:
 @     ldr r0, =tickerTapeText
 @     bx lr
 
 @ // Read information text from our own custom address
-@ arepl_02060A30:
+@ ahook_02060A30:
 @     ldr r0, =tickerTapeText
 @     bx lr
 
 @ // Read information text from our own custom address
-@ arepl_02060BC4:
+@ ahook_02060BC4:
 @     ldr r0, =tickerTapeText
 @     bx lr
 
 @ // Read information text from our own custom address
-@ arepl_02068D08:
+@ ahook_02068D08:
 @     ldr r0, =tickerTapeText
 @     bx lr
 
 // Read information text from our own custom address
-@ arepl_020608E8:
+@ ahook_020608E8:
 @     ldr r0, =tickerTapeText
 @     bx lr

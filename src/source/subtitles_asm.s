@@ -7,7 +7,7 @@ topScreenTimer: .word 0     @ timer to prevent duplication of top screen subs in
 newCZeroLoc: .skip 1024     @ new array where we store the 'C0' data so it doesn't corrupt the next class
 
 @ Hook into voice play routine so we can determine when to display subtitles
-arepl_02036394:
+ahook_02036394:
     ldr r1, [r1, r6, lsl#2] @ load in voice filename (instruction we were replacing)
     push {r0-r13, lr}
 
@@ -40,7 +40,7 @@ skipLoad:
     pop {r0-r13, pc}
 
 @ Hook into a routine that runs every frame so we can draw text until timer elapses
-arepl_0202F500:
+ahook_0202F500:
     push {lr}
     push {r0-r13}
 
@@ -97,7 +97,7 @@ end:
     pop {pc}
 
 @ Change z-coord of subtitles so they draw above cutscene frames
-arepl_0202D944:
+ahook_0202D944:
     push {r1}
     ldr r1, =subtitleTimer
     ldr r1, [r1]

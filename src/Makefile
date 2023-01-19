@@ -46,10 +46,10 @@ export LD	:=	$(PREFIX)ld
 # DATA is a list of directories containing binary files embedded using bin2o
 # GRAPHICS is a list of directories containing image files to be converted with grit
 #---------------------------------------------------------------------------------
-TARGET		:=	newcode
-BUILD		:=	build
-SOURCES		:=	source libfat_source source/storymode
-INCLUDES	:=	include source source/storymode
+TARGET		?=	newcode
+BUILD		?=  build	
+SOURCES		?=	source
+INCLUDES	:=	include
 DATA		:=	data  
 GRAPHICS	:=	gfx  
 
@@ -67,7 +67,14 @@ CFLAGS	+=	$(INCLUDE) -DARM9 -nodefaultlibs -I. -fno-builtin -c
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	-T $(CURDIR)/../symbols.x -T $(CURDIR)/../linker.x -g $(ARCH) -Map newcode.map
+ifdef NEWSYM
+SYMBOLST := -T $(shell dirname $(CURDIR))/$(shell dirname $(shell dirname $(SOURCES)))/symbols.x
+NEWSYMT :=  -T $(shell dirname $(CURDIR))/$(NEWSYM)
+else
+SYMBOLST := -T $(shell dirname $(CURDIR))/$(shell dirname $(SOURCES))/symbols.x
+NEWSYMT := 
+endif
+LDFLAGS	=	$(SYMBOLST) -T $(shell dirname $(CURDIR))/linker.x $(NEWSYMT) -g $(ARCH) -Map newcode.map
 
 ifdef CODEADDR
   LDFLAGS += -Ttext $(CODEADDR)

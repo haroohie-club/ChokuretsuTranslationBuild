@@ -1,6 +1,6 @@
 lastReadChar: .word 0
 
-arepl_0202D830:
+ahook_0202D830:
     push {r1}
     ldr r1, =lastReadChar
     str r0, [r1]
@@ -8,7 +8,7 @@ arepl_0202D830:
     cmp r0, r1
     bx lr
 
-arepl_0202D8A8:
+ahook_0202D8A8:
     push {r1}
     ldr r1, =lastReadChar
     ldr r0, [r1]

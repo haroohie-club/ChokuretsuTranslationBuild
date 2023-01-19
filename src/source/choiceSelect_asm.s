@@ -3,14 +3,14 @@
 
 choiceText: .skip 256
 
-arepl_02061344:
+ahook_02061344:
     ldr r0, =choiceText
     bx lr
 
-arepl_02061358:
+ahook_02061358:
     ldr r0, =choiceText
     bx lr
 
-arepl_02061378:
+ahook_02061378:
     ldr r0, =choiceText
     bx lr
