@@ -15,6 +15,7 @@ src/overlays/build/*
 src/overlays/*/newcode.bin
 src/overlays/*/newcode.elf
 src/overlays/*/newcode.sym
+src/overlays/*/arm9_newcode.x
 src/overlays/*/newcode.x
 src/overlays/*/repl_*.bin
 src/overlays/*/repl_*.elf

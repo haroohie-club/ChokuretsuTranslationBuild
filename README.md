@@ -3,7 +3,7 @@
 This is the repository containing the build scripts for making translation patches for Suzumiya Haruhi no Chokuretsu. In addition to the build scripts, it also contains all of the assembly hack source files.
 
 ### Prerequisites
-* [devkitPro](https://devkitpro.org/)
+* devkitARM, distributed by [devkitPro](https://devkitpro.org/)
 * [CMake](https://cmake.org/)
 * [HaruhiChokuretsuCLI](https://github.com/haroohie-club/ChokuretsuTranslationUtility) from the Chokuretsu Translation Utility
 * NitroPacker (a tool created by Ermelber; you'll need to contact us in order to get it)
@@ -19,7 +19,7 @@ Copy your ROM inside the root and name it `original.nds`, then run `setup.ps1`. 
 
 Finally, you must set up environment variables for devkitPro. Specifically, you will need to set:
 
-* `DEVKITPRO` &ndash; the path to your devkitPro installation
+* `DEVKITPRO` &ndash; the path to your devkitPro directory
 * `DEVKITARM` &ndash; the path to your devkitARM installation
 
 ## Build
