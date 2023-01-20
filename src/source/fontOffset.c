@@ -47,10 +47,10 @@ int font_calculateOffset(unsigned short character)
             return 4;
         case 0x816A: //)
             return 4;
-        case 0x8173: //《
-            return 14;
-        case 0x8174: //》
-            return 14;
+        case 0x8173: //<
+            return 6;
+        case 0x8174: //>
+            return 6;
         case 0x8175: //「
             return 14;
         case 0x8176: //」
@@ -222,7 +222,7 @@ int font_calculateOffset(unsigned short character)
         case 0x82A5: //Æ
             return 7;
         case 0x82A6: //Ç
-            return 7;
+            return 6;
         case 0x82A7: //È
             return 6;
         case 0x82A8: //É
@@ -284,7 +284,7 @@ int font_calculateOffset(unsigned short character)
         case 0x82C4: //æ
             return 7;
         case 0x82C5: //ç
-            return 7;
+            return 6;
         case 0x82C6: //è
             return 6;
         case 0x82C7: //é
