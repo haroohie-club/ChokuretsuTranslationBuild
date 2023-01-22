@@ -47,7 +47,7 @@ ahook_0202F500:
     ldr r0, =subtitleTimer
     ldr r1, [r0]
     cmp r1, #0
-    beq end
+    beq endSubs
 
     @ If there is time on the timer, we're gonna draw the text stored in subtitle
     sub r1, r1, #1
@@ -56,7 +56,7 @@ ahook_0202F500:
     ldr r1, =xysizescreen
     ldrsh r3, [r1, #6]
     cmp r3, #1
-    bne render              @ skip the top screen timer if it's not a top screen sub
+    bne renderSubs          @ skip the top screen timer if it's not a top screen sub
     ldr r5, =topScreenTimer
     ldr r4, [r5]
     cmp r4, #2
@@ -64,8 +64,8 @@ ahook_0202F500:
     addne r4, r4, #1
     str r4, [r5]            @ top screen subs render with the OAM and are 
     cmp r4, #0              @ rendered in triplicate without this hack
-    bne end                 @ skip rendering subs if top screen timer is not 0
-render:
+    bne endSubs             @ skip rendering subs if top screen timer is not 0
+renderSubs:
     ldr r2, =0x020A9AC8     @ Load target screen-containing struct
     str r3, [r2, #0x50]     @ Store target screen in the struct
     ldrsh r3, [r1, #4]
@@ -77,7 +77,7 @@ render:
     ldr r1, =xysizescreen
     ldrsh r3, [r1, #6]
     cmp r3, #1
-    beq end                 @ skip rendering backdrop for top screen subs
+    beq endSubs             @ skip rendering backdrop for top screen subs
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
@@ -91,7 +91,7 @@ render:
     ldrsh r1, [r1]
     add r2, r2, #1          @ Increment just y for enhanced drop shadow
     bl scene_renderDialogue
-end:
+endSubs:
     pop {r0-r13}
     mov r0, r4              @ instruction we were replacing
     pop {pc}
