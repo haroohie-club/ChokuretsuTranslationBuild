@@ -1,24 +1,30 @@
-ahook_2034290:
-    ldr r1, =loadSysTexSubMode
-    ldr r1, [r1]
+ahook_2003CFC:
+    push {r5}
+    mov r5, r1
     bx lr
 
-ahook_2003C4C:
-    mvn r12, #0
-    mov r3, r2
+ahook_02003D1C:
+    add r2, r12, r5
+    pop {r5}
     bx lr
 
-ahook_2003C6C:
-    push {r0-r12,lr}
-    add r2, r2, #0x07000000
-    bl 0x2006ED0
-    pop {r0-r12,pc}
+ahook_020342F4:
+    push {r14}
+    push {r11,r12}
+    ldr r11, =0x06600000
+    ldr r12, =vramAddress
+    ldr r12, [r12]
+    cmp r11,r12
+    pop {r11,r12}
+    bne skipSubScreenPalette
+    bl 0x2020AB0
+    skipSubScreenPalette:
+        pop {pc}
 
-ahook_2003C60:
-    ldr r2, =oamOffset
-    ldr r2, [r2]
-    add r2, r1, r2
+ahook_02003D08:
+    ldr r12, =vramAddress
+    ldr r12, [r12]
     bx lr
 
-loadSysTexSubMode: .word 0x0E
-oamOffset: .word 0x400
+vramAddress: .word 0x06600000
+customOamSwitch: .word 0

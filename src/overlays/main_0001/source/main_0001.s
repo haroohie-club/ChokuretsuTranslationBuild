@@ -13,6 +13,40 @@ ahook_020C77B0:
         pop {r0}
         bx lr
 
+@ Turn off the custom OAM allocation function after the splash screen is displayed
+ahook_020C78AC:
+    push {r0,r1}
+    ldr r0, =customOamSwitch
+    mov r1, #0
+    str r1, [r0]
+    pop {r0,r1}
+    str r0, [r1]
+    bx lr
+
+@ Turn on the custom OAM allocation function for the splash screen
+ahook_020C78B4:
+    cmp r1, #2
+    blt dontEnableCustomOam
+    ldr r0, =customOamSwitch
+    mov r1, #1
+    str r1, [r0]
+    dontEnableCustomOam:
+        ldr r0, [r2, #0x0C]
+        bx lr
+
+@ Skip last fade to white
+ahook_020C7838:
+    push {lr}
+    push {r0}
+    ldr r0, =customOamSwitch
+    ldr r0, [r0]
+    cmp r0, #0
+    pop {r0}
+    bne skipFadeToWhite
+    bl 0x2030F54
+    skipFadeToWhite:
+        pop {pc}
+
 @ Change the screen order for our logos
 ahook_020C78E4:
     cmp r0, #3
@@ -23,8 +57,13 @@ ahook_020C78E4:
     ldrsh r0, [r3, r0]
     str r0, [r12, #0x0C]
     bl load_sysTexFromDat9B
-    ldr r0, =loadSysTexSubMode
-    mov r1, #6
+    ldr r0, =engineBOAMStart
+    ldr r1, =engineAOAMStart
+    mov r2, #0x400
+    bl memcpy2007314
+    
+    ldr r0, =vramAddress
+    ldr r1, =0x063F4000
     str r1, [r0]
     pop {r0,r3,r12}
     add r0, r0, #0xF2
@@ -33,22 +72,13 @@ ahook_020C78E4:
     str r0, [r12, #0x0C]
     mov r1, #1
     bl load_sysTexFromDat9B
-    ldr r0, =loadSysTexSubMode
-    mov r1, #14
+    ldr r0, =vramAddress
+    ldr r1, =0x06600000
     str r1, [r0]
-    bl 0x20C799C
-    ldr r2, =oamOffset
-    mov r1, #0
-    str r1, [r2]
-    bl sys_copyToOAM
-    ldr r2, =oamOffset
-    mov r1, #0x400
-    str r1, [r2]
-
-    push {r0-r12}
-    bl logoSetPalette
-    pop {r0-r12}
-
+    ldr r0, =loadedPaletteStart
+    ldr r1, =mainSpritePalette
+    mov r2, #0x200
+    bl memcpy2007314
     mov r0, #2
     mov r2, #2
     mov r1, #30
@@ -80,4 +110,24 @@ ahook_020C77FC:
         mov r0, #0
     done:
         pop {r6}
+        bx lr
+
+@ Call custom OAM allocation method
+ahook_020C7A10:
+    push {r0-r12}
+    ldr r0, =customOamSwitch
+    ldr r0, [r0]
+    cmp r0, #0
+    beq useDefaultOamAlloc
+    ldr r0, =dispcntA
+    ldr r1, =0x00211110
+    str r1, [r0]
+    ldr r0, =engineAOAMStart
+    bl oamAllocation
+    ldr r0, =engineBOAMStart
+    bl oamAllocation
+    ldr lr, =0x20C7A84
+    useDefaultOamAlloc:
+        pop {r0-r12}
+        ldr r1, [r5,#0x610]
         bx lr
