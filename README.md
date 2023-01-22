@@ -13,11 +13,11 @@ CMake can be installed via [Chocolatey](https://chocolatey.org/) on Windows for 
 Because NitroPacker is only available on Windows, the ROM can only be built on Windows. This will change in the future when NitroPacker is updated to be cross-plat and open source.
 
 ## Setup
-Clone the [strings repo](https://github.com/haroohie-club/ChokuretsuTranslationStrings) and [assets repo]([HaruhiChokuretsuCLI](https://github.com/haroohie-club/ChokuretsuTranslationAssets). Both of these are private at the moment, so if you want to contribute, you should get in touch with us.
+Clone the [strings repo](https://github.com/haroohie-club/ChokuretsuTranslationStrings) and [assets repo](https://github.com/haroohie-club/ChokuretsuTranslationAssets). Both of these are private at the moment, so if you want to contribute, you should get in touch with us.
 
 Copy your ROM inside the root and name it `original.nds`, then run `setup.ps1`. This will copy the necessary files in the correct folders.
 
-Finally, you must set up environment variables for devkitPro. Specifically, you will need to set:
+Finally, you must set up environment variables for devkitARM. Specifically, you will need to set:
 
 * `DEVKITPRO` &ndash; the path to your devkitPro directory
 * `DEVKITARM` &ndash; the path to your devkitARM installation
