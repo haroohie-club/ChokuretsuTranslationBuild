@@ -8,7 +8,7 @@ ahook_020C77B0:
     mov r2, #0x780
     b end
     longer:
-        mov r2, #0x1E00
+        mov r2, #0x2D00
     end:
         pop {r0}
         bx lr
@@ -34,17 +34,22 @@ ahook_020C78B4:
         ldr r0, [r2, #0x0C]
         bx lr
 
-@ Skip last fade to white
-ahook_020C7838:
+@ Change fade outs to be dual screen and turns on white out timer after last fade
+ahook_020C7830:
     push {lr}
     push {r0}
     ldr r0, =customOamSwitch
     ldr r0, [r0]
     cmp r0, #0
     pop {r0}
-    bne skipFadeToWhite
-    bl 0x2030F54
-    skipFadeToWhite:
+    beq endOfFadeCheck
+    push {r0-r1}
+    ldr r0, =whiteOutMainScreenTimer
+    mov r1, #90
+    str r1, [r0]
+    pop {r0-r1}
+    endOfFadeCheck:
+        mov r2, #3
         pop {pc}
 
 @ Change the screen order for our logos
@@ -57,10 +62,6 @@ ahook_020C78E4:
     ldrsh r0, [r3, r0]
     str r0, [r12, #0x0C]
     bl load_sysTexFromDat9B
-    ldr r0, =engineBOAMStart
-    ldr r1, =engineAOAMStart
-    mov r2, #0x400
-    bl memcpy2007314
     
     ldr r0, =vramAddress
     ldr r1, =0x063F4000
@@ -80,7 +81,7 @@ ahook_020C78E4:
     mov r2, #0x200
     bl memcpy2007314
     mov r0, #2
-    mov r2, #2
+    mov r2, #3
     mov r1, #30
     bl screenFadeMonochrome
     ldr r0, =0x20C7924
@@ -95,20 +96,20 @@ ahook_020C77FC:
     ldr r6, =buttonPressAddress
     ldrb r6, [r6]
     tst r6, #0x01
-    beq skip
+    beq skipLogo
     tst r6, #0x02
-    beq skip
+    beq skipLogo
     tst r6, #0x08
-    beq skip
+    beq skipLogo
     ldr r6, =stylusDownAddress
     ldrb r6, [r6]
     cmp r6, #0x01
-    beq skip
+    beq skipLogo
     sub r0, r2, r0
-    b done
-    skip:
+    b endButtonCheck
+    skipLogo:
         mov r0, #0
-    done:
+    endButtonCheck:
         pop {r6}
         bx lr
 
@@ -131,3 +132,5 @@ ahook_020C7A10:
         pop {r0-r12}
         ldr r1, [r5,#0x610]
         bx lr
+
+customOamSwitch: .word 0

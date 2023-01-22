@@ -26,5 +26,31 @@ ahook_02003D08:
     ldr r12, [r12]
     bx lr
 
+ahook_0202F4FC:
+    push {r0-r2}
+    ldr r0, =whiteOutMainScreenTimer
+    ldr r1, [r0]
+    cmp r1, #0
+    beq endWhiteOutMainScreenTimerCheck
+    cmp r1, #1
+    beq whiteOutMainScreen
+    sub r1, r1, #1
+    str r1, [r0]
+    b endWhiteOutMainScreenTimerCheck
+    whiteOutMainScreen:
+        ldr r1, =0x06400000
+        mvn r0, #0
+        mov r2, #0
+        whiteOutMainScreenLoop:
+            str r0, [r1]
+            add r1, r1, #4
+            add r2, r2, #1
+            cmp r2, #0x3000
+            ble whiteOutMainScreenLoop
+    endWhiteOutMainScreenTimerCheck:
+        pop {r0-r2}
+        ldr r1, [r0, #4]
+        bx lr
+
 vramAddress: .word 0x06600000
-customOamSwitch: .word 0
+whiteOutMainScreenTimer: .word 0
