@@ -27,9 +27,11 @@ ahook_020C78AC:
 ahook_020C78B4:
     cmp r1, #2
     blt dontEnableCustomOam
+    push {r1}
     ldr r0, =customOamSwitch
     mov r1, #1
     str r1, [r0]
+    pop {r1}
     dontEnableCustomOam:
         ldr r0, [r2, #0x0C]
         bx lr

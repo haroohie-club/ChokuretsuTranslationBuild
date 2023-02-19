@@ -33,9 +33,9 @@ ahook_0202F4FC:
     cmp r1, #0
     beq endWhiteOutMainScreenTimerCheck
     cmp r1, #1
-    beq whiteOutMainScreen
     sub r1, r1, #1
     str r1, [r0]
+    beq whiteOutMainScreen
     b endWhiteOutMainScreenTimerCheck
     whiteOutMainScreen:
         ldr r1, =0x06400000
