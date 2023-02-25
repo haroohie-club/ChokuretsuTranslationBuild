@@ -16,7 +16,7 @@ ahook_02036394:
     cmp r0, #0              @ if there isn't a location saved in voiceMapLoc, the file hasn't been loaded yet
     beq load
     ldr r0, [r0]
-    ldr r9, =0x121          @ The first int of the voice map
+    ldr r9, =0x128          @ The first int of the voice map
     cmp r0, r9              @ If these aren't equal, the voice map has been unloaded and needs to be loaded again
     beq skipLoad
 load:
