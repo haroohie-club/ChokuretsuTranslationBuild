@@ -12,7 +12,7 @@ schedules:
 variables:
   - group: ChokuretsuSecrets
   - name: PatchVersion
-    value: v0.4
+    value: v0.5.$(Build.BuildNumber)
 
 resources:
   repositories:
