@@ -18,6 +18,17 @@ $grpArgs = @("replace", "-i", "original\archives\grp.bin", "-o", "rom\data\grp.b
 $grpLocArgs = @("replace", "-i", "rom\data\grp.bin", "-o", "rom\data\grp.bin", "-r", "$assetsFolder\graphics\$resxLangCode")
 $scnArgs = @("replace", "-i", "original\archives\scn.bin", "-o", "rom\data\scn.bin", "-r", "$assetsFolder\scn")
 
+Remove-Item -Path "$stringsFolder\strings\422.en.resx"
+Remove-Item -Path "$stringsFolder\strings\423.en.resx"
+Remove-Item -Path "$stringsFolder\strings\424.en.resx"
+Remove-Item -Path "$stringsFolder\strings\425.en.resx"
+Remove-Item -Path "$stringsFolder\strings\426.en.resx"
+Remove-Item -Path "$stringsFolder\strings\427.en.resx"
+Remove-Item -Path "$stringsFolder\strings\428.en.resx"
+Remove-Item -Path "$stringsFolder\strings\429.en.resx"
+Remove-Item -Path "$stringsFolder\strings\43*"
+Remove-Item -Path "$stringsFolder\strings\44*"
+
 if ($devkitArm) {
   $datArgs += ("-d", "$devkitArm")
   $evtReplArgs += ("-d", "$devkitArm")
