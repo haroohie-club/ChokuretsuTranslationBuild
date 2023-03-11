@@ -28,6 +28,10 @@ resources:
     type: github
     endpoint: haroohie-club
     name: haroohie-club/ChokuretsuTranslationUtility
+  - repository: NitroPacker
+    type: github
+    endpoint: haroohie-club
+    name: haroohie-club/NitroPacker
 
 jobs:
 - job:
