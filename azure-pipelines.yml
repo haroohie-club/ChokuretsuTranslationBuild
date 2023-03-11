@@ -53,7 +53,7 @@ jobs:
   - checkout: NitroPacker
   - powershell: |
       Write-Host "Downloading devkitARM..."
-      Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/devkitARM.zip?$($env:SAS)" -OutFile devkitPro.zip
+      Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/devkitARM.zip?$($env:SAS)" -OutFile devkitARM.zip
       Write-Host "Downloading ROM..."
       Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/original.zip?$($env:SAS)" -OutFile original.zip
       Write-Host "Downloading xdelta3..."
