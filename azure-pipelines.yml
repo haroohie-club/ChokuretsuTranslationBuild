@@ -53,11 +53,11 @@ jobs:
   - checkout: NitroPacker
   - powershell: |
       Write-Host "Downloading devkitARM..."
-      Start-BitsTransfer -Source "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/devkitARM.zip?$($env:SAS)" -Destination devkitPro.zip -RetryInterval 60
+      Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/devkitARM.zip?$($env:SAS)" -OutFile devkitPro.zip
       Write-Host "Downloading ROM..."
-      Start-BitsTransfer -Source "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/original.zip?$($env:SAS)" -Destination original.zip -RetryInterval 60
+      Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/original.zip?$($env:SAS)" -OutFile original.zip
       Write-Host "Downloading xdelta3..."
-      Start-BitsTransfer -Source "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/xdelta3.zip?$($env:SAS)" -Destination xdelta3.zip -RetryInterval 60
+      Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/xdelta3.zip?$($env:SAS)" -OutFile xdelta3.zip
       
       Write-Host "Unzipping devkitARM..."
       Expand-Archive devkitARM.zip
