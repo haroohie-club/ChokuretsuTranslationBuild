@@ -39,82 +39,84 @@ jobs:
         Language: "pt-BR"
   displayName: Build & Publish
   pool:
-    vmImage: windows-latest
+    vmImage: ubuntu-latest
   steps:
   - checkout: self
     clean: true
   - checkout: ChokuretsuTranslationStrings
   - checkout: ChokuretsuTranslationAssets
   - checkout: ChokuretsuTranslationUtility
+  - checkout: NitroPacker
   - powershell: |
       Write-Host "Downloading devkitARM..."
-      Start-BitsTransfer -Source "https://dockerbootstrap.blob.core.windows.net/chokuretsu/devkitPro.zip?$($env:SAS)" -Destination devkitPro.zip -RetryInterval 60
-      Write-Host "Downloading NitroPacker..."
-      Start-BitsTransfer -Source "https://dockerbootstrap.blob.core.windows.net/chokuretsu/NitroPacker.zip?$($env:SAS)" -Destination NitroPacker.zip -RetryInterval 60
+      Start-BitsTransfer -Source "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/devkitARM.zip?$($env:SAS)" -Destination devkitPro.zip -RetryInterval 60
       Write-Host "Downloading ROM..."
-      Start-BitsTransfer -Source "https://dockerbootstrap.blob.core.windows.net/chokuretsu/original.zip?$($env:SAS)" -Destination original.zip -RetryInterval 60
+      Start-BitsTransfer -Source "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/original.zip?$($env:SAS)" -Destination original.zip -RetryInterval 60
       Write-Host "Downloading xdelta3..."
-      Start-BitsTransfer -Source "https://dockerbootstrap.blob.core.windows.net/chokuretsu/xdelta3.zip?$($env:SAS)" -Destination xdelta3.zip -RetryInterval 60
+      Start-BitsTransfer -Source "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/xdelta3.zip?$($env:SAS)" -Destination xdelta3.zip -RetryInterval 60
       
       Write-Host "Unzipping devkitARM..."
-      Expand-Archive devkitPro.zip
-      Write-Host "Unzipping NitroPacker..."
-      Expand-Archive NitroPacker.zip
+      Expand-Archive devkitARM.zip
       Write-Host "Unzipping ROM..."
       Expand-Archive original.zip
       Write-Host "Unzipping xdelta3..."
       Expand-Archive xdelta3.zip
       
       Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
-      Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild\original.nds
+      Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild/original.nds
 
       Write-Host "Getting MD5 hash of original ROM..."
-      Get-FileHash -Path ChokuretsuTranslationBuild\original.nds -Algorithm MD5
+      Get-FileHash -Path ChokuretsuTranslationBuild/original.nds -Algorithm MD5
     env:
-      SAS: $(ChokuretsuSAS)
+      SAS: $(ChokuretsuLinuxSAS)
     displayName: Download dependencies
   - task: DotNetCoreCLI@2
     inputs:
       command: 'build'
       projects: ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/HaruhiChokuretsuCLI.csproj
     displayName: Build HaruhiChokuretsuCLI
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      projects: NitroPacker/HaroohieClub.NitroPacker.Cli/HaroohieClub.NitroPacker.Cli.csproj
+    displayName: Build NitroPackerCLI
 
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/setup.ps1
-      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe"
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/HaroohieClub.NitroPacker.Cli/HaroohieClub.NitroPacker.Cli/bin/Debug/net6.0/NitroPacker"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     displayName: Run setup
 
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build_arc.ps1
-      arguments: -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -assetsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -devkitArm "$(Build.SourcesDirectory)/devkitPro/devkitARM" -resxLangCode "$(Language)" -version "$(PatchVersion)"
+      arguments: -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -assetsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -devkitArm "$(Build.SourcesDirectory)/devkitPro/devkitARM" -resxLangCode "$(Language)" -version "$(PatchVersion)"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     displayName: Build archives
 
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build.ps1
-      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/HaroohieClub.NitroPacker.Cli/HaroohieClub.NitroPacker.Cli/bin/Debug/net6.0/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
       DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
     displayName: Build ROM (clean OP/ED, voice subs)
-  - powershell: $(Build.SourcesDirectory)\xdelta3\xdelta3.exe -e -S -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\chokuretsu-patch-$(PatchVersion)-cleanoped-voicesubs.xdelta
+  - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-voicesubs.xdelta
     displayName: Create xdelta patch (clean OP/ED, voice subs)
 
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build.ps1
-      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
       DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
     displayName: Build ROM (clean OP/ED, no voice subs)
-  - powershell: $(Build.SourcesDirectory)\xdelta3\xdelta3.exe -e -S -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\chokuretsu-patch-$(PatchVersion)-cleanoped-novoicesubs.xdelta
+  - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-novoicesubs.xdelta
     displayName: Create xdelta patch (clean OP/ED, no voice subs)
 
   - task: PowerShell@2
@@ -126,25 +128,25 @@ jobs:
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build.ps1
-      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
       DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
     displayName: Build ROM (subbed OP/ED, voice subs)
-  - powershell: $(Build.SourcesDirectory)\xdelta3\xdelta3.exe -e -S -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\chokuretsu-patch-$(PatchVersion)-subbedoped-voicesubs.xdelta
+  - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-voicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, voice subs)
 
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build.ps1
-      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker.exe" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI.exe" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
       DEVKITARM: $(Build.SourcesDirectory)/devkitPro/devkitARM
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
     displayName: Build ROM (subbed OP/ED, no voice subs)
-  - powershell: $(Build.SourcesDirectory)\xdelta3\xdelta3.exe -e -S -s ChokuretsuTranslationBuild\original.nds ChokuretsuTranslationBuild\HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)\chokuretsu-patch-$(PatchVersion)-subbedoped-novoicesubs.xdelta
+  - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-novoicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, no voice subs)
 
   - task: PublishBuildArtifacts@1
@@ -155,22 +157,22 @@ jobs:
     displayName: Publish xdelta patches
   - powershell: |
       Write-Host "Uploading subbed OP/ED & voice subs patch..."
-      $fileToUpload = "$(Build.ArtifactStagingDirectory)\chokuretsu-patch-$($env:PatchVersion)-subbedoped-voicesubs.xdelta"
+      $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-voicesubs.xdelta"
       $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-voicesubs.xdelta?$env:WriteSAS"
       $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
       Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
       Write-Host "Uploading subbed OP/ED & no voice subs patch..."
-      $fileToUpload = "$(Build.ArtifactStagingDirectory)\chokuretsu-patch-$($env:PatchVersion)-subbedoped-novoicesubs.xdelta"
+      $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-novoicesubs.xdelta"
       $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-novoicesubs.xdelta?$env:WriteSAS"
       $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
       Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
       Write-Host "Uploading clean OP/ED & voice subs patch ..."
-      $fileToUpload = "$(Build.ArtifactStagingDirectory)\chokuretsu-patch-$($env:PatchVersion)-cleanoped-voicesubs.xdelta"
+      $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-voicesubs.xdelta"
       $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-voicesubs.xdelta?$env:WriteSAS"
       $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
       Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
       Write-Host "Uploading clean OP/ED & no voice subs patch..."
-      $fileToUpload = "$(Build.ArtifactStagingDirectory)\chokuretsu-patch-$($env:PatchVersion)-cleanoped-novoicesubs.xdelta"
+      $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-novoicesubs.xdelta"
       $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-novoicesubs.xdelta?$env:WriteSAS"
       $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
       Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload

@@ -44,7 +44,7 @@ finally {
 }
 
 Write-Host "Packing ROM..."
-$nitroPackerArgs = @("-p", "rom/HaruhiChokuretsu.xml", "HaruhiChokuretsu.nds")
+$nitroPackerArgs = @("pack", "-p", "rom/HaruhiChokuretsu.xml", "-r", "HaruhiChokuretsu.nds")
 & "$nitroPacker" $nitroPackerArgs
 if ($LASTEXITCODE -ne 0) {
   Write-Error "NitroPacker failed with exit code $LASTEXITCODE."
