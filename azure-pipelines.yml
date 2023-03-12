@@ -52,23 +52,24 @@ jobs:
   - checkout: ChokuretsuTranslationAssets
   - checkout: ChokuretsuTranslationUtility
   - checkout: NitroPacker
+  - script: |
+      sudo apt-get update
+      sudo apt-get install -y wget apt-transport-https software-properties-common
+      wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+      sudo dpkg -i packages-microsoft-prod.deb
+      sudo apt-get update
+      sudo apt-get install -y powershell
+    displayName: Install PowerShell
   - powershell: |
-      Write-Host "Downloading devkitARM..."
-      Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/devkitARM.zip?$($env:SAS)" -OutFile devkitARM.zip
       Write-Host "Downloading ROM..."
       Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/original.zip?$($env:SAS)" -OutFile original.zip
       Write-Host "Downloading xdelta3..."
       Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/xdelta3.zip?$($env:SAS)" -OutFile xdelta3.zip
 
-      Write-Host "Unzipping devkitARM..."
-      Expand-Archive ./devkitARM.zip
       Write-Host "Unzipping ROM..."
       Expand-Archive ./original.zip
       Write-Host "Unzipping xdelta3..."
       Expand-Archive ./xdelta3.zip
-
-      chmod +x ./devkitARM/bin/arm-none-eabi-gcc
-      chmod +x ./devkitARM/bin/arm-none-eabi-objcopy
       
       Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
       Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild/original.nds
@@ -99,7 +100,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build_arc.ps1
-      arguments: -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -assetsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -devkitArm "$(Build.SourcesDirectory)/devkitARM" -resxLangCode "$(Language)" -version "$(PatchVersion)"
+      arguments: -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -assetsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -devkitArm "/opt/devkitpro/devkitARM/" -resxLangCode "$(Language)" -version "$(PatchVersion)"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     displayName: Build archives
 
@@ -109,8 +110,8 @@ jobs:
       arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/HaroohieClub.NitroPacker.Cli/bin/Debug/net6.0/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
-      DEVKITARM: $(Build.SourcesDirectory)/devkitARM
-      DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
+      DEVKITARM: /opt/devkitpro/devkitARM/
+      DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (clean OP/ED, voice subs)
   - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-voicesubs.xdelta
     displayName: Create xdelta patch (clean OP/ED, voice subs)
@@ -121,8 +122,8 @@ jobs:
       arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
-      DEVKITARM: $(Build.SourcesDirectory)/devkitARM
-      DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
+      DEVKITARM: /opt/devkitpro/devkitARM/
+      DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (clean OP/ED, no voice subs)
   - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-novoicesubs.xdelta
     displayName: Create xdelta patch (clean OP/ED, no voice subs)
@@ -139,8 +140,8 @@ jobs:
       arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
-      DEVKITARM: $(Build.SourcesDirectory)/devkitARM
-      DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
+      DEVKITARM: /opt/devkitpro/devkitARM/
+      DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (subbed OP/ED, voice subs)
   - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-voicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, voice subs)
@@ -151,8 +152,8 @@ jobs:
       arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
-      DEVKITARM: $(Build.SourcesDirectory)/devkitARM
-      DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
+      DEVKITARM: /opt/devkitpro/devkitARM/
+      DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (subbed OP/ED, no voice subs)
   - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-novoicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, no voice subs)
