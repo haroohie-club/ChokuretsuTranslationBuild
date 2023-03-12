@@ -126,7 +126,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build.ps1
-      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/HaroohieClub.NitroPacker.Cli/bin/Debug/net6.0/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
       DEVKITARM: /opt/devkitpro/devkitARM/
@@ -144,7 +144,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build.ps1
-      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/HaroohieClub.NitroPacker.Cli/bin/Debug/net6.0/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
       DEVKITARM: /opt/devkitpro/devkitARM/
@@ -156,7 +156,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       filePath: ChokuretsuTranslationBuild/build.ps1
-      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/HaroohieClub.NitroPacker.Cli/bin/Debug/net6.0/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
       DEVKITARM: /opt/devkitpro/devkitARM/
