@@ -6,11 +6,9 @@ This is the repository containing the build scripts for making translation patch
 * devkitARM, distributed by [devkitPro](https://devkitpro.org/)
 * [CMake](https://cmake.org/)
 * [HaruhiChokuretsuCLI](https://github.com/haroohie-club/ChokuretsuTranslationUtility) from the Chokuretsu Translation Utility
-* NitroPacker (a tool created by Ermelber; you'll need to contact us in order to get it)
-
-CMake can be installed via [Chocolatey](https://chocolatey.org/) on Windows for an easier experience.
-
-Because NitroPacker is only available on Windows, the ROM can only be built on Windows. This will change in the future when NitroPacker is updated to be cross-plat and open source.
+  - This depends on the [.NET 6.0 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+* [NitroPacker](https://github.com/haroohie-club/NitroPacker/)
+* [PowerShell](https://github.com/PowerShell/PowerShell) must be installed on non-Windows systems
 
 ## Setup
 Clone the [strings repo](https://github.com/haroohie-club/ChokuretsuTranslationStrings) and [assets repo](https://github.com/haroohie-club/ChokuretsuTranslationAssets). Both of these are private at the moment, so if you want to contribute, you should get in touch with us.
@@ -32,21 +30,21 @@ The remaining scripts should be run in this order:
 In detail:
 
 ### `build_arc.ps1`
-`.\build_arc.ps1 -haruhiCli "PATH/TO/HaruhiChokuretsuCLI.exe" -stringsFolder "PATH/TO/ChokuretsuTranslationStrings" -assetsFolder "PATH/TO/ChokuretsuTranslationAssets" -devkitArm "PATH/TO/devkitARM" -resxLangCode "<LANGCODE>" -version "<VERSION>"`
+`./build_arc.ps1 -haruhiCli "PATH/TO/HaruhiChokuretsuCLI" -stringsFolder "PATH/TO/ChokuretsuTranslationStrings" -assetsFolder "PATH/TO/ChokuretsuTranslationAssets" -devkitArm "PATH/TO/devkitARM" -resxLangCode "<LANGCODE>" -version "<VERSION>"`
 
 * `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
-* `VERSION` is the semantic version of the patch, e.g. `0.2`.
+* `VERSION` is the semantic version of the patch, e.g. `0.4`.
 
 Additional options:
 * `-noGraphics` &ndash; skips over producing `grp.bin` and uses one that's already been generated. Useful when trying to iterate quickly and not needing graphics replacement.
 
 ### `copy-movies.ps1`
-`.\copy-movies.ps1 -assetsFolder "PATH/TO/ChokuretsuTranslationAssets" -langCode "<LANGCODE>"`
+`./copy-movies.ps1 -assetsFolder "PATH/TO/ChokuretsuTranslationAssets" -langCode "<LANGCODE>"`
 
 * `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
 
 ### `build.ps1`
-`.\build.ps1 -nitroPacker "PATH/TO/NitroPacker.exe" -haruhiCli "PATH/TO/HaruhiChokuretsuCLI.exe" -stringsFolder "PATH/TO/ChokuretsuTranslationStrings" -fontReplacementMap "PATH/TO/ChokuretsuTranslationAssets/misc/charset.json" -resxLangCode "<LANGCODE>"`
+`./build.ps1 -nitroPacker "PATH/TO/NitroPacker" -haruhiCli "PATH/TO/HaruhiChokuretsuCLI" -stringsFolder "PATH/TO/ChokuretsuTranslationStrings" -fontReplacementMap "PATH/TO/ChokuretsuTranslationAssets/misc/charset.json" -resxLangCode "<LANGCODE>"`
 
 * `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
 
