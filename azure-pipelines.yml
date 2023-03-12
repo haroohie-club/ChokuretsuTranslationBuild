@@ -75,6 +75,8 @@ jobs:
       Expand-Archive ./original.zip
       Write-Host "Unzipping xdelta3..."
       Expand-Archive ./xdelta3.zip
+
+      chmod +x ./xdelta3/xdelta3
       
       Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
       Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild/original.nds
