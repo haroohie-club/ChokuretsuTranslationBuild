@@ -80,8 +80,9 @@ jobs:
   - script: |
       wget https://apt.devkitpro.org/install-devkitpro-pacman
       chmod +x ./install-devkitpro-pacman
-      ./install-devkitpro-pacman
+      sudo ./install-devkitpro-pacman
       sudo dkp-pacman -S nds-dev
+    displayName: Install devkitARM
   - task: DotNetCoreCLI@2
     inputs:
       command: 'build'
@@ -113,7 +114,7 @@ jobs:
       arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/HaroohieClub.NitroPacker.Cli/bin/Debug/net6.0/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net6.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
       workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
     env:
-      DEVKITARM: /opt/devkitprof/devkitARM
+      DEVKITARM: /opt/devkitpro/devkitARM
       DEVKITPRO: $(Build.SourcesDirectory)/devkitPro
     displayName: Build ROM (clean OP/ED, voice subs)
   - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-voicesubs.xdelta
