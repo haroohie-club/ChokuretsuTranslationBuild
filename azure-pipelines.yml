@@ -81,7 +81,7 @@ jobs:
       wget https://apt.devkitpro.org/install-devkitpro-pacman
       chmod +x ./install-devkitpro-pacman
       sudo ./install-devkitpro-pacman
-      sudo dkp-pacman -S nds-dev
+      sudo dkp-pacman --noconfirm -S nds-dev
     displayName: Install devkitARM
   - task: DotNetCoreCLI@2
     inputs:
