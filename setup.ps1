@@ -2,7 +2,7 @@ Param(
   [string]$nitroPacker = $env:NITRO_PACKER_PATH
 )
 
-$nitroPackerArgs = @("-u", "original.nds", "rom", "HaruhiChokuretsu")
+$nitroPackerArgs = @("unpack", "-r", "original.nds", "-o", "rom", "-p", "HaruhiChokuretsu")
 & $nitroPacker $nitroPackerArgs
 if ($LASTEXITCODE -ne 0) {
   Write-Error "NitroPacker failed with exit code $LASTEXITCODE."
