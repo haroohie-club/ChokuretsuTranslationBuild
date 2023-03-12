@@ -58,8 +58,6 @@ jobs:
       Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/original.zip?$($env:SAS)" -OutFile original.zip
       Write-Host "Downloading xdelta3..."
       Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/xdelta3.zip?$($env:SAS)" -OutFile xdelta3.zip
-      
-      ls -l
 
       Write-Host "Unzipping devkitARM..."
       Expand-Archive ./devkitARM.zip
@@ -67,6 +65,9 @@ jobs:
       Expand-Archive ./original.zip
       Write-Host "Unzipping xdelta3..."
       Expand-Archive ./xdelta3.zip
+
+      chmod +x ./devkitARM/bin/arm-none-eabi-gcc
+      chmod +x ./devkitARM/bin/arm-none-eabi-objcopy
       
       Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
       Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild/original.nds
