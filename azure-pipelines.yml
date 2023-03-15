@@ -101,7 +101,7 @@ jobs:
       DEVKITARM: /opt/devkitpro/devkitARM/
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (clean OP/ED, voice subs)
-  - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-voicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-voicesubs.xdelta
     displayName: Create xdelta patch (clean OP/ED, voice subs)
 
   - task: PowerShell@2
@@ -113,7 +113,7 @@ jobs:
       DEVKITARM: /opt/devkitpro/devkitARM/
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (clean OP/ED, no voice subs)
-  - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-novoicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-novoicesubs.xdelta
     displayName: Create xdelta patch (clean OP/ED, no voice subs)
 
   - task: PowerShell@2
@@ -131,7 +131,7 @@ jobs:
       DEVKITARM: /opt/devkitpro/devkitARM/
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (subbed OP/ED, voice subs)
-  - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-voicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-voicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, voice subs)
 
   - task: PowerShell@2
@@ -143,7 +143,7 @@ jobs:
       DEVKITARM: /opt/devkitpro/devkitARM/
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (subbed OP/ED, no voice subs)
-  - powershell: $(Build.SourcesDirectory)/xdelta3/xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-novoicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-novoicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, no voice subs)
 
   - task: PublishBuildArtifacts@1
