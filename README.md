@@ -34,7 +34,7 @@ The remaining scripts should be run in this order:
 
 In detail:
 
-## `build_arc.ps1`
+### `build_arc.ps1`
 `./build_arc.ps1 -haruhiCli "PATH/TO/HaruhiChokuretsuCLI" -stringsFolder "PATH/TO/ChokuretsuTranslationStrings" -assetsFolder "PATH/TO/ChokuretsuTranslationAssets" -devkitArm "PATH/TO/devkitARM" -resxLangCode "<LANGCODE>" -version "<VERSION>"`
 
 * `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
@@ -43,12 +43,12 @@ In detail:
 Additional options:
 * `-noGraphics` &ndash; skips over producing `grp.bin` and uses one that's already been generated. Useful when trying to iterate quickly and not needing graphics replacement.
 
-## `copy-movies.ps1`
+### `copy-movies.ps1`
 `./copy-movies.ps1 -assetsFolder "PATH/TO/ChokuretsuTranslationAssets" -langCode "<LANGCODE>"`
 
 * `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
 
-## `build.ps1`
+### `build.ps1`
 `./build.ps1 -nitroPacker "PATH/TO/NitroPacker" -haruhiCli "PATH/TO/HaruhiChokuretsuCLI" -stringsFolder "PATH/TO/ChokuretsuTranslationStrings" -fontReplacementMap "PATH/TO/ChokuretsuTranslationAssets/misc/charset.json" -resxLangCode "<LANGCODE>"`
 
 * `LANGCODE` is an ISO 639-1 language code indicating the language you want to localize to, e.g. `en`.
