@@ -2,7 +2,12 @@
 
 This is the repository containing the build scripts for making translation patches for Suzumiya Haruhi no Chokuretsu. In addition to the build scripts, it also contains all of the assembly hack source files.
 
-### Prerequisites
+There are two ways to run this repo locally: you can run the [scripts manually](#baremetal) or you can run them in a [Docker container](#docker-container).
+The Docker container method is provided to make configuration of the prerequisites easier.
+
+# Baremetal
+
+## Prerequisites
 * devkitARM, distributed by [devkitPro](https://devkitpro.org/)
 * [CMake](https://cmake.org/)
 * [HaruhiChokuretsuCLI](https://github.com/haroohie-club/ChokuretsuTranslationUtility) from the Chokuretsu Translation Utility
@@ -13,7 +18,7 @@ This is the repository containing the build scripts for making translation patch
 ## Setup
 Clone the [strings repo](https://github.com/haroohie-club/ChokuretsuTranslationStrings) and [assets repo](https://github.com/haroohie-club/ChokuretsuTranslationAssets). Both of these are private at the moment, so if you want to contribute, you should get in touch with us.
 
-Copy your ROM inside the root and name it `original.nds`, then run `setup.ps1`. This will copy the necessary files in the correct folders.
+Copy your ROM inside the root of this repo and name it `original.nds`, then run `setup.ps1`. This will copy the necessary files in the correct folders.
 
 Finally, you must set up environment variables for devkitARM. Specifically, you will need to set:
 
@@ -50,3 +55,23 @@ Additional options:
 
 Additional options:
 * `-noVoiceSubs` &ndash; Removes the voiced line subtitle ASM hack from the build so no voiced line subs appear in the game
+
+# Docker Container
+
+## Prerequisites
+On Linux and Mac, you will need to install the [Docker Engine](https://docs.docker.com/engine/install/). On Windows, you will first need to
+install [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install). Once you've installed that, you should open WSL
+and install the Docker Engine following the instructions for the distro you installed (e.g., [Ubuntu](https://docs.docker.com/engine/install/ubuntu/)).
+
+## Setup
+Clone the [strings repo](https://github.com/haroohie-club/ChokuretsuTranslationStrings) and [assets repo](https://github.com/haroohie-club/ChokuretsuTranslationAssets). Both of these are private at the moment, so if you want to contribute, you should get in touch with us.
+
+Copy your ROM inside the root of this repo and name it `original.nds`.
+
+## Running
+To run, open the build repo in your terminal (in WSL on Windows), then run `sudo ./docker/run.sh PATH/TO/BUILD_REPO /PATH/TO/ASSETS_REPO PATH/TO/STRINGS_REPO LANGCODE VERSION`. The capitalized arguments should be replaced with:
+* `PATH/TO/BUILD_REPO` &ndash; the path to your copy of ChokuretsuTranslationBuild
+* `PATH/TO/ASSETS_REPO` &ndash; the path to your copy of ChokurestuTranslationAssets
+* `PATH/TO/STRINGS_REPO` &ndash; the path to your copy of ChokuretsuTranslationStrings
+* `LANGCODE` &ndash; an ISO 639-1 language code indicating which language to translate to, e.g. `en`
+* `VERSION` &ndash; the version of the patch (displayed on the splash screen)
