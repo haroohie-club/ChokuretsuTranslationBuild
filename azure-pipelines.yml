@@ -11,9 +11,6 @@ schedules:
 
 variables:
   - group: ChokuretsuSecrets
-  - name: PatchVersion
-    value: v0.5.$(Build.BuildNumber)
-
 resources:
   repositories:
   - repository: ChokuretsuTranslationStrings
@@ -39,8 +36,10 @@ jobs:
     matrix:
       en:
         Language: "en"
+        PatchVersion: v0.5.$(Build.BuildNumber)
       pt-BR:
         Language: "pt-BR"
+        PatchVersion: v0.1.$(Build.BuildNumber)
   displayName: Build & Publish
   pool:
     vmImage: ubuntu-latest
