@@ -40,6 +40,9 @@ jobs:
       pt-BR:
         Language: "pt-BR"
         PatchVersion: v0.1.$(Build.BuildNumber)
+      de:
+        Language: "de"
+        PatchVersion: v0.1.$(Build.BuildNumber)
   displayName: Build & Publish
   pool:
     vmImage: ubuntu-latest
