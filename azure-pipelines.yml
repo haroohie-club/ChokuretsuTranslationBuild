@@ -148,12 +148,6 @@ jobs:
   - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-novoicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, no voice subs)
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'Nightly Patches'
-      publishLocation: 'Container'
-    displayName: Publish xdelta patches
   - powershell: |
       Write-Host "Uploading subbed OP/ED & voice subs patch..."
       $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-voicesubs.xdelta"
