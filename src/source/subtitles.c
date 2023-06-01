@@ -6,7 +6,7 @@
 int subtitles_getSubs(char* resultString, char* inputString, char* voiceMapAddress, short* xysizescreen)
 {
     int numVoiceFiles = *((int*)voiceMapAddress) - 2;
-    int* voiceMap = *((int*)voiceMapAddress + 3);
+    int* voiceMap = *((int*)voiceMapAddress + 5);
 
     int i = 0;
     while (i < numVoiceFiles)
