@@ -4,7 +4,8 @@ Param(
   [string]$stringsFolder = "$env:CHOKURETSU_STRINGS_ROOT",
   [string]$fontReplacementMap = "$env:CHOKURETSU_ASSETS_ROOT/misc/charset.json",
   [string]$langCode = "en",
-  [switch]$noVoiceSubs
+  [switch]$noVoiceSubs,
+  [switch]$useDocker
 )
 
 if ($noVoiceSubs) {
@@ -15,8 +16,11 @@ try {
   $haruhiCliArgs = @("localize-sources", "-s", "src/", "-r", "$stringsFolder/asm_strings.$langCode.resx", "-f", "$fontReplacementMap", "-t", "src-backup")
   & "$haruhiCli" $haruhiCliArgs
 
-  $haruhiCliArgs = @("patch-arm9", "-i", "./src", "-o", "./rom", "-a", "02005ECC")
-  & "$haruhiCli" $haruhiCliArgs
+  $nitroPackerArgs = @("patch-arm9", "-i", "./src", "-o", "./rom", "-a", "02005ECC")
+  if ($useDocker) {
+    $nitroPackerArgs += @("-d", "20221115")
+  }
+  & "$nitroPacker" $nitroPackerArgs
   if ($LASTEXITCODE -ne 0) {
     Write-Error "ASM Build failed."
     exit 1
@@ -29,10 +33,13 @@ try {
 
   Copy-Item -Path "rominfo.xml" -Destination "rom/HaruhiChokuretsu.xml"
 
-  $haruhiCliArgs = @("patch-overlays", "-i", "original/overlay", "-o", "rom/overlay", "-s", "src/overlays", "-r", "rom/HaruhiChokuretsu.xml")
-  & "$haruhiCli" $haruhiCliArgs
+  $nitroPackerArgs = @("patch-overlays", "-i", "original/overlay", "-o", "rom/overlay", "-s", "src/overlays", "-r", "rom/HaruhiChokuretsu.xml")
+  if ($useDocker) {
+    $nitroPackerArgs += @("-d", "20221115")
+  }
+  & "$nitroPacker" $nitroPackerArgs
   if ($LASTEXITCODE -ne 0) {
-    Write-Error "HaruhiChokuretsuCLI failed on patching overlays with exit code $LASTEXITCODE."
+    Write-Error "NitroPacker failed on patching overlays with exit code $LASTEXITCODE."
     exit 1
   }
 }
