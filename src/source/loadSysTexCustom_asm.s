@@ -52,5 +52,21 @@ ahook_0202F4FC:
         ldr r1, [r0, #4]
         bx lr
 
+@ Save the texture palette address to memory so we can access it elsewhere
+ahook_2021320:
+    add r7, r5, #0x14   @ replaced instruction
+    push {r0}
+    ldr r0, =saveTexturePaletteAddress
+    ldr r0, [r0]
+    cmp r0, #0
+    beq skipSaveTexturePalette
+    ldr r0, =texturePaletteAddress
+    str r7, [r0]
+    skipSaveTexturePalette:
+        pop {r0}
+        bx lr
+
 vramAddress: .word 0x06600000
 whiteOutMainScreenTimer: .word 0
+saveTexturePaletteAddress: .word 0
+texturePaletteAddress: .word 0

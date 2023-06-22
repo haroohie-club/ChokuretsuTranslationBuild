@@ -69,16 +69,22 @@ ahook_020C78E4:
     ldr r1, =0x063F4000
     str r1, [r0]
     pop {r0,r3,r12}
+    ldr r2, =saveTexturePaletteAddress
+    mov r1, #1
+    str r1, [r2]
     add r0, r0, #0xF2
     mov r0, r0, lsl#1
     ldrsh r0, [r3, r0]
     str r0, [r12, #0x0C]
-    mov r1, #1
     bl load_sysTexFromDat9B
+    ldr r0, =saveTexturePaletteAddress
+    mov r1, #0
+    str r1, [r0]
     ldr r0, =vramAddress
     ldr r1, =0x06600000
     str r1, [r0]
-    ldr r0, =loadedPaletteStart
+    ldr r0, =texturePaletteAddress
+    ldr r0, [r0]
     ldr r1, =mainSpritePalette
     mov r2, #0x200
     bl memcpy2007314

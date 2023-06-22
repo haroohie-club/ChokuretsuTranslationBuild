@@ -2,7 +2,6 @@ buttonPressAddress = 0x04000130;
 stylusDownAddress = 0x023FFFAD;
 engineBOAMStart = 0x07000400;
 engineAOAMStart = 0x07000000;
-loadedPaletteStart = 0x02225354;
 mainSpritePalette = 0x05000200;
 dispcntA = 0x04000000;
 
