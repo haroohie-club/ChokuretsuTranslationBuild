@@ -37,11 +37,14 @@ jobs:
       en:
         Language: "en"
         PatchVersion: v0.5.$(Build.BuildNumber)
-      pt-BR:
-        Language: "pt-BR"
-        PatchVersion: v0.1.$(Build.BuildNumber)
       de:
         Language: "de"
+        PatchVersion: v0.1.$(Build.BuildNumber)
+      it:
+        Language: "it"
+        PatchVersion: v0.1.$(Build.BuildNumber)
+      pt-BR:
+        Language: "pt-BR"
         PatchVersion: v0.1.$(Build.BuildNumber)
   displayName: Build & Publish
   pool:
