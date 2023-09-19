@@ -53,6 +53,14 @@ jobs:
   steps:
   - checkout: self
     clean: true
+  - pwsh: |
+      $authHeader = @{ Authorization = "Token $env:ApiKey" }
+      $commitRequestBody = @{ operation = "commit" }
+      Invoke-WebRequest -Method "POST" -Headers $authHeader -ContentType "application/json; charset=utf-8" -Uri "https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-chokuretsu/repository/" -Body $($commitRequestBody | ConvertTo-Json)
+      $pushRequestBody = @{ operation = "push" }
+      Invoke-WebRequest -Method "POST" -Headers $authHeader -ContentType "application/json; charset=utf-8" -Uri "https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-chokuretsu/repository/" -Body $($pushRequestBody | ConvertTo-Json)
+    env:
+      ApiKey: $(WeblateApiKey)
   - checkout: ChokuretsuTranslationStrings
   - checkout: ChokuretsuTranslationAssets
   - checkout: ChokuretsuTranslationUtility
