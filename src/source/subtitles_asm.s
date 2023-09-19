@@ -63,6 +63,7 @@ ahook_0202F500:
     cmp r4, #0              @ rendered in triplicate without this hack
     bne endSubs             @ skip rendering subs if top screen timer is not 0
 renderSubs:
+    ldrsh r3, [r1, #6]
     ldr r2, =0x020A9AC8     @ Load target screen-containing struct
     str r3, [r2, #0x50]     @ Store target screen in the struct
     ldrsh r3, [r1, #4]
