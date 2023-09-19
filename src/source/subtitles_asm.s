@@ -2,7 +2,7 @@ subtitle: .skip 512         @ char array where we store the subtitle to display
 subtitleTimer: .word 0      @ integer timer representing how long to display the subtitles on the screen
 xysizescreen: .skip 8       @ array of four shorts representing x, y, font size, and target screen
 voiceMapLoc: .word 0        @ location of custom evt voice map in memory
-topScreenTimer: .word 0     @ timer to prevent duplication of top screen subs in OAM
+displayTimer: .word 0     @ timer to prevent duplication of top screen subs in OAM
 
 newCZeroLoc: .skip 1024     @ new array where we store the 'C0' data so it doesn't corrupt the next class
 
@@ -54,10 +54,7 @@ ahook_0202F500:
     str r1, [r0]
     ldr r0, =subtitle
     ldr r1, =xysizescreen
-    ldrsh r3, [r1, #6]
-    cmp r3, #1
-    bne renderSubs          @ skip the top screen timer if it's not a top screen sub
-    ldr r5, =topScreenTimer
+    ldr r5, =displayTimer   @ we use a display timer to render only 1ce/frame rather than 3ce/frame
     ldr r4, [r5]
     cmp r4, #2
     moveq r4, #0
