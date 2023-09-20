@@ -61,6 +61,7 @@ jobs:
       Invoke-WebRequest -Method "POST" -Headers $authHeader -ContentType "application/json; charset=utf-8" -Uri "https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-chokuretsu/repository/" -Body $($pushRequestBody | ConvertTo-Json)
     env:
       ApiKey: $(WeblateApiKey)
+    displayName: Call Weblate commit/push APIs
   - checkout: ChokuretsuTranslationStrings
   - checkout: ChokuretsuTranslationAssets
   - checkout: ChokuretsuTranslationUtility
