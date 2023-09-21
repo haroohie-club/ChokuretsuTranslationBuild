@@ -56,9 +56,17 @@ jobs:
   - pwsh: |
       $authHeader = @{ Authorization = "Token $env:ApiKey" }
       $commitRequestBody = @{ operation = "commit" }
-      Invoke-WebRequest -Method "POST" -Headers $authHeader -ContentType "application/json; charset=utf-8" -Uri "https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-chokuretsu/repository/" -Body $($commitRequestBody | ConvertTo-Json)
+      try {
+        Invoke-WebRequest -Method "POST" -Headers $authHeader -ContentType "application/json; charset=utf-8" -Uri "https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-chokuretsu/repository/" -Body $($commitRequestBody | ConvertTo-Json)
+      } catch {
+        Write-Host "Failed to commit"
+      }
       $pushRequestBody = @{ operation = "push" }
-      Invoke-WebRequest -Method "POST" -Headers $authHeader -ContentType "application/json; charset=utf-8" -Uri "https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-chokuretsu/repository/" -Body $($pushRequestBody | ConvertTo-Json)
+      try {
+        Invoke-WebRequest -Method "POST" -Headers $authHeader -ContentType "application/json; charset=utf-8" -Uri "https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-chokuretsu/repository/" -Body $($pushRequestBody | ConvertTo-Json)
+      } catch {
+        Write-Host "Failed to push"
+      }
     env:
       ApiKey: $(WeblateApiKey)
     displayName: Call Weblate commit/push APIs
