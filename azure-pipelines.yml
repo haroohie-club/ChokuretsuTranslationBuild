@@ -36,13 +36,13 @@ jobs:
     matrix:
       en:
         Language: "en"
-        PatchVersion: v0.5.$(Build.BuildNumber)
-      it:
-        Language: "it"
-        PatchVersion: v0.1.$(Build.BuildNumber)
-      pt-BR:
-        Language: "pt-BR"
-        PatchVersion: v0.1.$(Build.BuildNumber)
+        PatchVersion: v0.6
+      # it:
+      #   Language: "it"
+      #   PatchVersion: v0.1.$(Build.BuildNumber)
+      # pt-BR:
+      #   Language: "pt-BR"
+      #   PatchVersion: v0.1.$(Build.BuildNumber)
   displayName: Build & Publish
   pool:
     vmImage: ubuntu-latest
@@ -96,6 +96,19 @@ jobs:
       command: 'build'
       projects: NitroPacker/HaroohieClub.NitroPacker.Cli/HaroohieClub.NitroPacker.Cli.csproj
     displayName: Build NitroPackerCLI
+
+  - powershell: |
+      Write-Host "Removing Episode 4+ strings files..."
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/458.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/459.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/46*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/47*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/48*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/49*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/50*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/51*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/52*.en.resx
+    displayName: Remove epsiode 4+ strings
 
   - task: PowerShell@2
     inputs:
