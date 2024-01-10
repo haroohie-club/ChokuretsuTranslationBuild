@@ -32,6 +32,20 @@ resources:
 
 jobs:
 - job:
+  displayName: Check CORS Proxy
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - pwsh: |
+      $corsHeader = @{ Origin = "https://haroohie.club" }
+      $requestUri = "https://cors.haroohie.club/https://github.com/haroohie-club/ChokuretsuTranslationRelease/releases/download/0.6/chokuretsu-patch-v0.6-subbedoped-voicesubs.xdelta"
+      try {
+        Invoke-WebRequest -Method "GET" -Headers $corsHeader -Uri "$requestUri"
+      } catch {
+        Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": null, `"embeds`": [ { `"title`": `"CORS Proxy Down!`", `"description`": `"Attempting to download the patch from the CORS proxy failed!`", `"author`": { `"name`": `"CORS Proxy Checker`" } } ], `"attachments`": [] }"
+      }
+    displayName: Send CORS proxy request
+- job:
   strategy:
     matrix:
       en:
