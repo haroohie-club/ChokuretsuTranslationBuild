@@ -50,7 +50,7 @@ jobs:
     matrix:
       en:
         Language: "en"
-        PatchVersion: v0.5.$(Build.BuildNumber)
+        PatchVersion: v0.7.$(Build.BuildNumber)
       it:
         Language: "it"
         PatchVersion: v0.1.$(Build.BuildNumber)
