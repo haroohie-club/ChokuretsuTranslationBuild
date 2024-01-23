@@ -1,6 +1,6 @@
 # /bin/bash
 
-docker run \
+docker run --rm \
     -v $1:/build \
     -v $2:/assets \
     -v $3:/strings \
