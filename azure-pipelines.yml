@@ -45,6 +45,8 @@ jobs:
         Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": null, `"embeds`": [ { `"title`": `"CORS Proxy Down!`", `"description`": `"Attempting to download the patch from the CORS proxy failed!`", `"author`": { `"name`": `"CORS Proxy Checker`" } } ], `"attachments`": [] }"
       }
     displayName: Send CORS proxy request
+    env:
+      WebHookUri: $(DiscordWebHook)
 - job:
   strategy:
     matrix:
@@ -54,7 +56,7 @@ jobs:
       it:
         Language: "it"
         PatchVersion: v0.1.$(Build.BuildNumber)
-      pt-BR:
+      ru:
         Language: "ru"
         PatchVersion: v0.1.$(Build.BuildNumber)
   displayName: Build & Publish
