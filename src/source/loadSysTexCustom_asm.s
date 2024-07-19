@@ -17,7 +17,7 @@ ahook_020342F4:
     cmp r11,r12
     pop {r11,r12}
     bne skipSubScreenPalette
-    bl 0x2020AB0
+    bl tex_allocSimpleCaller
     skipSubScreenPalette:
         pop {pc}
 

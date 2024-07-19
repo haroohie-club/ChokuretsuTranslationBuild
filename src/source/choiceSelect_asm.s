@@ -1,5 +1,5 @@
-// Expand the choice select sprintf target buffer in order to not corrupt the struct
-// like I did for the ticker tape
+@ Expand the choice select sprintf target buffer in order to not corrupt the struct
+@ like I did for the ticker tape
 
 choiceText: .skip 256
 

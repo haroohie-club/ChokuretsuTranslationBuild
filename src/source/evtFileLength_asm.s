@@ -1,3 +1,5 @@
+@ Increase hardcoded max size of event files
+
 ahook_02033F00:
     mov r0, #0x16000
     bx lr
