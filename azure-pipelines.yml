@@ -53,12 +53,15 @@ jobs:
       en:
         Language: "en"
         PatchVersion: v0.7.$(Build.BuildNumber)
+        Dub: false
       it:
         Language: "it"
         PatchVersion: v0.1.$(Build.BuildNumber)
+        Dub: true
       ru:
         Language: "ru"
         PatchVersion: v0.1.$(Build.BuildNumber)
+        Dub: false
   displayName: Build & Publish
   pool:
     vmImage: ubuntu-latest
@@ -180,6 +183,49 @@ jobs:
     displayName: Build ROM (subbed OP/ED, no voice subs)
   - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-novoicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, no voice subs)
+  
+  - task: PowerShell@2
+    inputs:
+      filePath: ChokuretsuTranslationBuild/build_arc.ps1
+      arguments: -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net8.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -assetsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -devkitArm "/opt/devkitpro/devkitARM/" -resxLangCode "$(Language)" -version "$(PatchVersion)" -dub
+      workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
+    displayName: Build archives (with dub)
+    condition: eq(variables.Dub, true)
+
+  - task: PowerShell@2
+    inputs:
+      filePath: ChokuretsuTranslationBuild/copy-movies.ps1
+      arguments: -assetsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets" -langCode "$(Language)"
+      workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
+    displayName: Copy movies (with dub)
+    condition: eq(variables.Dub, true)
+  - task: PowerShell@2
+    inputs:
+      filePath: ChokuretsuTranslationBuild/build.ps1
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/HaroohieClub.NitroPacker.Cli/bin/Debug/net8.0/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net8.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)"
+      workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
+    env:
+      DEVKITARM: /opt/devkitpro/devkitARM/
+      DEVKITPRO: /opt/devkitpro/
+    displayName: Build ROM (dub, voice subs)
+    condition: eq(variables.Dub, true)
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-dubbed-voicesubs.xdelta
+    displayName: Create xdelta patch (dub, voice subs)
+    condition: eq(variables.Dub, true)
+
+  - task: PowerShell@2
+    inputs:
+      filePath: ChokuretsuTranslationBuild/build.ps1
+      arguments: -nitroPacker "$(Build.SourcesDirectory)/NitroPacker/HaroohieClub.NitroPacker.Cli/bin/Debug/net8.0/NitroPacker" -haruhiCli "$(Build.SourcesDirectory)/ChokuretsuTranslationUtility/HaruhiChokuretsuCLI/bin/Debug/net8.0/HaruhiChokuretsuCLI" -stringsFolder "$(Build.SourcesDirectory)/ChokuretsuTranslationStrings" -fontReplacementMap "$(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset.json" -langCode "$(Language)" -noVoiceSubs
+      workingDirectory: $(Build.SourcesDirectory)/ChokuretsuTranslationBuild
+    env:
+      DEVKITARM: /opt/devkitpro/devkitARM/
+      DEVKITPRO: /opt/devkitpro/
+    displayName: Build ROM (dub, no voice subs)
+    condition: eq(variables.Dub, true)
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-dubbed-novoicesubs.xdelta
+    displayName: Create xdelta patch (dub, no voice subs)
+    condition: eq(variables.Dub, true)
 
   - powershell: |
       Write-Host "Uploading subbed OP/ED & voice subs patch..."
@@ -202,16 +248,34 @@ jobs:
       $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-novoicesubs.xdelta?$env:WriteSAS"
       $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
       Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
+      if ($Dub) {
+        Write-Host "Uploading dubbed & voice subs patch..."
+        $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-dubbed-voicesubs.xdelta"
+        $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-voicesubs.xdelta?$env:WriteSAS"
+        $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
+        Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
+        Write-Host "Uploading dubbed & no voice subs patch..."
+        $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-dubbed-novoicesubs.xdelta"
+        $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-novoicesubs.xdelta?$env:WriteSAS"
+        $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
+        Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
+      }
     env:
       Language: $(Language)
       PatchVersion: $(PatchVersion)
       WriteSAS: $(PatchesWriteSAS)
+      Dub: $(Dub)
     displayName: Copy patches to Azure Storage
   - powershell: |
+      $dubbedPatches = ""
+      if ($Dub) {
+        $dubbedPatches = "{ `"name`": `"Complete Patch (Dubbed)`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-voicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Dubbed, No Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-novoicesubs.xdelta?$env:ReadSAS)`" }, "
+      }
       Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": null, `"embeds`": [ { `"title`": `"Nightly $env:Language Patch`", `"description`": `"A new $env:Language patch is available for testing!`", `"fields`": [ { `"name`": `"Complete Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-voicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Subbed OP/ED, No Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-novoicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Clean OP/ED, Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-voicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Clean OP/ED, No Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-novoicesubs.xdelta?$env:ReadSAS)`" } ], `"author`": { `"name`": `"$env:Language - $env:PatchVersion`" } } ], `"attachments`": [] }"
     env:
       Language: $(Language)
       WebHookUri: $(DiscordWebHook)
       PatchVersion: $(PatchVersion)
       ReadSAS: $(PatchesReadSAS)
+      Dub: $(Dub)
     displayName: Post patch notification to Discord
