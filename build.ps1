@@ -16,9 +16,9 @@ try {
   $haruhiCliArgs = @("localize-sources", "-s", "src/", "-r", "$stringsFolder/asm_strings.$langCode.resx", "-f", "$fontReplacementMap", "-t", "src-backup")
   & "$haruhiCli" $haruhiCliArgs
 
-  $nitroPackerArgs = @("patch-arm9", "-i", "./src", "-o", "./rom", "-a", "02005ECC")
+  $nitroPackerArgs = @("patch-arm9", "-i", "./src", "-o", "./rom", "-a", "02005ECC", "--override-suffix", "$langCode")
   if ($useDocker) {
-    $nitroPackerArgs += @("-d", "20221115")
+    $nitroPackerArgs += @("-d", "latest")
   }
   & "$nitroPacker" $nitroPackerArgs
   if ($LASTEXITCODE -ne 0) {
@@ -33,9 +33,9 @@ try {
 
   Copy-Item -Path "rominfo.xml" -Destination "rom/HaruhiChokuretsu.xml"
 
-  $nitroPackerArgs = @("patch-overlays", "-i", "original/overlay", "-o", "rom/overlay", "-s", "src/overlays", "-r", "rom/HaruhiChokuretsu.xml")
+  $nitroPackerArgs = @("patch-overlays", "-i", "original/overlay", "-o", "rom/overlay", "-s", "src/overlays", "-r", "rom/HaruhiChokuretsu.xml", "--override-suffix", "$langCode")
   if ($useDocker) {
-    $nitroPackerArgs += @("-d", "20221115")
+    $nitroPackerArgs += @("-d", "latest")
   }
   & "$nitroPacker" $nitroPackerArgs
   if ($LASTEXITCODE -ne 0) {
