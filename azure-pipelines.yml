@@ -248,7 +248,7 @@ jobs:
       $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-novoicesubs.xdelta?$env:WriteSAS"
       $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
       Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
-      if ($Dub) {
+      if ($Dub -eq $True) {
         Write-Host "Uploading dubbed & voice subs patch..."
         $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-dubbed-voicesubs.xdelta"
         $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-voicesubs.xdelta?$env:WriteSAS"
@@ -268,7 +268,7 @@ jobs:
     displayName: Copy patches to Azure Storage
   - powershell: |
       $dubbedPatches = ""
-      if ($Dub) {
+      if ($Dub -eq $True) {
         $dubbedPatches = "{ `"name`": `"Complete Patch (Dubbed)`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-voicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Dubbed, No Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-novoicesubs.xdelta?$env:ReadSAS)`" }, "
       }
       Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": null, `"embeds`": [ $dubbedPatches{ `"title`": `"Nightly $env:Language Patch`", `"description`": `"A new $env:Language patch is available for testing!`", `"fields`": [ { `"name`": `"Complete Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-voicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Subbed OP/ED, No Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-novoicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Clean OP/ED, Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-voicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Clean OP/ED, No Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-novoicesubs.xdelta?$env:ReadSAS)`" } ], `"author`": { `"name`": `"$env:Language - $env:PatchVersion`" } } ], `"attachments`": [] }"
