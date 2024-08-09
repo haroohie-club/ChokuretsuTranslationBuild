@@ -1,3 +1,4 @@
+#include <string.h>
 // resultString: pointer to a char array where the subtitle will be written (so it can later be read by scene_renderDialogue)
 // inputString: pointer to a char array that contains the name of the voice file about to be played
 // voiceMapAddress: pointer to the voice map file in memory
@@ -6,16 +7,16 @@
 int subtitles_getSubs(char* resultString, char* inputString, char* voiceMapAddress, short* xysizescreen)
 {
     int numVoiceFiles = *((int*)voiceMapAddress) - 2;
-    int* voiceMap = *((int*)voiceMapAddress + 3);
+    int* voiceMap = (int *)*((int*)voiceMapAddress + 3);
 
     int i = 0;
     while (i < numVoiceFiles)
     {
-        char* voiceFileName = *(voiceMap + (i * 5));
+        char* voiceFileName = (char *)*(voiceMap + (i * 5));
 
         if (strstr(inputString, voiceFileName))
         {
-            char* subtitle = *(voiceMap + (i * 5) + 1);
+            char* subtitle = (char *)*(voiceMap + (i * 5) + 1);
             while (*subtitle != 0)
             {
                 *resultString = *subtitle;
