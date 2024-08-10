@@ -58,6 +58,10 @@ jobs:
         Language: "it"
         PatchVersion: v0.1.$(Build.BuildNumber)
         Dub: true
+      pt-BR:
+        Language: "pt-BR"
+        PatchVersion: v0.1.$(Build.BuildNumber)
+        Dub: false
       ru:
         Language: "ru"
         PatchVersion: v0.1.$(Build.BuildNumber)
