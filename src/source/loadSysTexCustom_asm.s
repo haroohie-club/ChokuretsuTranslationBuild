@@ -8,6 +8,11 @@ ahook_02003D1C:
     pop {r5}
     bx lr
 
+ahook_02003D30:
+    add r1, r12, r5
+    pop {r5}
+    bx lr
+
 ahook_020342F4:
     push {r14}
     push {r11,r12}
