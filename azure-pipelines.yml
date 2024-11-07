@@ -29,24 +29,12 @@ resources:
     type: github
     endpoint: haroohie-club
     name: haroohie-club/NitroPacker
+  - repository: HaroohieCloudManager
+    type: github
+    endpoint: haroohie-club
+    name: haroohie-club/HaroohieCloudManager
 
 jobs:
-- job:
-  displayName: Check CORS Proxy
-  pool:
-    vmImage: ubuntu-latest
-  steps:
-  - pwsh: |
-      $corsHeader = @{ Origin = "https://haroohie.club" }
-      $requestUri = "https://cors.haroohie.club/https://github.com/haroohie-club/ChokuretsuTranslationRelease/releases/download/0.6/chokuretsu-patch-v0.6-subbedoped-voicesubs.xdelta"
-      try {
-        Invoke-WebRequest -Method "GET" -Headers $corsHeader -Uri "$requestUri"
-      } catch {
-        Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": null, `"embeds`": [ { `"title`": `"CORS Proxy Down!`", `"description`": `"Attempting to download the patch from the CORS proxy failed!`", `"author`": { `"name`": `"CORS Proxy Checker`" } } ], `"attachments`": [] }"
-      }
-    displayName: Send CORS proxy request
-    env:
-      WebHookUri: $(DiscordWebHook)
 - job:
   strategy:
     matrix:
@@ -73,41 +61,16 @@ jobs:
   steps:
   - checkout: self
     clean: true
-  - pwsh: |
-      $authHeader = @{ Authorization = "Token $env:ApiKey" }
-      $commitRequestBody = @{ operation = "commit" }
-      try {
-        Invoke-WebRequest -Method "POST" -Headers $authHeader -ContentType "application/json; charset=utf-8" -Uri "https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-chokuretsu/repository/" -Body $($commitRequestBody | ConvertTo-Json)
-      } catch {
-        Write-Host "Failed to commit"
-      }
-      $pushRequestBody = @{ operation = "push" }
-      try {
-        Invoke-WebRequest -Method "POST" -Headers $authHeader -ContentType "application/json; charset=utf-8" -Uri "https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-chokuretsu/repository/" -Body $($pushRequestBody | ConvertTo-Json)
-      } catch {
-        Write-Host "Failed to push"
-      }
-    env:
-      ApiKey: $(WeblateApiKey)
-    displayName: Call Weblate commit/push APIs
   - checkout: ChokuretsuTranslationStrings
   - checkout: ChokuretsuTranslationAssets
   - checkout: ChokuretsuTranslationUtility
   - checkout: NitroPacker
-  - powershell: |
-      Write-Host "Downloading ROM..."
-      Invoke-WebRequest -Uri "https://haroohie.blob.core.windows.net/chokuretsu-bootstrap/original.zip?$($env:SAS)" -OutFile original.zip
-
-      Write-Host "Unzipping ROM..."
-      Expand-Archive ./original.zip
-      
-      Write-Host "Moving ROM to ChokuretsuTranslationBuild..."
-      Move-Item -Path original/original.nds -Destination ChokuretsuTranslationBuild/original.nds
-
-      Write-Host "Getting MD5 hash of original ROM..."
-      Get-FileHash -Path ChokuretsuTranslationBuild/original.nds -Algorithm MD5
-    env:
-      SAS: $(ChokuretsuLinuxSAS)
+  - checkout: HaroohieCloudManager
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'run'
+      projects: HaroohieCloudManager/HaroohieCloudManager/HaroohieCloudManager.csproj
+      arguments: '-- download-rom -k $(SpacesKey) -s $(SpacesSecret) -u "https://nyc3.digitaloceanspaces.com" -n "haroohie" -r "bootstrap/chokuretsu/original.zip" -p "$(Build.SourcesDirectory)/original.zip"'
     displayName: Download ROM
   - task: DotNetCoreCLI@2
     inputs:
@@ -232,54 +195,22 @@ jobs:
     condition: eq(variables.Dub, true)
 
   - powershell: |
-      Write-Host "Uploading subbed OP/ED & voice subs patch..."
-      $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-voicesubs.xdelta"
-      $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-voicesubs.xdelta?$env:WriteSAS"
-      $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
-      Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
-      Write-Host "Uploading subbed OP/ED & no voice subs patch..."
-      $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-novoicesubs.xdelta"
-      $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-novoicesubs.xdelta?$env:WriteSAS"
-      $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
-      Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
-      Write-Host "Uploading clean OP/ED & voice subs patch ..."
-      $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-voicesubs.xdelta"
-      $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-voicesubs.xdelta?$env:WriteSAS"
-      $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
-      Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
-      Write-Host "Uploading clean OP/ED & no voice subs patch..."
-      $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-novoicesubs.xdelta"
-      $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-novoicesubs.xdelta?$env:WriteSAS"
-      $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
-      Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
+      $patches = ""
       if ($env:Dub -eq $True) {
-        Write-Host "Uploading dubbed & voice subs patch..."
-        $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-dubbed-voicesubs.xdelta"
-        $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-voicesubs.xdelta?$env:WriteSAS"
-        $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
-        Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
-        Write-Host "Uploading dubbed & no voice subs patch..."
-        $fileToUpload = "$(Build.ArtifactStagingDirectory)/chokuretsu-patch-$($env:PatchVersion)-dubbed-novoicesubs.xdelta"
-        $uploadUri = "https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-novoicesubs.xdelta?$env:WriteSAS"
-        $headers = @{ 'x-ms-blob-type' = 'BlockBlob' }
-        Invoke-RestMethod $uploadUri -Method PUT -Headers $headers -InFile $fileToUpload
+        $patches += "Complete Patch (Dubbed):$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-dubbed-novoicesubs.xdelta,"
+        $patches += "Dubbed, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-dubbed-novoicesubs.xdelta"
+        $patches += "Complete Patch (No Dub):$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-voicesubs.xdelta"
+      } else {
+        $patches += "Complete Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-voicesubs.xdelta"
       }
+      $patches += "Subbed OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-novoicesubs.xdelta"
+      $patches += "Clean OP/ED, Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-voicesubs.xdelta"
+      $patches += "Clean OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-novoicesubs.xdelta"
+
+      dotnet run --project HaroohieCloudManager/HaroohieCloudManager/HaroohieCloudManager.csproj -- upload-patches -k $env:SpacesKey -s $env:SpacesSecret -u "https://nyc3.digitaloceanspaces.com" -n "haroohie" -g "chokuretsu" -l "$env:Language" -v "$env:PatchVersion" -p "$patches" -w $env:WebhookUri
     env:
       Language: $(Language)
       PatchVersion: $(PatchVersion)
-      WriteSAS: $(PatchesWriteSAS)
-      Dub: $(Dub)
-    displayName: Copy patches to Azure Storage
-  - powershell: |
-      $dubbedPatches = ""
-      if ($env:Dub -eq $True) {
-        $dubbedPatches = "{ `"name`": `"Complete Patch (Dubbed)`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-voicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Dubbed, No Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-dubbed-novoicesubs.xdelta?$env:ReadSAS)`" }, "
-      }
-      Invoke-RestMethod -Uri "$env:WebHookUri" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body "{`"content`": null, `"embeds`": [ { `"title`": `"Nightly $env:Language Patch`", `"description`": `"A new $env:Language patch is available for testing!`", `"fields`": [ $dubbedPatches{ `"name`": `"Complete Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-voicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Subbed OP/ED, No Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-subbedoped-novoicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Clean OP/ED, Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-voicesubs.xdelta?$env:ReadSAS)`" }, { `"name`": `"Clean OP/ED, No Voice Subs Patch`", `"value`": `"[Download](https://dockerbootstrap.blob.core.windows.net/patches/chokuretsu-patch-$($env:PatchVersion)-$($env:Language)-cleanoped-novoicesubs.xdelta?$env:ReadSAS)`" } ], `"author`": { `"name`": `"$env:Language - $env:PatchVersion`" } } ], `"attachments`": [] }"
-    env:
-      Language: $(Language)
       WebHookUri: $(DiscordWebHook)
-      PatchVersion: $(PatchVersion)
-      ReadSAS: $(PatchesReadSAS)
       Dub: $(Dub)
-    displayName: Post patch notification to Discord
+    displayName: Copy patches to Digital Ocean storage and post patch notification to Discord
