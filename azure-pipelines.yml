@@ -70,7 +70,7 @@ jobs:
     inputs:
       command: 'run'
       projects: HaroohieCloudManager/HaroohieCloudManager/HaroohieCloudManager.csproj
-      arguments: '-- download-rom -k $(SpacesKey) -s $(SpacesSecret) -u "https://nyc3.digitaloceanspaces.com" -n "haroohie" -r "bootstrap/chokuretsu/original.zip" -p "$(Build.SourcesDirectory)/original.zip"'
+      arguments: '-- download-rom -k $(SpacesKey) -s $(SpacesSecret) -u "https://nyc3.digitaloceanspaces.com" -n "haroohie" -r "bootstrap/chokuretsu/original.zip" -p "$(Build.SourcesDirectory)/ChokuretsuTranslationBuild/original.zip"'
     displayName: Download ROM
   - task: DotNetCoreCLI@2
     inputs:
