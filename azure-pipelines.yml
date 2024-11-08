@@ -207,6 +207,7 @@ jobs:
       $patches += "Clean OP/ED, Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-voicesubs.xdelta,"
       $patches += "Clean OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-novoicesubs.xdelta"
 
+      Write-Host $patches
       dotnet run --project HaroohieCloudManager/HaroohieCloudManager/HaroohieCloudManager.csproj -- upload-patches -k $env:SpacesKey -s $env:SpacesSecret -u "https://nyc3.digitaloceanspaces.com" -n "haroohie" -g "chokuretsu" -l "$env:Language" -v "$env:PatchVersion" -p "$patches" -w $env:WebhookUri
     env:
       Language: $(Language)
