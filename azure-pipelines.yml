@@ -197,7 +197,7 @@ jobs:
   - powershell: |
       $patches = ""
       if ($env:Dub -eq $True) {
-        $patches += "Complete Patch (Dubbed):$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-dubbed-novoicesubs.xdelta;"
+        $patches += "Complete Patch (Dubbed):$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-dubbed-voicesubs.xdelta;"
         $patches += "Dubbed, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-dubbed-novoicesubs.xdelta;"
         $patches += "Complete Patch (No Dub):$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-voicesubs.xdelta;"
       } else {
