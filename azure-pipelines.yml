@@ -211,6 +211,8 @@ jobs:
     env:
       Language: $(Language)
       PatchVersion: $(PatchVersion)
+      SpacesKey: $(SpacesKey)
+      SpacesSecret: $(SpacesSecret)
       WebhookUri: $(DiscordWebHook)
       Dub: $(Dub)
     displayName: Copy patches to Digital Ocean storage and post patch notification to Discord
