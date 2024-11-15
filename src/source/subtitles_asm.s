@@ -2,7 +2,7 @@ subtitle: .skip 512         @ char array where we store the subtitle to display
 subtitleTimer: .word 0      @ integer timer representing how long to display the subtitles on the screen
 xysizescreen: .skip 8       @ array of four shorts representing x, y, font size, and target screen
 voiceMapLoc: .word 0        @ location of custom evt voice map in memory
-displayTimer: .word 0     @ timer to prevent duplication of top screen subs in OAM
+displayTimer: .word 0       @ timer to prevent duplication of top screen subs in OAM
 
 newCZeroLoc: .skip 1024     @ new array where we store the 'C0' data so it doesn't corrupt the next class
 
@@ -63,6 +63,11 @@ ahook_0202F500:
     cmp r4, #0              @ rendered in triplicate without this hack
     bne endSubs             @ skip rendering subs if top screen timer is not 0
 renderSubs:
+    ldr r2, =0x4000000
+    ldr r2, [r2]            @ Load DISPCNT register
+    and r2, r2, #7          @ Check bits 0-2 (current BG mode)
+    cmp r2, #4
+    beq endSubs             @ Don't render subs if we're in BG mode 4 as they're prohibited in that mode
     ldrsh r3, [r1, #6]
     ldr r2, =0x020A9AC8     @ Load target screen-containing struct
     str r3, [r2, #0x50]     @ Store target screen in the struct
