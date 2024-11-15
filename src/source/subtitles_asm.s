@@ -39,6 +39,16 @@ skipLoad:
 
     pop {r0-r13, pc}
 
+@ Hook into criSsPly_Stop (the routine that stops voices & BGM) so we can avoid rendering subs when no voice is playing
+ahook_0203CB8C:
+    push {r1,r2}
+    ldr r1, =subtitleTimer
+    mov r2, #0
+    str r2, [r1]
+    pop {r1,r2}
+    ldr r0, [r0]
+    bx lr
+
 @ Hook into a routine that runs every frame so we can draw text until timer elapses
 ahook_0202F500:
     push {lr}
