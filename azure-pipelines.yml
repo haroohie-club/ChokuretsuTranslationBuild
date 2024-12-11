@@ -106,7 +106,7 @@ jobs:
       DEVKITARM: /opt/devkitpro/devkitARM/
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (clean OP/ED, voice subs)
-  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-voicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(Language)-$(PatchVersion)-cleanoped-voicesubs.xdelta
     displayName: Create xdelta patch (clean OP/ED, voice subs)
 
   - task: PowerShell@2
@@ -118,7 +118,7 @@ jobs:
       DEVKITARM: /opt/devkitpro/devkitARM/
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (clean OP/ED, no voice subs)
-  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-cleanoped-novoicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(Language)-$(PatchVersion)-cleanoped-novoicesubs.xdelta
     displayName: Create xdelta patch (clean OP/ED, no voice subs)
 
   - task: PowerShell@2
@@ -136,7 +136,7 @@ jobs:
       DEVKITARM: /opt/devkitpro/devkitARM/
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (subbed OP/ED, voice subs)
-  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-voicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(Language)-$(PatchVersion)-subbedoped-voicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, voice subs)
 
   - task: PowerShell@2
@@ -148,7 +148,7 @@ jobs:
       DEVKITARM: /opt/devkitpro/devkitARM/
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (subbed OP/ED, no voice subs)
-  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-subbedoped-novoicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(Language)-$(PatchVersion)-subbedoped-novoicesubs.xdelta
     displayName: Create xdelta patch (subbed OP/ED, no voice subs)
   
   - task: PowerShell@2
@@ -176,7 +176,7 @@ jobs:
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (dub, voice subs)
     condition: eq(variables.Dub, true)
-  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-dubbed-voicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(Language)-$(PatchVersion)-dubbed-voicesubs.xdelta
     displayName: Create xdelta patch (dub, voice subs)
     condition: eq(variables.Dub, true)
 
@@ -190,22 +190,22 @@ jobs:
       DEVKITPRO: /opt/devkitpro/
     displayName: Build ROM (dub, no voice subs)
     condition: eq(variables.Dub, true)
-  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(PatchVersion)-dubbed-novoicesubs.xdelta
+  - powershell: xdelta3 -e -S -s ChokuretsuTranslationBuild/original.nds ChokuretsuTranslationBuild/HaruhiChokuretsu.nds $(Build.ArtifactStagingDirectory)/chokuretsu-patch-$(Language)-$(PatchVersion)-dubbed-novoicesubs.xdelta
     displayName: Create xdelta patch (dub, no voice subs)
     condition: eq(variables.Dub, true)
 
   - powershell: |
       $patches = ""
       if ($env:Dub -eq $True) {
-        $patches += "Complete Patch (Dubbed):$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-dubbed-voicesubs.xdelta;"
-        $patches += "Dubbed, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-dubbed-novoicesubs.xdelta;"
-        $patches += "Complete Patch (No Dub):$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-voicesubs.xdelta;"
+        $patches += "Complete Patch (Dubbed):$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-dubbed-voicesubs.xdelta;"
+        $patches += "Dubbed, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-dubbed-novoicesubs.xdelta;"
+        $patches += "Complete Patch (No Dub):$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-subbedoped-voicesubs.xdelta;"
       } else {
-        $patches += "Complete Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-voicesubs.xdelta;"
+        $patches += "Complete Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-subbedoped-voicesubs.xdelta;"
       }
-      $patches += "Subbed OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-subbedoped-novoicesubs.xdelta;"
-      $patches += "Clean OP/ED, Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-voicesubs.xdelta;"
-      $patches += "Clean OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:PatchVersion)-cleanoped-novoicesubs.xdelta"
+      $patches += "Subbed OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-subbedoped-novoicesubs.xdelta;"
+      $patches += "Clean OP/ED, Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-cleanoped-voicesubs.xdelta;"
+      $patches += "Clean OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-cleanoped-novoicesubs.xdelta"
 
       Write-Host $patches
       dotnet run --project HaroohieCloudManager/HaroohieCloudManager/HaroohieCloudManager.csproj -- upload-patches -k $env:SpacesKey -s $env:SpacesSecret -u "https://nyc3.digitaloceanspaces.com" -n "haroohie" -g "chokuretsu" -l "$env:Language" -v "$env:PatchVersion" -p "$patches" -w $env:WebhookUri
