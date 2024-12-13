@@ -63,7 +63,7 @@ ahook_020C78E4:
     mov r0, r0, lsl#1
     ldrsh r0, [r3, r0]
     str r0, [r12, #0x0C]
-    bl load_sysTexFromDat9B
+    bl grp_loadSysTexFromDat
     
     ldr r0, =vramAddress
     ldr r1, =0x063F4000
@@ -76,7 +76,7 @@ ahook_020C78E4:
     mov r0, r0, lsl#1
     ldrsh r0, [r3, r0]
     str r0, [r12, #0x0C]
-    bl load_sysTexFromDat9B
+    bl grp_loadSysTexFromDat
     ldr r0, =saveTexturePaletteAddress
     mov r1, #0
     str r1, [r0]
@@ -87,11 +87,11 @@ ahook_020C78E4:
     ldr r0, [r0]
     ldr r1, =mainSpritePalette
     mov r2, #0x200
-    bl memcpy2007314
+    bl c_memcpy2007314
     mov r0, #2
     mov r2, #3
     mov r1, #30
-    bl screenFadeMonochrome
+    bl sys_screenFadeMonochrome
     ldr r0, =0x20C7924
     bx r0
     original:
@@ -101,7 +101,7 @@ ahook_020C78E4:
 @ Skip logo if button/screen pressed
 ahook_020C77FC:
     push {r6}
-    ldr r6, =buttonPressAddress
+    ldr r6, =REG_KEYINPUT
     ldrb r6, [r6]
     tst r6, #0x01
     beq skipLogo
@@ -128,7 +128,7 @@ ahook_020C7A10:
     ldr r0, [r0]
     cmp r0, #0
     beq useDefaultOamAlloc
-    ldr r0, =dispcntA
+    ldr r0, =REG_A_DISPCNT
     ldr r1, =0x00211110
     str r1, [r0]
     ldr r0, =engineAOAMStart
