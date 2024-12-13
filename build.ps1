@@ -31,9 +31,7 @@ try {
     Move-Item -Path ../subtitles.c -Destination src/source/
   }
 
-  Copy-Item -Path "rominfo.xml" -Destination "rom/HaruhiChokuretsu.xml"
-
-  $nitroPackerArgs = @("patch-overlays", "-i", "original/overlay", "-o", "rom/overlay", "-s", "src/overlays", "-r", "rom/HaruhiChokuretsu.xml", "--override-suffix", "$langCode")
+  $nitroPackerArgs = @("patch-overlays", "-i", "original/overlay", "-o", "rom/overlay", "-s", "src/overlays", "-r", "rom/HaruhiChokuretsu.json", "--override-suffix", "$langCode")
   if ($useDocker) {
     $nitroPackerArgs += @("-d", "latest")
   }
@@ -51,7 +49,7 @@ finally {
 }
 
 Write-Host "Packing ROM..."
-$nitroPackerArgs = @("pack", "-p", "rom/HaruhiChokuretsu.xml", "-r", "HaruhiChokuretsu.nds")
+$nitroPackerArgs = @("pack", "-p", "rom/HaruhiChokuretsu.json", "-r", "HaruhiChokuretsu.nds")
 & "$nitroPacker" $nitroPackerArgs
 if ($LASTEXITCODE -ne 0) {
   Write-Error "NitroPacker failed with exit code $LASTEXITCODE."

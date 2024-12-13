@@ -83,6 +83,7 @@ if ($dub) {
     exit 1
   }
 }
+Copy-Item -Path "$assetsFolder/misc/banner/$resxLangCode.bin" -Destination "rom/banner.bin"
 if (-not $noGraphics) {
   Remove-Item -Path "$assetsFolder/graphics/$resxLangCode/8b7_newpal_tidx0_splash_screen.png"
 }
