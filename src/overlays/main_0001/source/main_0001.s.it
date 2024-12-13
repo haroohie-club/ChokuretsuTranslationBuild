@@ -167,7 +167,7 @@ ahook_020C7A10:
     ldr r0, [r0]
     cmp r0, #0
     beq useDefaultOamAlloc
-    ldr r0, =dispcntA
+    ldr r0, =REG_A_DISPCNT
     ldr r1, =0x00211110
     str r1, [r0]
     ldr r0, =engineAOAMStart
