@@ -16,7 +16,7 @@ ahook_02036394:
     cmp r0, #0              @ if there isn't a location saved in voiceMapLoc, the file hasn't been loaded yet
     beq load
     ldr r0, [r0, #0x08]
-    ldr r9, =0x53425553     @ Hex for SUBS, the file magic
+    ldr r9, =0x32425553     @ Hex for SUB2, the file magic
     cmp r0, r9              @ If these aren't equal, the voice map has been unloaded and needs to be loaded again
     beq skipLoad
 load:
