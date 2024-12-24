@@ -1,5 +1,6 @@
 lastReadChar: .word 0
 
+@ Save last read character so we can calculate font offset later
 ahook_0202D830:
     push {r1}
     ldr r1, =lastReadChar
@@ -8,6 +9,7 @@ ahook_0202D830:
     cmp r0, r1
     bx lr
 
+@ Calculate font offset
 ahook_0202D8A8:
     push {r1}
     ldr r1, =lastReadChar
