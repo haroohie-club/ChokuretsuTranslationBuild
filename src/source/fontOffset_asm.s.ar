@@ -2,10 +2,10 @@ lastReadChar: .word 0
 
 @ Move x position to opposite side of screen for RTL prep
 @ Will work for VN sections & subtitles but others will require manual adjustment
-ahook_0202D470:
-    mov r6, #192
-    sub r1, r6, r1
-    mov r6, r1          @ replaced instruction
+ahook_0202D428:
+    mov r4, #256
+    sub r1, r4, r1
+    mov r4, #0      @ replaced instruction
     bx lr
 
 @ Subtract glyph width rather than add, rendering text RTL
