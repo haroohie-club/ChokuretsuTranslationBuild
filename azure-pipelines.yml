@@ -38,6 +38,11 @@ jobs:
 - job:
   strategy:
     matrix:
+      ar:
+        Language: "ar"
+        PatchVersion: v0.1.$(Build.BuildNumber)
+        Dub: false
+        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/ar.json
       en:
         Language: "en"
         PatchVersion: v0.7.$(Build.BuildNumber)
@@ -47,11 +52,6 @@ jobs:
         Language: "it"
         PatchVersion: v0.1.$(Build.BuildNumber)
         Dub: true
-        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
-      pt-BR:
-        Language: "pt-BR"
-        PatchVersion: v0.1.$(Build.BuildNumber)
-        Dub: false
         Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
       ru:
         Language: "ru"

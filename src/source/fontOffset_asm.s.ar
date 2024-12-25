@@ -3,7 +3,7 @@ lastReadChar: .word 0
 @ Move x position to opposite side of screen for RTL prep
 @ Will work for VN sections & subtitles but others will require manual adjustment
 ahook_0202D428:
-    mov r4, #256
+    mov r4, #250    @ font is right-aligned and goes off the screen if we do 256
     sub r1, r4, r1
     mov r4, #0      @ replaced instruction
     bx lr
