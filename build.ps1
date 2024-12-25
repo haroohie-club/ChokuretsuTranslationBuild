@@ -2,7 +2,7 @@ Param(
   [string]$nitroPacker = $env:NITRO_PACKER_PATH,
   [string]$haruhiCli = $env:CHOKURETSU_CLI_PATH,
   [string]$stringsFolder = "$env:CHOKURETSU_STRINGS_ROOT",
-  [string]$fontReplacementMap = "$env:CHOKURETSU_ASSETS_ROOT/misc/charset.json",
+  [string]$fontReplacementMap = "$env:CHOKURETSU_ASSETS_ROOT/misc/charset/shared.json",
   [string]$langCode = "en",
   [switch]$noVoiceSubs,
   [switch]$useDocker
