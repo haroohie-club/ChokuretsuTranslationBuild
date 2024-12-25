@@ -5,33 +5,33 @@ int font_calculateOffset(unsigned short character)
     switch (character)
     {
         case 0x8197: //@
-            return 9;
+            return 11;
         case 0x8141: //,
             return 3;
         case 0x8142: //#
-            return 7;
+            return 8;
         case 0x8144: //.
-            return 3;
+            return 4;
         case 0x8145: //;
-            return 3;
+            return 4;
         case 0x8146: //:
-            return 3;
+            return 4;
         case 0x8148: //?
-            return 5;
-        case 0x8149: //!
-            return 3;
-        case 0x8151: //_
-            return 5;
-        case 0x8158: //*
             return 6;
+        case 0x8149: //!
+            return 4;
+        case 0x8151: //_
+            return 6;
+        case 0x8158: //*
+            return 7;
         case 0x815B: //—
-            return 10;
+            return 13;
         case 0x815C: //-
             return 4;
         case 0x8160: //~
-            return 6;
+            return 7;
         case 0x8163: //…
-            return 8;
+            return 10;
         case 0x8165: //‘
             return 2;
         case 0x8166: //’
@@ -41,379 +41,379 @@ int font_calculateOffset(unsigned short character)
         case 0x8168: //”
             return 4;
         case 0x8169: //(
-            return 3;
+            return 4;
         case 0x816A: //)
-            return 3;
+            return 4;
         case 0x8173: //<
-            return 6;
+            return 7;
         case 0x8174: //>
-            return 6;
+            return 7;
         case 0x8175: //[
             return 4;
         case 0x8176: //]
             return 4;
         case 0x8177: //+
-            return 6;
+            return 7;
         case 0x8178: //-
             return 4;
         case 0x8179: //×
-            return 6;
+            return 7;
         case 0x817A: //=
-            return 6;
+            return 7;
         case 0x817B: //°
-            return 5;
+            return 6;
         case 0x817C: //%
-            return 9;
+            return 10;
         case 0x817E: //&
-            return 8;
+            return 9;
         case 0x8181: //☆
-            return 6;
+            return 8;
         case 0x818B: //■
-            return 6;
+            return 8;
         case 0x8193: //♪
-            return 6;
+            return 8;
         case 0x8195: //0
-            return 6;
+            return 7;
         case 0x8199: //1
-            return 6;
+            return 7;
         case 0x81A1: //2
-            return 6;
+            return 7;
         case 0x81F4: //3
-            return 6;
+            return 7;
         case 0x824F: //4
-            return 6;
+            return 7;
         case 0x8250: //5
-            return 6;
+            return 7;
         case 0x8251: //6
-            return 6;
+            return 7;
         case 0x8252: //7
-            return 6;
+            return 7;
         case 0x8253: //8
-            return 6;
+            return 7;
         case 0x8254: //9
-            return 6;
+            return 7;
         case 0x8255: //A
-            return 7;
+            return 8;
         case 0x8256: //B
-            return 7;
+            return 8;
         case 0x8257: //C
-            return 7;
+            return 8;
         case 0x8258: //D
-            return 8;
+            return 9;
         case 0x8260: //E
-            return 6;
+            return 7;
         case 0x8261: //F
-            return 6;
+            return 7;
         case 0x8262: //G
-            return 8;
+            return 9;
         case 0x8263: //H
-            return 8;
+            return 9;
         case 0x8264: //I
             return 4;
         case 0x8265: //J
-            return 3;
+            return 4;
         case 0x8266: //K
-            return 6;
+            return 8;
         case 0x8267: //L
-            return 6;
+            return 7;
         case 0x8268: //M
-            return 9;
+            return 11;
         case 0x8269: //N
-            return 8;
+            return 9;
         case 0x826A: //O
-            return 8;
-        case 0x826B: //P
-            return 6;
-        case 0x826C: //Q
-            return 8;
-        case 0x826D: //R
-            return 7;
-        case 0x826E: //S
-            return 6;
-        case 0x826F: //T
-            return 6;
-        case 0x8270: //U
-            return 8;
-        case 0x8271: //V
-            return 6;
-        case 0x8272: //W
             return 10;
+        case 0x826B: //P
+            return 8;
+        case 0x826C: //Q
+            return 10;
+        case 0x826D: //R
+            return 8;
+        case 0x826E: //S
+            return 7;
+        case 0x826F: //T
+            return 7;
+        case 0x8270: //U
+            return 9;
+        case 0x8271: //V
+            return 8;
+        case 0x8272: //W
+            return 11;
         case 0x8273: //X
-            return 6;
+            return 7;
         case 0x8274: //Y
-            return 6;
+            return 7;
         case 0x8275: //Z
-            return 6;
+            return 7;
         case 0x8276: //a
-            return 6;
+            return 7;
         case 0x8277: //b
-            return 7;
+            return 8;
         case 0x8278: //c
-            return 5;
-        case 0x8279: //d
-            return 7;
-        case 0x8281: //e
             return 6;
+        case 0x8279: //d
+            return 8;
+        case 0x8281: //e
+            return 7;
         case 0x8282: //f
             return 4;
         case 0x8283: //g
-            return 7;
+            return 8;
         case 0x8284: //h
-            return 7;
+            return 8;
         case 0x8285: //i
             return 3;
         case 0x8286: //j
             return 3;
         case 0x8287: //k
-            return 6;
+            return 7;
         case 0x8288: //l
             return 3;
         case 0x8289: //m
-            return 10;
+            return 11;
         case 0x828A: //n
-            return 7;
+            return 8;
         case 0x828B: //o
-            return 6;
+            return 8;
         case 0x828C: //p
-            return 7;
+            return 8;
         case 0x828D: //q
-            return 7;
+            return 8;
         case 0x828E: //r
-            return 4;
+            return 5;
         case 0x828F: //s
-            return 5;
-        case 0x8290: //t
-            return 4;
-        case 0x8291: //u
-            return 7;
-        case 0x8292: //v
-            return 5;
-        case 0x8293: //w
-            return 8;
-        case 0x8294: //x
             return 6;
+        case 0x8290: //t
+            return 5;
+        case 0x8291: //u
+            return 8;
+        case 0x8292: //v
+            return 6;
+        case 0x8293: //w
+            return 10;
+        case 0x8294: //x
+            return 7;
         case 0x8295: //y
-            return 5;
+            return 6;
         case 0x8296: //z
-            return 5;
+            return 6;
         case 0x8297: //ﺍ
-            return 3;
+            return 4;
         case 0x8298: //ﺎ
-            return 3;
+            return 4;
         case 0x8299: //ﺏ
-            return 8;
+            return 9;
         case 0x829A: //ﺐ
-            return 8;
+            return 10;
         case 0x829F: //ﺒ
             return 4;
         case 0x82A0: //ﺑ
-            return 3;
+            return 4;
         case 0x82A1: //ﺕ
-            return 8;
+            return 9;
         case 0x82A2: //ﺖ
-            return 8;
+            return 10;
         case 0x82A3: //ﺘ
-            return 4;
+            return 5;
         case 0x82A4: //ﺗ
-            return 3;
-        case 0x82A5: //ﺙ
-            return 8;
-        case 0x82A6: //ﺚ
-            return 8;
-        case 0x82A7: //ﺜ
             return 4;
+        case 0x82A5: //ﺙ
+            return 9;
+        case 0x82A6: //ﺚ
+            return 10;
+        case 0x82A7: //ﺜ
+            return 5;
         case 0x82A8: //ﺛ
-            return 3;
+            return 4;
         case 0x82A9: //ﺝ
-            return 7;
+            return 8;
         case 0x82AA: //ﺞ
-            return 7;
+            return 8;
         case 0x82AB: //ﺠ
-            return 6;
+            return 7;
         case 0x82AC: //ﺟ
-            return 6;
+            return 7;
         case 0x82AD: //ﺡ
-            return 7;
+            return 8;
         case 0x82AE: //ﺢ
-            return 7;
+            return 8;
         case 0x82AF: //ﺤ
-            return 6;
+            return 7;
         case 0x82B0: //ﺣ
-            return 6;
+            return 7;
         case 0x82B1: //ﺥ
-            return 7;
+            return 8;
         case 0x82B2: //ﺦ
-            return 7;
+            return 8;
         case 0x82B3: //ﺨ
-            return 6;
+            return 7;
         case 0x82B4: //ﺧ
-            return 6;
+            return 7;
         case 0x82B5: //ﺩ
-            return 5;
+            return 6;
         case 0x82B6: //ﺪ
-            return 6;
+            return 7;
         case 0x82B7: //ﺫ
-            return 5;
-        case 0x82B8: //ﺬ
             return 6;
+        case 0x82B8: //ﺬ
+            return 7;
         case 0x82B9: //ﺭ
             return 4;
         case 0x82BA: //ﺮ
-            return 4;
+            return 5;
         case 0x82BB: //ﺯ
             return 4;
         case 0x82BC: //ﺰ
-            return 4;
+            return 5;
         case 0x82BD: //ﺱ
-            return 12;
+            return 15;
         case 0x82BE: //ﺲ
-            return 13;
+            return 15;
         case 0x82BF: //ﺴ
-            return 9;
-        case 0x82C0: //ﺳ
-            return 9;
-        case 0x82C1: //ﺵ
-            return 12;
-        case 0x82C2: //ﺶ
-            return 13;
-        case 0x82C3: //ﺸ
-            return 9;
-        case 0x82C4: //ﺷ
-            return 9;
-        case 0x82C5: //ﺹ
-            return 12;
-        case 0x82C6: //ﺺ
-            return 12;
-        case 0x82C7: //ﺼ
-            return 9;
-        case 0x82C8: //ﺻ
-            return 8;
-        case 0x82C9: //ﺽ
-            return 12;
-        case 0x82CA: //ﺾ
-            return 12;
-        case 0x82CB: //ﻀ
-            return 9;
-        case 0x82CC: //ﺿ
-            return 8;
-        case 0x82CD: //ﻁ
-            return 8;
-        case 0x82CE: //ﻂ
-            return 9;
-        case 0x82CF: //ﻄ
-            return 9;
-        case 0x82D0: //ﻃ
-            return 8;
-        case 0x82D1: //ﻅ
-            return 8;
-        case 0x82D2: //ﻆ
-            return 9;
-        case 0x82D3: //ﻈ
-            return 9;
-        case 0x82D4: //ﻇ
-            return 8;
-        case 0x82D5: //ﻉ
-            return 6;
-        case 0x82D6: //ﻊ
-            return 7;
-        case 0x82D7: //ﻌ
-            return 6;
-        case 0x82D8: //ﻋ
-            return 5;
-        case 0x82D9: //ﻍ
-            return 6;
-        case 0x82DA: //ﻎ
-            return 7;
-        case 0x82DB: //ﻐ
-            return 6;
-        case 0x82DC: //ﻏ
-            return 5;
-        case 0x82DD: //ﻑ
-            return 10;
-        case 0x82DE: //ﻒ
             return 11;
+        case 0x82C0: //ﺳ
+            return 10;
+        case 0x82C1: //ﺵ
+            return 15;
+        case 0x82C2: //ﺶ
+            return 15;
+        case 0x82C3: //ﺸ
+            return 11;
+        case 0x82C4: //ﺷ
+            return 10;
+        case 0x82C5: //ﺹ
+            return 14;
+        case 0x82C6: //ﺺ
+            return 15;
+        case 0x82C7: //ﺼ
+            return 10;
+        case 0x82C8: //ﺻ
+            return 10;
+        case 0x82C9: //ﺽ
+            return 14;
+        case 0x82CA: //ﺾ
+            return 15;
+        case 0x82CB: //ﻀ
+            return 10;
+        case 0x82CC: //ﺿ
+            return 10;
+        case 0x82CD: //ﻁ
+            return 10;
+        case 0x82CE: //ﻂ
+            return 10;
+        case 0x82CF: //ﻄ
+            return 10;
+        case 0x82D0: //ﻃ
+            return 9;
+        case 0x82D1: //ﻅ
+            return 10;
+        case 0x82D2: //ﻆ
+            return 10;
+        case 0x82D3: //ﻈ
+            return 10;
+        case 0x82D4: //ﻇ
+            return 9;
+        case 0x82D5: //ﻉ
+            return 7;
+        case 0x82D6: //ﻊ
+            return 8;
+        case 0x82D7: //ﻌ
+            return 8;
+        case 0x82D8: //ﻋ
+            return 6;
+        case 0x82D9: //ﻍ
+            return 7;
+        case 0x82DA: //ﻎ
+            return 8;
+        case 0x82DB: //ﻐ
+            return 8;
+        case 0x82DC: //ﻏ
+            return 6;
+        case 0x82DD: //ﻑ
+            return 12;
+        case 0x82DE: //ﻒ
+            return 13;
         case 0x82DF: //ﻔ
-            return 6;
+            return 7;
         case 0x82E0: //ﻓ
-            return 6;
+            return 7;
         case 0x82E1: //ﻕ
-            return 9;
+            return 11;
         case 0x82E2: //ﻖ
-            return 9;
+            return 11;
         case 0x82E3: //ﻘ
-            return 6;
+            return 7;
         case 0x82E4: //ﻗ
-            return 6;
+            return 7;
         case 0x82E5: //ﻙ
-            return 8;
+            return 10;
         case 0x82E6: //ﻚ
-            return 8;
+            return 10;
         case 0x82E7: //ﻜ
-            return 7;
+            return 8;
         case 0x82E8: //ﻛ
-            return 6;
+            return 7;
         case 0x82E9: //ﻝ
-            return 7;
+            return 8;
         case 0x82EA: //ﻞ
-            return 7;
+            return 8;
         case 0x82EB: //ﻠ
             return 4;
         case 0x82ED: //ﻟ
             return 4;
         case 0x82F0: //ﻡ
-            return 7;
+            return 8;
         case 0x82F1: //ﻢ
-            return 7;
+            return 8;
         case 0x8340: //ﻤ
-            return 6;
+            return 8;
         case 0x8341: //ﻣ
-            return 6;
+            return 7;
         case 0x8342: //ﻥ
-            return 7;
+            return 8;
         case 0x8343: //ﻦ
-            return 7;
+            return 8;
         case 0x8344: //ﻨ
             return 4;
         case 0x8345: //ﻧ
-            return 3;
+            return 4;
         case 0x8346: //ﻩ
-            return 6;
+            return 8;
         case 0x8347: //ﻪ
-            return 6;
+            return 7;
         case 0x8348: //ﻬ
-            return 8;
+            return 10;
         case 0x8349: //ﻫ
-            return 8;
+            return 9;
         case 0x834A: //ﻭ
-            return 6;
+            return 7;
         case 0x834B: //ﻮ
-            return 6;
+            return 7;
         case 0x834C: //ﻱ
-            return 9;
+            return 10;
         case 0x834D: //ﻲ
-            return 10;
+            return 12;
         case 0x834E: //ﻴ
-            return 4;
-        case 0x834F: //ﻳ
-            return 4;
-        case 0x8350: //ﺁ
-            return 3;
-        case 0x8351: //ﺂ
-            return 3;
-        case 0x8352: //ﺓ
-            return 6;
-        case 0x8353: //ﺔ
-            return 6;
-        case 0x8354: //ﻯ
-            return 9;
-        case 0x8355: //ﻰ
-            return 10;
-        case 0x8356: //،
-            return 3;
-        case 0x8357: //؛
-            return 3;
-        case 0x8358: //؟
             return 5;
+        case 0x834F: //ﻳ
+            return 5;
+        case 0x8350: //ﺁ
+            return 4;
+        case 0x8351: //ﺂ
+            return 4;
+        case 0x8352: //ﺓ
+            return 8;
+        case 0x8353: //ﺔ
+            return 7;
+        case 0x8354: //ﻯ
+            return 10;
+        case 0x8355: //ﻰ
+            return 12;
+        case 0x8356: //،
+            return 4;
+        case 0x8357: //؛
+            return 4;
+        case 0x8358: //؟
+            return 6;
         default:
             return FONT_DEFAULT_OFFSET;
     }
