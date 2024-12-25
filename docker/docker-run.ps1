@@ -20,6 +20,11 @@ if (!$buildOnly) {
     & ./copy-movies.ps1 -assetsFolder /assets -langCode $env:LANG    
 }
 
-& ./build.ps1 -nitroPacker /nitropacker/HaroohieClub.NitroPacker.Cli/bin/Debug/net8.0/NitroPacker -haruhiCli /utility/HaruhiChokuretsuCLI/bin/Debug/net8.0/HaruhiChokuretsuCLI -stringsFolder /strings -fontReplacementMap /assets/misc/charset.json -langCode $env:LANG
+$charset = "/assets/misc/charset/shared.json"
+if (Test-Path "/assets/misc/charset/$env:LANG.json") {
+  $charset = "/assets/misc/charset/$env:LANG.json"
+}
+
+& ./build.ps1 -nitroPacker /nitropacker/HaroohieClub.NitroPacker.Cli/bin/Debug/net8.0/NitroPacker -haruhiCli /utility/HaruhiChokuretsuCLI/bin/Debug/net8.0/HaruhiChokuretsuCLI -stringsFolder /strings -fontReplacementMap $charset -langCode $env:LANG
 
 & xdelta3 -f -e -S -s ./original.nds ./HaruhiChokuretsu.nds "./chokuretsu-patch-$env:ROM_VERSION-$env:LANG.xdelta"
