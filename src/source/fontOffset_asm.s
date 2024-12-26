@@ -11,10 +11,8 @@ ahook_0202D830:
 
 @ Calculate font offset
 ahook_0202D8A8:
-    push {r1}
-    ldr r1, =lastReadChar
-    ldr r0, [r1]
-    pop {r1}
     push {lr}
+    ldr r0, =lastReadChar
+    ldr r0, [r0]
     bl font_calculateOffset
     pop {pc}
