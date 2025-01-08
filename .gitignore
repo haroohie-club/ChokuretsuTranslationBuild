@@ -3,6 +3,7 @@
 *.mch
 *.ml*
 *.xdelta
+*.log
 rom/*
 original/*
 src/arm9.bin

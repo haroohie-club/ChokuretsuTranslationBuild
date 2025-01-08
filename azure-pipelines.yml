@@ -210,6 +210,12 @@ jobs:
       $patches += "Subbed OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-subbedoped-novoicesubs.xdelta;"
       $patches += "Clean OP/ED, Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-cleanoped-voicesubs.xdelta;"
       $patches += "Clean OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-cleanoped-novoicesubs.xdelta"
+      if (Test-Path "$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/dat.log") {
+        $patches += ";dat.bin RESX Import Warnings:$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/dat.log"
+      }
+      if (Test-Path "$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/evt.log") {
+        $patches += ";evt.bin RESX Import Warnings:$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/evt.log"
+      }
 
       Write-Host $patches
       dotnet run --project HaroohieCloudManager/HaroohieCloudManager/HaroohieCloudManager.csproj -- upload-patches -k $env:SpacesKey -s $env:SpacesSecret -u "https://nyc3.digitaloceanspaces.com" -n "haroohie" -g "chokuretsu" -l "$env:Language" -v "$env:PatchVersion" -p "$patches" -w $env:WebhookUri
