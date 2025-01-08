@@ -15,9 +15,9 @@ if (Test-Path "$assetsFolder/misc/charset/$resxLangCode.json") {
 }
 
 $splashScreenArgs = @("version-screen", "-v", "$version", "-s", "$assetsFolder/graphics/$resxLangCode/splash/splash_screen.png", "-f", "$assetsFolder/graphics/$resxLangCode/splash/Nunito-Black.ttf", "-o", "$assetsFolder/graphics/$resxLangCode/8b7_newpal_tidx0_splash_screen.png")
-$datResxArgs = @("import-resx", "-i", "original/archives/dat.bin", "-o", "rom/data/dat.bin", "-r", "$stringsFolder/strings_dat", "-l", $resxLangCode, "-f", $charset)
+$datResxArgs = @("import-resx", "-i", "original/archives/dat.bin", "-o", "rom/data/dat.bin", "-r", "$stringsFolder/strings_dat", "-l", $resxLangCode, "-f", $charset, "-w", "dat.log")
 $datArgs = @("replace", "-i", "rom/data/dat.bin", "-o", "rom/data/dat.bin", "-r", "$assetsFolder/data/shared")
-$datLocArgs = @("replace", "-i", "rom/data/dat.bin", "-o", "rom/data/dat.bin", "-r", "$assetsFolder/data/$resxLangCode", "-s", "$assetsFolder/misc/spellcheck/$resxLangCode/", "-w", "dat.log")
+$datLocArgs = @("replace", "-i", "rom/data/dat.bin", "-o", "rom/data/dat.bin", "-r", "$assetsFolder/data/$resxLangCode", "-s", "$assetsFolder/misc/spellcheck/$resxLangCode/")
 $evtReplArgs = @("replace", "-i", "original/archives/evt.bin", "-o", "rom/data/evt.bin", "-r", "$assetsFolder/events", "-v", "original/voice")
 $evtResxArgs = @("import-resx", "-i", "rom/data/evt.bin", "-o", "rom/data/evt.bin", "-r", "$stringsFolder/strings", "-l", $resxLangCode, "-f", $charset, "-s", "$assetsFolder/misc/spellcheck/$resxLangCode/", "-w", "evt.log")
 $grpArgs = @("replace", "-i", "original/archives/grp.bin", "-o", "rom/data/grp.bin", "-r", "$assetsFolder/graphics/shared")
