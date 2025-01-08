@@ -211,10 +211,12 @@ jobs:
       $patches += "Clean OP/ED, Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-cleanoped-voicesubs.xdelta;"
       $patches += "Clean OP/ED, No Voice Subs Patch:$($env:BUILD_ARTIFACTSTAGINGDIRECTORY)/chokuretsu-patch-$($env:Language)-$($env:PatchVersion)-cleanoped-novoicesubs.xdelta"
       if (Test-Path "$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/dat.log") {
-        $patches += ";dat.bin RESX Import Warnings:$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/dat.log"
+        Move-Item -Path "$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/dat.log" -Destination "$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/$($env:Language)-$($env:Patch-Version)-dat.log"
+        $patches += ";dat.bin RESX Import Warnings:$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/$($env:Language)-$($env:Patch-Version)-dat.log"
       }
       if (Test-Path "$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/evt.log") {
-        $patches += ";evt.bin RESX Import Warnings:$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/evt.log"
+        Move-Item -Path "$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/evt.log" -Destination "$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/$($env:Language)-$($env:Patch-Version)-evt.log"
+        $patches += ";evt.bin RESX Import Warnings:$($env:BUILD_SOURCESDIRECTORY)/ChokuretsuTranslationBuild/$($env:Language)-$($env:Patch-Version)-evt.log"
       }
 
       Write-Host $patches
