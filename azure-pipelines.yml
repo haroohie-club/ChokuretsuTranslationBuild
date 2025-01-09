@@ -43,6 +43,11 @@ jobs:
         PatchVersion: v0.1.$(Build.BuildNumber)
         Dub: false
         Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/ar.json
+      de:
+        Language: "de"
+        PatchVersion: v0.1.$(Build.BuildNumber)
+        Dub: false
+        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
       en:
         Language: "en"
         PatchVersion: v0.7.$(Build.BuildNumber)
