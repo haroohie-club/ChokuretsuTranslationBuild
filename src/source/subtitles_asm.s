@@ -79,6 +79,8 @@ renderSubs:
     cmp r2, #4
     beq endSubs             @ Don't render subs if we're in BG mode 4 as they're prohibited in that mode
     ldrsh r3, [r1, #6]
+    cmp r3, #2
+    moveq r3, #1
     ldr r2, =0x020A9AC8     @ Load target screen-containing struct
     str r3, [r2, #0x50]     @ Store target screen in the struct
     ldrsh r3, [r1, #4]
@@ -92,8 +94,15 @@ renderSubs:
     beq endSubs             @ skip rendering backdrop for top screen subs
     ldrb r4, [r0, #3]       @ load the fourth character in the subtitle which should always be #P0_
     push {r4}               @ push it onto the stack so we save it for later
-    mov r4, #0x37           @ '7'
-    strb r4, [r0, #3]       @ change to #P07 (render black text for shadow)
+    cmp r4, #0x37           @ If the text is already black, we should use a white drop shadow
+    moveq r4, #0x30         @ '0'
+    movne r4, #0x37         @ '7'
+    strb r4, [r0, #3]       @ change to the drop shadow color
+    ldrsh r3, [r1, #6]
+    cmp r3, #2
+    moveq r3, #1
+    ldr r2, =0x020A9AC8     @ Load target screen-containing struct
+    str r3, [r2, #0x50]     @ Store target screen in the struct
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
@@ -102,11 +111,15 @@ renderSubs:
     bl evt_renderDialogue
     ldr r0, =subtitle
     ldr r1, =xysizescreen
+    ldrsh r3, [r1, #6]      @ Only render one sub for 
+    cmp r3, #2
+    beq endDropShadow
     ldrsh r3, [r1, #4]
     ldrsh r2, [r1, #2]
     ldrsh r1, [r1]
     add r2, r2, #1          @ Increment just y for enhanced drop shadow
     bl evt_renderDialogue
+endDropShadow:
     ldr r0, =subtitle
     pop {r4}
     strb r4, [r0, #3]       @ restore the original text color
