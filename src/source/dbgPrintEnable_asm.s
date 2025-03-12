@@ -17,7 +17,8 @@ ahook_02022944:
     ldr r0, =stringAddress
     ldr r0, [r0]
     bl nocashPrint
+    pop {lr}                    @ you're not clever, don't try to pop {pc}, it doesn't work
     add sp, sp, #0x1000
-    pop {pc}
+    bx lr
 
 stringAddress: .word 0
