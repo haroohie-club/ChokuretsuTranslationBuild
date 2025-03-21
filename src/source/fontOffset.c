@@ -1,6 +1,10 @@
 #define FONT_DEFAULT_OFFSET (14)
-int font_calculateOffset(unsigned short character)
-{
+int font_calculateOffset(unsigned short character, unsigned short nextCharacter)
+{    
+    int offsetAdjust = 0;
+    if (nextCharacter == 0x8141 || nextCharacter == 0x8144 || nextCharacter == 0x8163) {
+        offsetAdjust = -1;
+    }
     // Auto-generated code
     switch (character)
     {
@@ -165,7 +169,7 @@ int font_calculateOffset(unsigned short character)
         case 0x8285: //e
             return 6;
         case 0x8286: //f
-            return 5;
+            return 5 + offsetAdjust;
         case 0x8287: //g
             return 7;
         case 0x8288: //h
@@ -189,7 +193,7 @@ int font_calculateOffset(unsigned short character)
         case 0x8291: //q
             return 6;
         case 0x8292: //r
-            return 5;
+            return 5 + offsetAdjust;
         case 0x8293: //s
             return 6;
         case 0x8294: //t
@@ -203,7 +207,7 @@ int font_calculateOffset(unsigned short character)
         case 0x8298: //x
             return 6;
         case 0x8299: //y
-            return 6;
+            return 6 + offsetAdjust;
         case 0x829A: //z
             return 6;
         case 0x829F: //À
