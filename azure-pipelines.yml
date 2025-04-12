@@ -38,31 +38,31 @@ jobs:
 - job:
   strategy:
     matrix:
-      ar:
-        Language: "ar"
-        PatchVersion: v0.1.$(Build.BuildNumber)
-        Dub: false
-        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/ar.json
-      de:
-        Language: "de"
-        PatchVersion: v0.1.$(Build.BuildNumber)
-        Dub: false
-        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
+      # ar:
+      #   Language: "ar"
+      #   PatchVersion: v0.1.$(Build.BuildNumber)
+      #   Dub: false
+      #   Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/ar.json
+      # de:
+      #   Language: "de"
+      #   PatchVersion: v0.1.$(Build.BuildNumber)
+      #   Dub: false
+      #   Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
       en:
         Language: "en"
-        PatchVersion: v0.7.$(Build.BuildNumber)
+        PatchVersion: v0.8
         Dub: false
         Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
-      it:
-        Language: "it"
-        PatchVersion: v0.1.$(Build.BuildNumber)
-        Dub: true
-        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
-      ru:
-        Language: "ru"
-        PatchVersion: v0.1.$(Build.BuildNumber)
-        Dub: false
-        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
+      # it:
+      #   Language: "it"
+      #   PatchVersion: v0.1.$(Build.BuildNumber)
+      #   Dub: true
+      #   Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
+      # ru:
+      #   Language: "ru"
+      #   PatchVersion: v0.1.$(Build.BuildNumber)
+      #   Dub: false
+      #   Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
   displayName: Build & Publish
   pool:
     vmImage: ubuntu-latest
@@ -91,6 +91,50 @@ jobs:
       command: 'build'
       projects: NitroPacker/HaroohieClub.NitroPacker.Cli/HaroohieClub.NitroPacker.Cli.csproj
     displayName: Build NitroPackerCLI
+    
+  - powershell: |
+      Write-Host "Removing Episode 5/Chess strings files..."
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/093.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/094.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/095.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/096.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/097.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/098.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/099.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/10*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/11*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/12*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/13*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/14*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/15*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/16*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/17*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/180.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/181.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/353.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/354.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/355.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/356.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/357.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/501.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/502.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/503.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/504.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/505.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/506.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/507.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/508.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/509.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/51*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/52*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/530.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/531.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/532.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/533.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/534.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/535.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/536.en.resx
+    displayName: Remove epsiode 5 strings
 
   - task: PowerShell@2
     inputs:
