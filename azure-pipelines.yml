@@ -50,7 +50,7 @@ jobs:
         Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
       en:
         Language: "en"
-        PatchVersion: v0.7.$(Build.BuildNumber)
+        PatchVersion: v0.9.$(Build.BuildNumber)
         Dub: false
         Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
       it:
