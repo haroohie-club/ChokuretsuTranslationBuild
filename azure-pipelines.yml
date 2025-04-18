@@ -94,14 +94,9 @@ jobs:
     
   - powershell: |
       Write-Host "Removing Episode 5/Chess strings files..."
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/093.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/094.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/095.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/096.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/097.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/098.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/099.en.resx
-      Remove-Item -Path ChokuretsuTranslationStrings/strings/10*.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/107.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/108.en.resx
+      Remove-Item -Path ChokuretsuTranslationStrings/strings/109.en.resx
       Remove-Item -Path ChokuretsuTranslationStrings/strings/11*.en.resx
       Remove-Item -Path ChokuretsuTranslationStrings/strings/12*.en.resx
       Remove-Item -Path ChokuretsuTranslationStrings/strings/13*.en.resx
