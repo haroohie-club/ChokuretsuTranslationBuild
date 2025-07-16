@@ -38,30 +38,25 @@ jobs:
 - job:
   strategy:
     matrix:
-      ar:
-        Language: "ar"
-        PatchVersion: v0.1.$(Build.BuildNumber)
-        Dub: false
-        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/ar.json
-      de:
-        Language: "de"
-        PatchVersion: v0.1.$(Build.BuildNumber)
-        Dub: false
-        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
+      # ar:
+      #   Language: "ar"
+      #   PatchVersion: v0.1.$(Build.BuildNumber)
+      #   Dub: false
+      #   Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/ar.json
       en:
         Language: "en"
         PatchVersion: v0.9.$(Build.BuildNumber)
+        Dub: false
+        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
+      es:
+        Language: "es"
+        PatchVersion: v0.1.$(Build.BuildNumber)
         Dub: false
         Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
       it:
         Language: "it"
         PatchVersion: v0.1.$(Build.BuildNumber)
         Dub: true
-        Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
-      ru:
-        Language: "ru"
-        PatchVersion: v0.1.$(Build.BuildNumber)
-        Dub: false
         Charset: $(Build.SourcesDirectory)/ChokuretsuTranslationAssets/misc/charset/shared.json
   displayName: Build & Publish
   pool:
