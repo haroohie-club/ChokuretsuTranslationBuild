@@ -78,6 +78,10 @@ renderSubs:
     and r2, r2, #7          @ Check bits 0-2 (current BG mode)
     cmp r2, #4
     beq endSubs             @ Don't render subs if we're in BG mode 4 as they're prohibited in that mode
+    ldr r2, =DMA_CHANNEL_0_to_3
+    ldrh r2, [r2, #2]       @ Get the hibyte of the DMA channel info, which is nonzero if busy 
+    cmp r2, #0
+    bne endSubs             @ Don't render subs if the DMA channel is busy as it will cause a crash
     ldrsh r3, [r1, #6]
     cmp r3, #2
     moveq r3, #1
