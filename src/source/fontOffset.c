@@ -487,9 +487,13 @@ int font_calculateOffset(unsigned short character, unsigned short nextCharacter)
         case 0x8379:
             return 6;
         case 0x837A:
-            return 2;
+            return 3;
         case 0x837B:
-            return 4;
+            return 6;
+        case 0x837C:
+            return 6;
+        case 0x837D:
+            return 7;
         default:
             return FONT_DEFAULT_OFFSET;
     }
